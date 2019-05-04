@@ -6,6 +6,7 @@
 <section class="featured-services service-img-list">
   <div class="container">
     <div class="row">
+    @if($services)
       @foreach($services as $service)
       <div class="col-lg-4">
         <div class="service-item">
@@ -19,6 +20,7 @@
         </div>
       </div>
       @endforeach
+      @endif
 </section>
 
 <!-- REQUEST
