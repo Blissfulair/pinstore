@@ -118,29 +118,6 @@
 
       <li class="nav-item dropdown active">
         <a class="nav-link" href="{{ url('/') }}" role="button" aria-haspopup="true" aria-expanded="false">HOME <span class="sr-only">(current)</span></a>
-        <ul class="dropdown-menu">
-          <li class="dropdown-item">
-            <a tabindex="-1" href="index.html"> HOME 1 </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="index_2.html"> HOME 2 </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="index_3.html"> HOME 3 </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="index_4.html"> HOME 4 </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="index_5.html"> HOME 5 </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="index_6.html"> HOME 6 </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="index_7.html"> HOME 7 </a>
-          </li>
-        </ul>
       </li>
 
       <li class="nav-item dropdown mega-fw">
@@ -186,83 +163,18 @@
 
       <li class="nav-item dropdown">
         <a class="nav-link" href="{{ route('careers') }}">CAREER</a>
-        <ul class="dropdown-menu">
-          <li class="dropdown-item">
-            <a tabindex="-1" href="our-services.html"> LAYOUT 1 </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="our-services-02.html"> LAYOUT 2 </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="cargo.html"> CARGO </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="ware-housing.html"> WAREHOUSING </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="storage.html"> STORAGE </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="trucking-service.html"> TRUCKING SERVICES </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="logistic-service.html"> LOGISTIC SERVICES </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="ground-transport.html"> GROUND TRANSPORT </a>
-          </li>
-        </ul>
       </li>
 
       <li class="nav-item dropdown">
         <a class="nav-link" href="{{ route('about') }}">ABOUT US</a>
-        <ul class="dropdown-menu">
-          <li class="dropdown-item">
-            <a tabindex="-1" href="about-basic.html"> ABOUT BASIC </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="core-value.html"> CORE VALUE </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="our-team.html"> OUR TEAM </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="cetifications.html"> CERTIFICATIONS </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="faq.html"> F.A.Q </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="pricing.html"> PRICING </a>
-          </li>
-        </ul>
       </li>
 
       <li class="nav-item dropdown">
         <a class="nav-link" href="{{ route('trainings') }}">TRAININGS</a>
-        <ul class="dropdown-menu">
-          <li class="dropdown-item">
-            <a tabindex="-1" href="shopping-cart.html"> CART </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="checkout.html"> CHECKOUT </a>
-          </li>
-        </ul>
       </li>
 
       <li class="nav-item dropdown">
         <a class="nav-link" href="{{ route('bulletins') }}">BULLETINS</a>
-        <ul class="dropdown-menu">
-          <li class="dropdown-item">
-            <a tabindex="-1" href="blog-grid-style-1.html"> BLOG STYLE 1 </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="blog-grid-style-2.html"> BLOG STYLE 2 </a>
-          </li>
-          <li class="dropdown-item">
-            <a tabindex="-1" href="blog-magazine-style.html"> BLOG MAGAZINE STYLE </a>
-          </li>
-        </ul>
       </li>
 
       <li class="nav-item">

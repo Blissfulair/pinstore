@@ -6,16 +6,16 @@
 <section class="featured-services service-img-list">
   <div class="container">
     <div class="row">
-    @if($services)
-      @foreach($services as $service)
+    @if($activities)
+      @foreach($activities as $activity)
       <div class="col-lg-4">
         <div class="service-item">
-          <img class="img-fluid" src="{{ asset('images/services/'.$service->featured_image) }}" alt="Transport">
+          <img class="img-fluid" src="{{ route('display_image', ['filename'=>$activity->featured_image]) }}" alt="Transport">
           <div class="content">
-            <div class="type"><i class="fa fa-{{ $service->icon }}"></i></div>
-            <h5>{{ strtoupper($service->name) }}</h5>
-            <p>{{ $service->content }}</p>
-            <a href="{{ route('service') }}" class="btn btn-primary">READ MORE<i class="fa fa-arrow-right"></i></a>
+            <div class="type"><i class="fa fa-{{ $activity->icon }}"></i></div>
+            <h5>{{ strtoupper($activity->name) }}</h5>
+            <p>{{ $activity->content }}</p>
+            <a href="{{ route('service', ['name'=>$activity->name]) }}" class="btn btn-primary">READ MORE<i class="fa fa-arrow-right"></i></a>
           </div>
         </div>
       </div>
@@ -75,66 +75,25 @@
         <h1>OUR SERVICES</h1>
       </div>
       <div class="row">
-        <div class="col-lg-6">
-          <div class="content">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="type">
-                  <i class="fa fa-truck"></i>
+        @if($services)
+          @foreach($services as $service)
+            <div class="col-lg-6">
+              <div class="content">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="type">
+                      <i class="fa fa-{{ $service->icon }}"></i>
+                    </div>
+                  </div>
+                  <div class="col-md-9">
+                    <h3>{{ strtoupper($service->name) }}</h3>
+                    <p>{{ $service->content }}</p>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-9">
-                <h3>GROUND TRANSPORT</h3>
-                <p>Transport began providing transportation solutions to Transport’s contract warehousing customers in the 1980s.</p>
-              </div>
             </div>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="content">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="type">
-                  <i class="fa fa-codepen"></i>
-                </div>
-              </div>
-              <div class="col-md-9">
-                <h3>WAREHOUSING</h3>
-                <p>Transport provides warehousing, fulfillment services, and transportation management across North America.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="content">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="type">
-                  <i class="fa fa-dropbox"></i>
-                </div>
-              </div>
-              <div class="col-md-9">
-                <h3>PACKAGING AND STORAGE</h3>
-                <p>Transport offers complete, customized solutions for all of your business storage needs.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="content">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="type">
-                  <i class="fa fa-fighter-jet"></i>
-                </div>
-              </div>
-              <div class="col-md-9">
-                <h3>LOGISTIC SERVICE</h3>
-                <p>Transport offers a host of logistic management services and supply chain solutions.</p>
-              </div>
-            </div>
-          </div>
-        </div>
+          @endforeach
+        @endif
       </div>
     </div>
 </section>
@@ -148,8 +107,7 @@
         <h2>Not sure which solution fits you business needs?</h2>
       </div>
       <div class="col-md-2">
-        <button type="button" class="btn btn-primary">CONTACT US<i class="fa fa-map-marker"></i></button>
-      </div>
+      <a href="{{ route('contact') }}" class="btn btn-primary">CONTACT US<i class="fa fa-map-marker"></i></a>      </div>
     </div>
   </div>
 </section>
@@ -175,7 +133,7 @@
             </div>
             <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
               <div class="panel-content">
-              With over 60 years of providing world class service to their customers on the asset side, a need to provide a one stop shop for a” true customer service logistic solution” was introduced. By adding this dimension to an already dynamic and customer centric asset based provider, we feel we bring a total solution.
+                With over 2years of innovative works or designs with both private and government enterprises, we deliver our services with professionalism. 
               </div>
             </div>
           </div>
@@ -233,51 +191,25 @@
         <h2>LATEST NEWS</h2>
       </div>
       <div class="latest-news">
-        <div class="item">
-          <div class="thumb">
-            <a href="#">
-              <img width="120" height="90" src="images/services/370x220/service_01.jpg" class="attachment-small-thumb wp-post-image" alt="image_900x600_06">
-            </a>
-          </div>
+        @if($posts)
+          @foreach($posts as $post)
+            <div class="item">
+              <div class="thumb">
+                <a href="{{ route('post', ['name'=>$post->title]) }}">
+                  <img width="120" height="90" src="{{ route('display_image', ['filename'=>$post->featured_image]) }}" class="attachment-small-thumb wp-post-image" alt="image_900x600_06">
+                </a>
+              </div>
 
-          <h3><a href="http://transport.thememove.com/2015/06/26/freight-transport-in-alaska-the-haul-of-the-wild/">Freight Transport in Alaska: The Haul of the Wild</a></h3>
+              <h3><a href="{{ route('post', ['name'=>$post->title]) }}">{{ $post->title }}</a></h3>
 
-          <div class="post-meta">
-            <span class="author"><i class="fa fa-user"></i> admin</span>
-            <span class="post-date"><i class="fa fa-clock-o"></i> June 26, 2015</span>
-            <span class="post-com"><i class="fa fa-comments"></i> 2 responses</span>
-          </div>
-        </div>
-        <div class="item">
-          <div class="thumb">
-            <a href="#">
-              <img width="120" height="90" src="images/services/370x220/service_02.jpg" class="attachment-small-thumb wp-post-image" alt="image_900x600_07">
-            </a>
-          </div>
-
-          <h3><a href="#">Reducing Freight Costs</a></h3>
-
-          <div class="post-meta">
-            <span class="author"><i class="fa fa-user"></i> admin</span>
-            <span class="post-date"><i class="fa fa-clock-o"></i> June 26, 2015</span>
-            <span class="post-com"><i class="fa fa-comments"></i> 2 responses</span>
-          </div>
-        </div>
-        <div class="item">
-          <div class="thumb">
-            <a href="#">
-              <img width="120" height="90" src="images/services/370x220/service_03.jpg" class="attachment-small-thumb wp-post-image" alt="image_900x600_05">
-            </a>
-          </div>
-
-          <h3><a href="#">Perishable Logistics: Cold Chain on a Plane</a></h3>
-
-          <div class="post-meta">
-            <span class="author"><i class="fa fa-user"></i> admin</span>
-            <span class="post-date"><i class="fa fa-clock-o"></i> June 26, 2015</span>
-            <span class="post-com"><i class="fa fa-comments"></i> 2 responses</span>
-          </div>
-        </div>
+              <div class="post-meta">
+                <span class="author"><i class="fa fa-user"></i> admin</span>
+                <span class="post-date"><i class="fa fa-clock-o"></i> {{ date('F, j Y', strtotime($post->created_at)) }}</span>
+                <span class="post-com"><i class="fa fa-comments"></i> 2 responses</span>
+              </div>
+            </div>
+          @endforeach
+        @endif
       </div>
     </div>
   </div>
@@ -348,62 +280,32 @@
     <div class="row">
       <div class="col-lg-2 col-sm-4 col-xs-6">
         <a href="#">
-          <img src="images/clients/client-01.png" alt="Transport Clients Image" title="CLIENT 01" class="thumbnail img-fluid">
+          <img src="images/clients/jasmot.jpeg" alt="Jasemont" title="Jasemot Foundation" class="thumbnail img-fluid">
         </a>
       </div>
       <div class="col-lg-2 col-sm-4 col-xs-6">
         <a href="#">
-          <img src="images/clients/client-02.png" alt="Transport Clients Image" title="CLIENT 02" class="thumbnail img-fluid">
+          <img src="images/clients/agbaka.png" alt="Agbaka News" title="Agbaka News" class="thumbnail img-fluid">
         </a>
       </div>
       <div class="col-lg-2 col-sm-4 col-xs-6">
         <a href="#">
-          <img src="images/clients/client-03.png" alt="Transport Clients Image" title="CLIENT 03" class="thumbnail img-fluid">
+          <img src="images/clients/winrose.jpg" alt="Winrose logo" title="Winrose Schools" class="thumbnail img-fluid">
         </a>
       </div>
       <div class="col-lg-2 col-sm-4 col-xs-6">
         <a href="#">
-          <img src="images/clients/client-04.png" alt="Transport Clients Image" title="CLIENT 04" class="thumbnail img-fluid">
+          <img src="images/clients/jamb.png" alt="Jamb" title="JAMB" class="thumbnail img-fluid">
         </a>
       </div>
       <div class="col-lg-2 col-sm-4 col-xs-6">
         <a href="#">
-          <img src="images/clients/client-05.png" alt="Transport Clients Image" title="CLIENT 05" class="thumbnail img-fluid">
+          <img src="images/clients/kugbe.png" alt="kugbe Radio" title="Kugbe Radio" class="thumbnail img-fluid">
         </a>
       </div>
       <div class="col-lg-2 col-sm-4 col-xs-6">
         <a href="#">
-          <img src="images/clients/client-06.png" alt="Transport Clients Image" title="CLIENT 06" class="thumbnail img-fluid">
-        </a>
-      </div>
-      <div class="col-lg-2 col-sm-4 col-xs-6">
-        <a href="#">
-          <img src="images/clients/client-07.png" alt="Transport Clients Image" title="CLIENT 07" class="thumbnail img-fluid">
-        </a>
-      </div>
-      <div class="col-lg-2 col-sm-4 col-xs-6">
-        <a href="#">
-          <img src="images/clients/client-08.png" alt="Transport Clients Image" title="CLIENT 08" class="thumbnail img-fluid">
-        </a>
-      </div>
-      <div class="col-lg-2 col-sm-4 col-xs-6">
-        <a href="#">
-          <img src="images/clients/client-09.png" alt="Transport Clients Image" title="CLIENT 09" class="thumbnail img-fluid">
-        </a>
-      </div>
-      <div class="col-lg-2 col-sm-4 col-xs-6">
-        <a href="#">
-          <img src="images/clients/client-10.png" alt="Transport Clients Image" title="CLIENT 10" class="thumbnail img-fluid">
-        </a>
-      </div>
-      <div class="col-lg-2 col-sm-4 col-xs-6">
-        <a href="#">
-          <img src="images/clients/client-11.png" alt="Transport Clients Image" title="CLIENT 11" class="thumbnail img-fluid">
-        </a>
-      </div>
-      <div class="col-lg-2 col-sm-4 col-xs-6">
-        <a href="#">
-          <img src="images/clients/client-12.png" alt="Transport Clients Image" title="CLIENT 12" class="thumbnail img-fluid">
+          <img src="images/clients/kenjons.png" alt="Ken Jon's" title="Ken Jon's" class="thumbnail img-fluid">
         </a>
       </div>
     </div>

@@ -136,7 +136,7 @@
           <!-- Indicators -->
           <ol class="carousel-indicators left-bottom-indicators">
           </ol>
-              <img src="{{ asset('images/services/webapp.jpg') }}" alt="Transport Image" class="img-fluid">
+              <img src="{{ route('display_image', ['filename'=>$service->featured_image]) }}" alt="Transport Image" class="img-fluid">
         </div>
       </section>
 

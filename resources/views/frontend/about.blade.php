@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @section('content')
-<div class="page-title" style="background-image: url('images/title/bg01.jpg')">
+<div class="page-title" >
   <div class="container">
-    <h1 class="entry-title">About Us - Basic</h1>
+    <h1 class="entry-title">About Us</h1>
     <ol class="breadcrumb">
       <li><a href="#">Home</a></li>
-      <li class="active">About Us - Basic</li>
+      <li class="active">About Us</li>
     </ol>
   </div>
 </div>
@@ -355,7 +355,7 @@
         <h2>Not sure which solution fits you business needs?</h2>
       </div>
       <div class="col-md-2">
-        <button type="button" class="btn btn-primary">CONTACT US<i class="fa fa-map-marker"></i></button>
+        <a href="{{ route('contact') }}" class="btn btn-primary">CONTACT US<i class="fa fa-map-marker"></i></a>
       </div>
     </div>
   </div>

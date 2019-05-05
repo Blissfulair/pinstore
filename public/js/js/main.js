@@ -14,10 +14,13 @@ jQuery(document).ready(function ($) {
     }
   });
 
-  $('form').submit(function(event) {
-    event.preventDefault();
-    return false;
-  });
+  // $('form').submit(function(event) {
+  //   event.preventDefault();
+  //   return false;
+  // });
+  // $('#comment').submit(function() {
+  //    $('#comment').submit();
+  // });
 
   // Menu
   $('.trigger-menu').on('click', function(){
