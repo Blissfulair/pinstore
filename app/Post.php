@@ -18,8 +18,8 @@ class Post extends Model
     public function postmetas(){
         return $this->hasMany('App\PostMeta');
     }
-    public function get_trending(){
-        return $this->postmetas()->orderBy('meta_value', 'DESC')->first();
+    public static function get_recent(){
+        return self::orderBy('created_at', 'DESC')->limit(3)->get();
     }
     public function comments(){
         return $this->hasMany('App\Comment');

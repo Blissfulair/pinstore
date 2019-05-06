@@ -38,17 +38,20 @@ class FrontendController extends Controller
         return view('frontend.about');
     }
     public function service_single($name){
+        $services = Service::all();
         $service = Service::where('name', $name)->first();
-        return view('frontend.service-single',compact('service'));
+        return view('frontend.service-single',compact('service', 'services'));
     }
     public function display_image($filename){
         $file = Storage::disk('local')->get($filename);
         return new Response($file, 200);
     }
     public function post_single($name){
-        $post = Post::get_post_by_title($name);
+        $obj = new Post();
+        $post = $obj::get_post_by_title($name);
+        $posts = $obj::get_recent();
         $comments = Comment::where('post_id', $post->id)->get();
-        return view('frontend.post-single', compact('post','comments'));   
+        return view('frontend.post-single', compact('post','comments', 'posts'));   
     }
     public function create_comment(Request $request){
         $this->validate($request,[

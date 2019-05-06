@@ -42,7 +42,7 @@
               <!-- .entry-header -->
 
               <div class="post-excerpt">
-                <p>{!! $post->content !!}</p>
+                <p>{{ str_limit(strip_tags($post->content), 1000, '...') }}</p>
               </div><!-- post-excerpt -->
 
 
@@ -55,27 +55,7 @@
     </div>
 
     <nav>
-      <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link nav-text nav-text-prev" href="#" aria-label="Previous">
-            <span aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
-            <span>PREVIOUS</span>
-          </a>
-        </li>
-        <li class="page-item active">
-          <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">4</a></li>
-        <li class="page-item"><a class="page-link" href="#">5</a></li>
-        <li class="page-item">
-          <a class="page-link nav-text nav-text-next" href="#" aria-label="NEXT">
-            <span>NEXT</span>
-            <span aria-hidden="true"><i class="fa fa-arrow-right"></i></span>
-          </a>
-        </li>
-      </ul>
+     {{ $posts->links('vendor.pagination.bootstrap-4') }}
     </nav>
 
   </div>

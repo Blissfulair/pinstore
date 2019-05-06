@@ -4,7 +4,7 @@
     <div class="col-lg-12">
         <section class="panel">
             <header class="panel-heading">
-                Dynamic Table
+                Posts
             </header>
             <div class="panel-body">
                 <div class="adv-table">
@@ -24,7 +24,7 @@
                                     <tr>
                                         <td>{{ ++$i  }}</td>
                                         <td>{{ $post->title }}</td>
-                                        <td>{!! $post->content !!}</td>
+                                        <td>{!! str_limit(strip_tags($post->content), 200, '...') !!}</td>
                                         <td>
                                             <img style="max-width:60%" src="{{ route('display_image', ['filename'=>$post->featured_image]) }}" alt=""/>
                                         </td>

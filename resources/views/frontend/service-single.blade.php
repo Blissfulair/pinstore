@@ -2,10 +2,10 @@
 @section('content')
 <div class="page-title" style="background-image: url('images/title/bg01.jpg')">
   <div class="container">
-    <h1 class="entry-title">Our Services 02</h1>
+    <h1 class="entry-title">Services</h1>
     <ol class="breadcrumb">
       <li><a href="#">Home</a></li>
-      <li class="active">Our Services 02</li>
+      <li class="active">{{ ucwords($service->name) }}</li>
     </ol>
   </div>
 </div>
@@ -14,90 +14,24 @@
   <div class="row">
     <aside class="col-md-3 sidebar">
       <section class="widget service-icon-list service-menu">
-        <div>
-          <div class="content">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="type">
-                  <i class="fa fa-fighter-jet"></i>
+        @foreach($services as $serve)
+          <a href="{{ route('service', ['name'=>$serve->name]) }}">
+            <div class="{{ $serve->id == $service->id ? 'active': '' }}">
+              <div class="content">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="type">
+                      <i class="fa fa-{{ $serve->icon }}"></i>
+                    </div>
+                  </div>
+                  <div class="col-md-9">
+                    <h3>{{ strtoupper($serve->name) }}</h3>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-9">
-                <h3>LOGISTIC SERVICE</h3>
-              </div>
             </div>
-          </div>
-        </div>
-        <div class="active">
-          <div class="content">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="type">
-                  <i class="fa fa-truck"></i>
-                </div>
-              </div>
-              <div class="col-md-9">
-                <h3>GROUND TRANSPORT</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div class="content">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="type">
-                  <i class="fa fa-codepen"></i>
-                </div>
-              </div>
-              <div class="col-md-9">
-                <h3>WAREHOUSING</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div class="content">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="type">
-                  <i class="fa fa-dropbox"></i>
-                </div>
-              </div>
-              <div class="col-md-9">
-                <h3>PACKAGING AND STORAGE</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div class="content">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="type">
-                  <i class="fa fa-fighter-jet"></i>
-                </div>
-              </div>
-              <div class="col-md-9">
-                <h3>LOGISTIC SERVICE</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div class="content">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="type">
-                  <i class="fa fa-fighter-jet"></i>
-                </div>
-              </div>
-              <div class="col-md-9">
-                <h3>LOGISTIC SERVICE</h3>
-              </div>
-            </div>
-          </div>
-        </div>
+          </a>
+        @endforeach
       </section>
 
       <section class="widget">
@@ -105,12 +39,12 @@
           <h2>CONTACT</h2>
         </div>
         <div class="office">
-          <p><i class="fa fa-map-marker"></i> 14 Tottenham Road, London, England.
+          <p><i class="fa fa-map-marker"></i> 192 MM Way, Benin City, Nigeria.
           </p>
-          <p><i class="fa fa-phone"></i> (102) 6666 8888 </p>
-          <p><i class="fa fa-envelope"></i> info@thememove.com </p>
-          <p><i class="fa fa-fax"></i> (102) 8888 9999 </p>
-          <p><i class="fa fa-clock-o"></i> Mon - Sat: 9:00 - 18:00</p>
+          <p><i class="fa fa-phone"></i> (+234)807 943 6049 </p>
+          <p><i class="fa fa-envelope"></i> info@givitec.com </p>
+          <p><i class="fa fa-fax"></i> (+234)807 943 6049 </p>
+          <p><i class="fa fa-clock-o"></i> Mon - Sat: 8:00 - 18:00</p>
         </div>
       </section>
 
@@ -142,7 +76,7 @@
 
       <section>
         <div class="custom-heading part-heading three-slashes">
-          <h2>{{ $service->name }}</h2>
+          <h2>{{ strtoupper($service->name) }}</h2>
         </div>
         <div class="row">
           <div class="col-md-12"><p style="column-count:2; column-gap:40%;">
@@ -229,7 +163,7 @@
             <div class="custom-heading part-heading three-slashes">
               <h2>SERVICE BROCHURE</h2>
             </div>
-            <img style="max-width:100%" src="images/brochure/brochure.jpg" alt="Transport">
+            <img style="max-width:100%" src="{{ asset('images/brochure/brochure.jpg') }}" alt="Transport">
             <div class="form-inline clearfix">
               <button style="font-size:80%" type="submit" class="btn btn-download pull-left"><i class="fa fa-file-pdf-o"></i> Download.PDF</button>
               <button style="font-size:80%" type="submit" class="btn btn-download pull-right"><i class="fa fa-file-word-o"></i> Download.DOC</button>

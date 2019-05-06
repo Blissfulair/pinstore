@@ -126,7 +126,7 @@
           <div class="mega-content">
             <div class="row">
 
-              <img class="mega-menu-img" src="images/menu/menu-img.png" alt="Transport Menu Image">
+              <img class="mega-menu-img" src="{{ asset('images/menu/menu-img.png') }}" alt="Transport Menu Image">
 
               <ul class="col-sm-3 col-sm-offset-3  list-unstyled">
                 <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-cubes"></i>  Page Builder ($28 saved)</a></h6></li>

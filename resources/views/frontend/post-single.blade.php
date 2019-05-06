@@ -2,11 +2,11 @@
 @section('content')
 <div class="page-title" style="background-image: url('images/title/bg01.jpg')">
   <div class="container">
-    <h1 class="entry-title">Single Post</h1>
+    <h1 class="entry-title">{{ ucwords($post->title) }}</h1>
     <ol class="breadcrumb">
       <li><a href="#">Home</a></li>
-      <li><a href="#">Blog</a></li>
-      <li class="active">Single Post</li>
+      <li><a href="#">Bulletin</a></li>
+      <li class="active">{{ ucwords($post->title) }}</li>
     </ol>
   </div>
 </div>
@@ -26,7 +26,7 @@
         <!-- post-image -->
 
         <header class="entry-header">
-          <h3 class="entry-title"><a href="{{ route('post', ['name'=>$post->title]) }}">{{ $post->title }}</a></h3>
+          <h3 class="entry-title"><a href="{{ route('post', ['name'=>$post->title]) }}">{{ ucwords($post->title) }}</a></h3>
 
           <div class="post-details">
             <i class="fa fa-user"></i>  Posted by <a href="#" >admin</a>
@@ -172,45 +172,7 @@
       </aside>
 
       <!-- RECENT POSTS -->
-      <aside class="widget widget_text">
-        <h3 class="widget-title">Recent Posts</h3>
-        <div class="textwidget">
-          <div class="recent-posts type_1">
-            <div class="recent-posts-item">
-              <div class="recent-posts-thumb">
-                <a href="http://transport.thememove.com/2015/06/26/freight-transport-in-alaska-the-haul-of-the-wild/">
-                  <img width="120" height="90" src="http://transport.thememove.com/wp-content/uploads/2015/07/image_900x600_06-120x90.jpg" class="attachment-small-thumb wp-post-image" alt="image_900x600_06">											</a>
-              </div>
-              <a href="http://transport.thememove.com/2015/06/26/freight-transport-in-alaska-the-haul-of-the-wild/">Freight Transport in Alaska: The Haul of the Wild</a>
-            </div>
-            <div class="recent-posts-item">
-              <div class="recent-posts-thumb">
-                <a href="http://transport.thememove.com/2015/06/26/reducing-freight-costs/">
-                  <img width="120" height="90" src="http://transport.thememove.com/wp-content/uploads/2015/07/image_900x600_07-120x90.jpg" class="attachment-small-thumb wp-post-image" alt="image_900x600_07">											</a>
-              </div>
-              <a href="http://transport.thememove.com/2015/06/26/reducing-freight-costs/">Reducing Freight Costs</a>
-            </div>
-            <div class="recent-posts-item">
-              <div class="recent-posts-thumb">
-                <a href="http://transport.thememove.com/2015/06/23/perishable-logistics-cold-chain-on-a-plane/">
-                  <img width="120" height="90" src="http://transport.thememove.com/wp-content/uploads/2015/07/image_900x600_05-120x90.jpg" class="attachment-small-thumb wp-post-image" alt="image_900x600_05">											</a>
-              </div>
-              <a href="http://transport.thememove.com/2015/06/23/perishable-logistics-cold-chain-on-a-plane/">Perishable Logistics: Cold Chain on a Plane</a>
-            </div>
-          </div>
-        </div>
-      </aside>
-
-      <aside class="widget widget_meta">
-        <h3 class="widget-title">CUSTOM LINKS</h3>
-        <ul class="list-group">
-          <li class="list-group-item"><a href="#">Log in</a></li>
-          <li class="list-group-item"><a href="#">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
-          <li class="list-group-item"><a href="#">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
-          <li class="list-group-item"><a href="#" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>
-        </ul>
-      </aside>
-
+      @include('includes.post-sidebar')
     </aside>
   </div>
 </div>
