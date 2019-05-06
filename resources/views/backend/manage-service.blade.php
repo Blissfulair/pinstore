@@ -26,7 +26,7 @@
                                         <td>{{ $service->name }}</td>
                                         <td>{{ $service->content }}</td>
                                         <td>
-                                            <img style="max-width:60%" src="{{ route('display_image', ['filename'=>$service->featured_image]) }}" alt=""/>
+                                            <img style="max-width:60%" src="{{ asset('images/services/'.$service->featured_image) }}" alt=""/>
                                         </td>
                                         <td>
                                             <div class="pull-right hidden-phone">

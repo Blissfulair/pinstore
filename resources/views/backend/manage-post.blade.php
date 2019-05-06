@@ -26,7 +26,7 @@
                                         <td>{{ $post->title }}</td>
                                         <td>{!! str_limit(strip_tags($post->content), 200, '...') !!}</td>
                                         <td>
-                                            <img style="max-width:60%" src="{{ route('display_image', ['filename'=>$post->featured_image]) }}" alt=""/>
+                                            <img style="max-width:20%" src="{{ asset('images/posts/'.$post->featured_image) }}" alt=""/>
                                         </td>
                                         <td>
                                             <div class="pull-right hidden-phone">

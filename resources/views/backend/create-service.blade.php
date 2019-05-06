@@ -33,7 +33,7 @@
                                     <div class="fileupload fileupload-new" data-provides="fileupload">
                                         <label for="file">
                                             <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                                                <img src="{{ $service? ( $service->featured_image? route('display_image', ['filename'=>$service->featured_image]): 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image' ) : '' }}" alt="" />
+                                                <img src="{{ $service? ( $service->featured_image? asset('images/services/'.$service->featured_image): 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image' ) : '' }}" alt="" />
                                             </div>
                                             <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
                                             <div>

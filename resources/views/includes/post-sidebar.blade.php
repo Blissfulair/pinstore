@@ -6,7 +6,7 @@
             <div class="recent-posts-item">
               <div class="recent-posts-thumb">
                 <a href="{{ route('post', ['name'=>$p->title]) }}">
-                  <img width="120" height="90" src="{{ route('display_image', ['filename'=>$p->featured_image]) }}" class="attachment-small-thumb wp-post-image" alt="{{ $p->featured_image }}">											</a>
+                  <img width="120" height="90" src="{{ asset('images/posts/'.$p->featured_image) }}" class="attachment-small-thumb wp-post-image" alt="{{ $p->featured_image }}">											</a>
               </div>
               <a href="{{ route('post', ['name'=>$p->title]) }}">{{ $p->title }}</a>
             </div>

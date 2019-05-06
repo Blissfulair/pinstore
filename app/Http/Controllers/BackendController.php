@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\ImageManagerStatic as Image;
 use App\Service;
 use App\Post;
 
@@ -63,7 +64,9 @@ class BackendController extends Controller
         $file = $request->file('featured_image');
         if($file){
             $filename = str_replace(' ','',$request->name).date('YmdHis').'.'.$file->getClientOriginalExtension();
-            Storage::disk('local')->put($filename, File::get($file));
+            $image_resize = Image::make($file->getRealPath());              
+            $image_resize->resize(870, 480);
+            $image_resize->save(public_path('images/services/' .$filename));
             $service->featured_image = $filename;
         }
         $service->icon = $request->icon;
@@ -84,7 +87,9 @@ class BackendController extends Controller
         $file = $request->file('featured_image');
         if($file){
             $filename = str_replace(' ','',$request->name).date('YmdHis').'.'.$file->getClientOriginalExtension();
-            Storage::disk('local')->put($filename, File::get($file));
+            $image_resize = Image::make($file->getRealPath());              
+            $image_resize->resize(870, 480);
+            $image_resize->save(public_path('images/posts/' .$filename));
             $post->featured_image = $filename;
         }
         $post->title = $request->title;
@@ -105,8 +110,9 @@ class BackendController extends Controller
         $file = $request->file('featured_image');
         if($file){
             $filename = str_replace(' ','',$request->name).date('YmdHis').'.'.$file->getClientOriginalExtension();
-            Storage::disk('local')->put($filename, File::get($file));
-            $service = Service::exist($request);
+            $image_resize = Image::make($file->getRealPath());              
+            $image_resize->resize(870, 480);
+            $image_resize->save(public_path('images/services/' .$filename));
             if(!$service){
                $service = Service::create([
                     'icon'=>$request->icon,
@@ -133,7 +139,10 @@ class BackendController extends Controller
         $file = $request->file('featured_image');
         if($file){
             $filename = str_replace(' ','',$request->title).date('YmdHis').'.'.$file->getClientOriginalExtension();
-            Storage::disk('local')->put($filename, File::get($file));
+            $image_resize = Image::make($file->getRealPath());              
+            $image_resize->resize(870, 480);
+            $image_resize->save(public_path('images/posts/' .$filename));
+            // Storage::disk('local')->put($filename, File::get($file));
             $service = Post::exist($request);
             if(!$service){
                $service = Post::create([

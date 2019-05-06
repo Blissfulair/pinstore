@@ -10,7 +10,7 @@
       @foreach($activities as $activity)
       <div class="col-lg-4">
         <div class="service-item">
-          <img class="img-fluid" src="{{ route('display_image', ['filename'=>$activity->featured_image]) }}" alt="Transport">
+          <img class="img-fluid" src="{{ asset('images/services/'.$activity->featured_image) }}" alt="Transport">
           <div class="content">
             <div class="type"><i class="fa fa-{{ $activity->icon }}"></i></div>
             <h5>{{ strtoupper($activity->name) }}</h5>
@@ -196,7 +196,7 @@
             <div class="item">
               <div class="thumb">
                 <a href="{{ route('post', ['name'=>$post->title]) }}">
-                  <img width="120" height="90" src="{{ route('display_image', ['filename'=>$post->featured_image]) }}" class="attachment-small-thumb wp-post-image" alt="image_900x600_06">
+                  <img width="120" height="90" src="{{ asset('images/posts/'.$post->featured_image) }}" class="attachment-small-thumb wp-post-image" alt="image_900x600_06">
                 </a>
               </div>
 

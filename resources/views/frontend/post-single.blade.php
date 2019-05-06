@@ -21,7 +21,7 @@
             <span class="date">{{ date('j', strtotime($post->created_at)) }}</span>
             <span class="year">{{ date('Y', strtotime($post->created_at)) }}</span>
           </div>
-          <img class="img-fluid  attachment-post-thumbnail" src="{{ route('display_image', ['filename'=>$post->featured_image]) }}" alt="hero-bg">
+          <img class="img-fluid  attachment-post-thumbnail" src="{{ asset('images/posts/'.$post->featured_image) }}" alt="hero-bg">
         </div>
         <!-- post-image -->
 

@@ -24,7 +24,7 @@
                   <span class="date">{{ date('j', strtotime($post->created_at)) }}</span>
                   <span class="year">{{ date('Y', strtotime($post->created_at)) }}</span>
                 </div>
-                <img class="img-fluid" src="{{ route('display_image', ['filename'=>$post->featured_image]) }}" alt="hero-bg">
+                <img class="img-fluid" src="{{ asset('images/posts/'.$post->featured_image) }}" alt="hero-bg">
               </div>
               <!-- post-image -->
 
@@ -42,7 +42,7 @@
               <!-- .entry-header -->
 
               <div class="post-excerpt">
-                <p>{{ str_limit(strip_tags($post->content), 1000, '...') }}</p>
+                <p>{!! str_limit(strip_tags($post->content), 100, '...') !!}</p>
               </div><!-- post-excerpt -->
 
 

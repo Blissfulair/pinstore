@@ -22,7 +22,7 @@
         @foreach($services as $service)
           <div class="col-lg-4">
             <div class="service-item">
-              <img class="img-fluid" src="{{ route('display_image', ['filename'=>$service->featured_image]) }}" alt="Transport">
+              <img class="img-fluid" src="{{ asset('images/services/'.$service->featured_image) }}" alt="Transport">
               <div class="content">
                 <div class="type"><i class="fa fa-{{ $service->icon }}"></i></div>
                 <h5>{{ strtoupper($service->name) }}</h5>

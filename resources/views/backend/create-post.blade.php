@@ -21,7 +21,7 @@
                                 <div class="col-md-12">
                                     <div class="fileupload fileupload-new" data-provides="fileupload">
                                         <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                                            <img src="{{ $post? ( $post->featured_image? route('display_image', ['filename'=>$post->featured_image]): 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image' ) : '' }}" alt="" />
+                                            <img src="{{ $post? ( $post->featured_image? asset('images/posts/'.$post->featured_image): 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image' ) : '' }}" alt="" />
                                         </div>
                                         <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
                                         <div>
