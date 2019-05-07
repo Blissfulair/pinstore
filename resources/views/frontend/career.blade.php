@@ -16,13 +16,13 @@
       <div class="row row-xs-center">
 
         <div class="hidden-sm-down col-md-3 col-md-offset-1">
-          <img src="http://transport.thememove.com/wp-content/uploads/2015/07/img01.jpg" class="img-fluid" alt="img01">
+          <img src="{{ asset('images/members/team.jpg') }}" class="img-fluid" alt="img01">
         </div>
         <div class="col-xs-push-2 col-xs-10 col-md-push-0 col-md-7">
-          <q>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut laboreso et dolore magna aliqua Ut enim ad minim veniam</q>
+          <q>Do you think you have what it takes to join our team of professionals? then send your CV with an application letter for any career listed below to <a href="mailto:info@givitec.com">info@givitec.com</a>. Look foward to working with you.</q>
           <cite class="author">
-            <span>James More</span>
-            <span class="title">Fouder &amp; CEO ThemeMove Ltd.,</span>
+            <span>Saintmoses Eromosele</span>
+            <span class="title">Founder &amp; CEO Givitec Ltd.,</span>
             <!--/.title-->
           </cite>
         </div>

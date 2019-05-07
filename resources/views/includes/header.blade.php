@@ -120,7 +120,7 @@
         <a class="nav-link" href="{{ url('/') }}" role="button" aria-haspopup="true" aria-expanded="false">HOME <span class="sr-only">(current)</span></a>
       </li>
 
-      <li class="nav-item dropdown mega-fw">
+      <li class="nav-item  mega-fw">
         <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" href="{{ route('services') }}">SERVICES</a>
         <div class="dropdown-menu">
           <div class="mega-content">
@@ -170,7 +170,7 @@
       </li>
 
       <li class="nav-item dropdown">
-        <a class="nav-link" href="{{ route('trainings') }}">TRAININGS</a>
+        <a class="nav-link" href="{{ route('trainings') }}">SCHOLARSHIP</a>
       </li>
 
       <li class="nav-item dropdown">

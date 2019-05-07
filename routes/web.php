@@ -31,7 +31,7 @@ Route::group(['middleware'=>['web']], function(){
         'uses'=>'FrontendController@contact',
         'as'=>'contact'
     ]);
-    Route::get('/trainings', [
+    Route::get('/scholarship', [
         'uses'=>'FrontendController@trainings',
         'as'=>'trainings'
     ]);
@@ -58,6 +58,10 @@ Route::group(['middleware'=>['web']], function(){
     Route::post('/create_comment', [
         'uses'=>'FrontendController@create_comment',
         'as'=>'create_comment'
+    ]);
+    Route::post('/save.scholarship', [
+        'uses'=>'FrontendController@save_scholarship',
+        'as'=>'save_scholarship'
     ]);
 
 

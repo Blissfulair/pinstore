@@ -2,9 +2,9 @@
   <!-- START REVOLUTION SLIDER 5.2.4.1 auto mode -->
   <div id="rev_slider_2_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.2.4.1">
     <ul>	<!-- SLIDE  -->
-      <li data-index="rs-2" data-transition="random" data-slotamount="7" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="default" data-easeout="default" data-masterspeed="300"  data-thumb="{{ asset('images/revo-slider/s1_bg-100x50.jpg') }}"  data-rotate="0"  data-saveperformance="off"  data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+      <li data-index="rs-2" data-transition="random" data-slotamount="7" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="default" data-easeout="default" data-masterspeed="300"  data-thumb="{{ asset('images/revo-slider/slider1.png') }}"  data-rotate="0"  data-saveperformance="off"  data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
         <!-- MAIN IMAGE -->
-        <img src="images/revo-slider/slider1.png"  alt="" title="s1_bg"  width="1920" height="680" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+        <img src="{{ asset('images/revo-slider/slider1.png') }}"  alt="" title="s1_bg"  width="1920" height="680" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
         <!-- LAYERS -->
 
         <!-- LAYER NR. 1 -->
@@ -24,7 +24,7 @@
 
              data-end="5640"
 
-             style="z-index: 5;text-transform:left;"><img src="{{ asset('images/revo-slider/s1_ob1.png') }}" alt="" width="70" height="46" data-ww="" data-hh="" data-no-retina> </div>
+             style="z-index: 5;text-transform:left;"></div>
 
         <!-- LAYER NR. 2 -->
         <div class="tp-caption t1   tp-resizeme"
@@ -99,9 +99,9 @@
              style="z-index: 8; white-space: nowrap; color: rgba(204, 204, 204, 1.00);text-transform:left;border-color:rgba(204, 204, 204, 1.00);"><a class=" btn" href="#" data-hover="Learn More"><span>Learn More</span></a> </div>
       </li>
       <!-- SLIDE  -->
-      <li data-index="rs-3" data-transition="random" data-slotamount="7" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="default" data-easeout="default" data-masterspeed="300"  data-thumb="images/revo-slider/s2_bg-100x50.jpg"  data-rotate="0"  data-saveperformance="off"  data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+      <li data-index="rs-3" data-transition="random" data-slotamount="7" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="default" data-easeout="default" data-masterspeed="300"  data-thumb="images/revo-slider/slider3.jpg"  data-rotate="0"  data-saveperformance="off"  data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
         <!-- MAIN IMAGE -->
-        <img src="{{ asset('images/revo-slider/slider1.jpeg') }}"  alt="" title="Home 01"  data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+        <img src="{{ asset('images/revo-slider/slider3.jpg') }}"  alt="" title="Home 01"  data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
         <!-- LAYERS -->
 
         <!-- LAYER NR. 1 -->
@@ -124,7 +124,7 @@
 
              data-end="5400"
 
-             style="z-index: 5;text-transform:left;"><img src="{{ asset('images/revo-slider/s2_ob1.png') }}" alt="" width="296" height="68" data-ww="" data-hh="" data-no-retina> </div>
+             style="z-index: 5;text-transform:left;"><img src="" alt="" width="296" height="68" data-ww="" data-hh="" data-no-retina> </div>
 
         <!-- LAYER NR. 2 -->
         <div class="tp-caption t2   tp-resizeme  a1"
@@ -171,7 +171,7 @@
              style="z-index: 7; white-space: nowrap; color: rgba(204, 204, 204, 1.00);text-transform:left;border-color:rgba(204, 204, 204, 1.00);"><a class=" btn" href="#" data-hover="PURCHASE NOW"><span>PURCHASE NOW</span></a> </div>
       </li>
       <!-- SLIDE  -->
-      <li data-index="rs-6" data-transition="random" data-slotamount="7" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="default" data-easeout="default" data-masterspeed="300"  data-thumb="{{ asset('images/revo-slider/image_900x600_01-100x50.jpg') }}"  data-rotate="0"  data-saveperformance="off"  data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+      <li data-index="rs-6" data-transition="random" data-slotamount="7" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="default" data-easeout="default" data-masterspeed="300"  data-thumb="{{ asset('images/revo-slider/slider2.jpg') }}"  data-rotate="0"  data-saveperformance="off"  data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
         <!-- MAIN IMAGE -->
         <img src="{{ asset('images/revo-slider/slider2.jpg') }}"  alt="" title="image_900x600_01"  width="1920" height="680" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
         <!-- LAYERS -->

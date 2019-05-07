@@ -67,7 +67,7 @@
             </div>
             </div>
         </div>
-        </footer>
+</footer>
 
 <div class="copyright">
     <div class="container">

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Service;
 use App\Post;
 use App\Comment;
+use App\Subject;
+use App\Scholarship;
 
 class FrontendController extends Controller
 {
@@ -25,7 +27,8 @@ class FrontendController extends Controller
         return view('frontend.career');
     }
     public function trainings(){
-        return view('frontend.training');
+        $subjects = Subject::all();
+        return view('frontend.training', compact('subjects'));
     }
     public function bulletins(){
         $posts = Post::orderBy('created_at', 'DESC')->paginate(6);
@@ -65,5 +68,44 @@ class FrontendController extends Controller
             'post_id'=>$request->post_id
         ]);
         return redirect()->back();
+    }
+    public function save_scholarship(Request $request){
+       //dd($request->file('featured_image'));
+        $this->validate($request, [
+            'name'=>'required',
+            'reg_number'=>'required|unique:scholarships',
+            'subject'=>'required',
+            'email'=>'required',
+            'phone_num'=>'required|unique:scholarships',
+        ]);
+        //$file = $request->file('image');
+      //  if($file){
+            // $filename = str_replace(' ','',$request->name).date('YmdHis').'.'.$file->getClientOriginalExtension();
+            // $image_resize = Image::make($file->getRealPath());              
+            // $image_resize->resize(300, 300);
+            // $image_resize->save(public_path('images/application/' .$filename));
+            $scholarship = Scholarship::where('email', $request->email)->first();
+            if(!$scholarship){
+                if(count($request->subject) != 3)
+                return redirect()->back()->with('error', 'Your must select four(4) subjects');
+               $scholarship = Scholarship::create([
+                    'name'=>$request->name,
+                    'reg_number'=>$request->reg_number,
+                    //'image'=>$filename,
+                    'email'=>$request->email,
+                    'phone_num'=>$request->phone_num,
+                    'subject1'=>1,
+                    'subject2'=>$request->subject[0],
+                    'subject3'=>$request->subject[1],
+                    'subject4'=>$request->subject[2],
+                ]);
+                if($scholarship)
+                    return redirect()->back()->with('success', 'Hello, '.$request->name.' your application was sent successfully');
+                else
+                    return redirect()->back()->with('error', 'Hello, '.$request->name.' your application was declined please try again later');
+            }else
+                return redirect()->back()->with('error', 'The email address '.$request->email.' is already taken');
+        // }else
+        // return redirect()->back()->with('error', 'Your Passport is required');
     }
 }

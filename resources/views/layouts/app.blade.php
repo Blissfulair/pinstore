@@ -10,7 +10,6 @@
     <title>{{ config('app.name', 'Laravel') }}  @yield('title')</title>
 
     <!-- Scripts -->
- {{-- <script src="{{ asset('js/app.js') }}" defer></script>--}}
 
     <!-- Fonts -->
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,600italic,700' rel='stylesheet' type='text/css'>
@@ -26,6 +25,7 @@
   <!-- Slider -->
   <link rel="stylesheet" href="{{ asset('css/components/slider/css/settings.css') }}">
   <link rel="stylesheet" href="{{ asset('css/components/slider/css/slider.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-fileupload.css') }}" />
 
   <link rel="stylesheet" href="{{ asset('css/css/main.css') }}">
   <script  src="{{ asset('css/components/jquery/dist/jquery.js') }}"></script>
@@ -46,7 +46,6 @@
   <script type="text/javascript" src="{{ asset('css/components/slider/js/extensions/revolution.extension.video.min.js') }}"></script>
 
     <!-- Styles -->
-    {{--<link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
 </head>
 <body>
 <div id="page" class="hfeed site">
@@ -58,6 +57,7 @@
 </div>
   <script src="{{ asset('css/components/owl.carousel/dist/owl.carousel.js') }}"></script>
   <script src="{{ asset('css/components/countUp.js/dist/countUp.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('js/bootstrap-fileupload.js') }}"></script>
   <script src="{{ asset('css/components/jQuery.mmenu/dist/core/js/jquery.mmenu.min.all.js') }}"></script>
   <script src="{{ asset('css/components/tether/tether.min.js') }}"></script><!-- Tether for Bootstrap -->
   <script src="{{ asset('css/components/bootstrap/dist/js/bootstrap.js') }}"></script>

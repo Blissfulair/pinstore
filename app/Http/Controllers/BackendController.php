@@ -86,7 +86,7 @@ class BackendController extends Controller
         ]);
         $file = $request->file('featured_image');
         if($file){
-            $filename = str_replace(' ','',$request->name).date('YmdHis').'.'.$file->getClientOriginalExtension();
+            $filename = str_replace(':', '',str_replace(' ','',$request->title)).date('YmdHis').'.'.$file->getClientOriginalExtension();
             $image_resize = Image::make($file->getRealPath());              
             $image_resize->resize(870, 480);
             $image_resize->save(public_path('images/posts/' .$filename));
@@ -138,7 +138,7 @@ class BackendController extends Controller
         ]);
         $file = $request->file('featured_image');
         if($file){
-            $filename = str_replace(' ','',$request->title).date('YmdHis').'.'.$file->getClientOriginalExtension();
+            $filename = str_replace(':', '',str_replace(' ','',$request->title)).date('YmdHis').'.'.$file->getClientOriginalExtension();
             $image_resize = Image::make($file->getRealPath());              
             $image_resize->resize(870, 480);
             $image_resize->save(public_path('images/posts/' .$filename));
@@ -155,7 +155,9 @@ class BackendController extends Controller
                     return redirect('manage_post')->with('success', 'Post  was created successfully');
                 else
                     return redirect('manage_post')->with('error', 'Post  failed to create');
-            }
-        }
+            }else
+                return redirect()->back()->with('error', 'Post post with this title already exists');
+        }else
+            return redirect()->back()->with('error', 'Post must have a featured image');
     }
 }
