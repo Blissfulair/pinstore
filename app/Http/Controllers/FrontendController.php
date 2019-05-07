@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
 use App\Service;
 use App\Post;
 use App\Comment;
@@ -70,7 +71,6 @@ class FrontendController extends Controller
         return redirect()->back();
     }
     public function save_scholarship(Request $request){
-       //dd($request->file('featured_image'));
         $this->validate($request, [
             'name'=>'required',
             'reg_number'=>'required|unique:scholarships',
@@ -78,12 +78,16 @@ class FrontendController extends Controller
             'email'=>'required',
             'phone_num'=>'required|unique:scholarships',
         ]);
-        //$file = $request->file('image');
-      //  if($file){
+        $file = $request->file('image');
+       if($file){
             // $filename = str_replace(' ','',$request->name).date('YmdHis').'.'.$file->getClientOriginalExtension();
             // $image_resize = Image::make($file->getRealPath());              
             // $image_resize->resize(300, 300);
             // $image_resize->save(public_path('images/application/' .$filename));
+            if(filter_var($request->email, FILTER_VALIDATE_EMAIL))
+                $email = $request->email;
+            else
+                return redirect()->back()->with('error', 'Invalid email address');
             $scholarship = Scholarship::where('email', $request->email)->first();
             if(!$scholarship){
                 if(count($request->subject) != 3)
@@ -91,8 +95,8 @@ class FrontendController extends Controller
                $scholarship = Scholarship::create([
                     'name'=>$request->name,
                     'reg_number'=>$request->reg_number,
-                    //'image'=>$filename,
-                    'email'=>$request->email,
+                    'image'=>$filename,
+                    'email'=>$email,
                     'phone_num'=>$request->phone_num,
                     'subject1'=>1,
                     'subject2'=>$request->subject[0],
@@ -105,7 +109,7 @@ class FrontendController extends Controller
                     return redirect()->back()->with('error', 'Hello, '.$request->name.' your application was declined please try again later');
             }else
                 return redirect()->back()->with('error', 'The email address '.$request->email.' is already taken');
-        // }else
-        // return redirect()->back()->with('error', 'Your Passport is required');
+        }else
+        return redirect()->back()->with('error', 'Your Passport is required');
     }
 }

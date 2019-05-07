@@ -33,10 +33,10 @@
 <section class="featured-services service-img-list">
   <div class="container">
     @include('includes.message')
-    <div class="row justify-content-center">
-        <div class="col-md-1"></div>
-        <div class="col-md-8">
-            <form action="{{ route('save_scholarship') }}" method="post">
+    <form action="{{ route('save_scholarship') }}" method="post" enctype="multipart/form-data">
+        <div class="row justify-content-center">
+            <div class="col-md-1"></div>
+            <div class="col-md-8">
                 <div class="form-group">
                     <input type="text" name="reg_number" value="{{ old('reg_number') }}" class="form-control" placeholder="Reg Number">
                 </div>
@@ -63,29 +63,29 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-info">Submit Application</button>
                 </div>
-            </form>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group">
-                <div class="col-md-12">
-                    <div class="fileupload fileupload-new" data-provides="fileupload">
-                        <label for="file">
-                            <div class="fileupload-new thumbnail" style="width: 200px; height: 150px; border: 1px solid">
-                                <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
-                            </div>
-                            <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
-                            <div>
-                        </label>
-                        <span class="btn btn-white btn-file">
-                        <span id="file" class="fileupload-new btn btn-success"><i class="fa fa-clips"></i> Select Passport</span>
-                        <span class="fileupload-exists btn btn-success"><i class="fa fa-undo"></i> Change</span>
-                        <input type="file" name="featured_image"  class="defaults">
-                        </span>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                            <label for="file">
+                                <div class="fileupload-new thumbnail" style="width: 200px; height: 150px; border: 1px solid">
+                                    <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
+                                </div>
+                                <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                                <div>
+                            </label>
+                            <span class="btn btn-white btn-file">
+                            <span  class="fileupload-new btn btn-success"><i class="fa fa-clips"></i> Select Passport</span>
+                            <span class="fileupload-exists btn btn-success"><i class="fa fa-undo"></i> Change</span>
+                            <input id="file" type="file" name="image"  class="defaults">
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
   </div>
 </section>
 <!-- ADVISORY

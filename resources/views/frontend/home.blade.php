@@ -25,7 +25,7 @@
 
 <!-- REQUEST
 ================================================== -->
-<section class="request parallax-window" data-parallax="scroll" data-image-src="images/request/request_bg.jpg">
+<section class="request parallax-window" data-parallax="scroll" data-image-src="images/request/request_bg.png">
   <div class="container">
     <div class="row">
       <div class="request-content col-xl-6 col-xl-offset-6">

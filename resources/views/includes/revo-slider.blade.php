@@ -99,9 +99,9 @@
              style="z-index: 8; white-space: nowrap; color: rgba(204, 204, 204, 1.00);text-transform:left;border-color:rgba(204, 204, 204, 1.00);"><a class=" btn" href="#" data-hover="Learn More"><span>Learn More</span></a> </div>
       </li>
       <!-- SLIDE  -->
-      <li data-index="rs-3" data-transition="random" data-slotamount="7" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="default" data-easeout="default" data-masterspeed="300"  data-thumb="images/revo-slider/slider3.jpg"  data-rotate="0"  data-saveperformance="off"  data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+      <li data-index="rs-3" data-transition="random" data-slotamount="7" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="default" data-easeout="default" data-masterspeed="300"  data-thumb="images/revo-slider/slider.png"  data-rotate="0"  data-saveperformance="off"  data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
         <!-- MAIN IMAGE -->
-        <img src="{{ asset('images/revo-slider/slider3.jpg') }}"  alt="" title="Home 01"  data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+        <img src="{{ asset('images/revo-slider/slider.png') }}"  alt="" title="Home 01"  data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
         <!-- LAYERS -->
 
         <!-- LAYER NR. 1 -->
