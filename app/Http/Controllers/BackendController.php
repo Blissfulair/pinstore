@@ -113,6 +113,7 @@ class BackendController extends Controller
             $image_resize = Image::make($file->getRealPath());              
             $image_resize->resize(870, 480);
             $image_resize->save(public_path('images/services/' .$filename));
+            $service = Service::exist($request);
             if(!$service){
                $service = Service::create([
                     'icon'=>$request->icon,
@@ -127,7 +128,8 @@ class BackendController extends Controller
                     return redirect('manage_service')->with('success', 'Service '.$request->name.' was created successfully');
                 else
                     return redirect('manage_service')->with('error', 'Service '.$request->name.' failed to create');
-            }
+            }else
+                return redirect('manage_service')->with('error', 'Service '.$request->name.' already exists');
         }
     }
     public function save_post(Request $request){
