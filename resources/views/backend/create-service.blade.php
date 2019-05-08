@@ -19,6 +19,7 @@
                                 <option {{ $service? ( $service->icon == 'wifi' ? 'selected': '' ) : '' }} value="wifi">Wifi</option>
                                 <option {{ $service? ( $service->icon == 'briefcase' ? 'selected': '' ) : '' }} value="briefcase">Briefcase</option>
                                 <option {{ $service? ( $service->icon == 'pencil' ? 'selected': '' ) : '' }} value="pencil">Pencil</option>
+                                <option {{ $service? ( $service->icon == 'camera' ? 'selected': '' ) : '' }} value="camera">Camera</option>
                                 <option {{ $service? ( $service->icon == 'edit' ? 'selected': '' ) : '' }} value="edit">Editing</option>
                             </select>
                             <input class="form-control input-lg m-bot15" name="name" value="{{ $service? ( $service->name? $service->name: ''):'' }}" type="text" placeholder="Service Name">
