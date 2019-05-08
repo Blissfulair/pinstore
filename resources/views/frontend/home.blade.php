@@ -14,7 +14,7 @@
           <div class="content">
             <div class="type"><i class="fa fa-{{ $activity->icon }}"></i></div>
             <h5>{{ strtoupper($activity->name) }}</h5>
-            <p>{{ $activity->content }}</p>
+            <p>{{ str_limit($activity->content, 150, '...') }}</p>
             <a href="{{ route('service', ['name'=>$activity->name]) }}" class="btn btn-primary">READ MORE<i class="fa fa-arrow-right"></i></a>
           </div>
         </div>
@@ -72,7 +72,7 @@
 <section class="our-services service-icon-list">
   <div class="container">
       <div class="custom-heading section-heading">
-        <h1>OUR SERVICES</h1>
+        <h1>SERVICES</h1>
       </div>
       <div class="row">
         @if($services)
@@ -87,7 +87,7 @@
                   </div>
                   <div class="col-md-9">
                     <h3>{{ strtoupper($service->name) }}</h3>
-                    <p>{{ $service->content }}</p>
+                    <p>{{ str_limit($service->content, 100, '...') }}</p>
                   </div>
                 </div>
               </div>

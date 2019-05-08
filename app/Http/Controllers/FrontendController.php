@@ -15,13 +15,13 @@ use App\Scholarship;
 class FrontendController extends Controller
 {
     public function index() {
-        $activities = Service::limit(3)->get();
-        $services = Service::limit(4)->get();
-        $posts = Post::limit(3)->get();
+        $activities = Service::orderBy('created_at', 'ASC')->limit(3)->get();
+        $services = Service::orderBy('created_at', 'ASC')->limit(4)->get();
+        $posts = Post::orderBy('created_at', 'DESC')->limit(3)->get();
         return view('frontend.home',compact('services', 'posts','activities'));
     }
     public function services(){
-        $services = Service::all();
+        $services = Service::orderBy('created_at', 'ASC')->get();
         return view('frontend.service', compact('services'));
     }
     public function careers(){
@@ -42,7 +42,7 @@ class FrontendController extends Controller
         return view('frontend.about');
     }
     public function service_single($name){
-        $services = Service::all();
+        $services = Service::orderBy('created_at', 'ASC')->get();
         $service = Service::where('name', $name)->first();
         return view('frontend.service-single',compact('service', 'services'));
     }
@@ -80,10 +80,10 @@ class FrontendController extends Controller
         ]);
         $file = $request->file('image');
        if($file){
-            // $filename = str_replace(' ','',$request->name).date('YmdHis').'.'.$file->getClientOriginalExtension();
-            // $image_resize = Image::make($file->getRealPath());              
-            // $image_resize->resize(300, 300);
-            // $image_resize->save(public_path('images/application/' .$filename));
+            $filename = str_replace(' ','',$request->name).date('YmdHis').'.'.$file->getClientOriginalExtension();
+            $image_resize = Image::make($file->getRealPath());              
+            $image_resize->resize(300, 300);
+            $image_resize->save(public_path('images/application/' .$filename));
             if(filter_var($request->email, FILTER_VALIDATE_EMAIL))
                 $email = $request->email;
             else

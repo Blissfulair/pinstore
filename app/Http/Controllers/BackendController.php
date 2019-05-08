@@ -24,11 +24,11 @@ class BackendController extends Controller
         return view('backend.create-post', compact('post'));
     }
     public function manage_service(){
-        $services = Service::all();
+        $services = Service::orderBy('created_at', 'ASC')->get();
         return view('backend.manage-service', compact('services'));
     }
     public function manage_post(){
-        $posts = Post::all();
+        $posts = Post::orderBy('created_at', 'DESC')->get();
         return view('backend.manage-post', compact('posts'));
     }
     public function edit_service($id){
