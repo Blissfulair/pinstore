@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
-<div class="page-title" style="background-image: url('images/title/bg01.jpg')">
+<div class="page-title" style="background-image: url('images/title/bg1.png')">
   <div class="container">
-    <h1 class="entry-title">Contact</h1>
+    <h1 class="entry-title"></h1>
     <ol class="breadcrumb">
       <li><a href="#">Home</a></li>
       <li class="active">Contact</li>
@@ -36,12 +36,11 @@
         <div class="custom-heading part-heading three-slashes">
           <h2>FILL CONTACT FORM</h2>
         </div>
-
-        <p>We love to listen and we are eagerly waiting to talk to you regarding your project. Get in touch with us if you have any queries and we will get back to you as soon as possible.</p>
-
+        <p>{{ 'Talk to a customer care agent, your satisfaction is our goal...' }}</p>
+        
         <div class="contact-form">
-
-          <form action="#" method="post" novalidate="novalidate">
+          @include('includes.message')
+          <form action="{{ route('contact_form') }}" method="post" novalidate="novalidate">
             <div class="row">
               <div class="col-lg-6">
                 <input class="form-control" type="text" name="name" value="" size="40" aria-required="true" aria-invalid="false" placeholder="Your name here">
@@ -62,6 +61,7 @@
               <div class="col-xs-12">
                 <input class="btn btn-primary" type="submit" value="SEND MESSAGE">
               </div>
+              @csrf()
             </div>
           </form>
 

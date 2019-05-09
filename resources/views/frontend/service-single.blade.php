@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
-<div class="page-title" style="background-image: url('images/title/bg01.jpg')">
+<div class="page-title" style="background-image: url({{asset('images/title/bg1.png') }}">
   <div class="container">
-    <h1 class="entry-title">Services</h1>
+    <h1 class="entry-title"></h1>
     <ol class="breadcrumb">
       <li><a href="#">Home</a></li>
       <li class="active">{{ ucwords($service->name) }}</li>

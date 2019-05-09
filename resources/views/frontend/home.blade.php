@@ -30,14 +30,13 @@
     <div class="row">
       <div class="request-content col-xl-6 col-xl-offset-6">
         <div class="custom-heading part-heading">
-          <h2>REQUEST A QUICK QUOTE</h2>
+          <h2>TALK TO GIVITEC</h2>
         </div>
 
         <p>We love to listen and we are eagerly waiting to talk to you regarding your project. Get in touch with us if you have any queries and we will get back to you as soon as possible.</p>
-
+        @include('includes.message')
         <div class="request-form container">
-
-          <form action="#" method="post" novalidate="novalidate">
+          <form action="{{ route('contact_form') }}" method="post" novalidate="novalidate">
           <div class="row">
             <div class="col-lg-6">
                 <input class="form-control" type="text" name="name" value="" size="40" aria-required="true" aria-invalid="false" placeholder="Your name here">
@@ -55,6 +54,7 @@
             <div class="col-xs-12">
               <textarea class="form-control" name="message" cols="40" rows="4" aria-invalid="false" placeholder="Your message"></textarea>
             </div>
+            @csrf()
             <div class="col-xs-12">
               <input class="btn btn-primary" type="submit" value="SEND MESSAGE">
             </div>

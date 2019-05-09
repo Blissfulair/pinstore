@@ -7658,12 +7658,13 @@ Mobile Menu
   position: relative;
   margin-bottom: 70px;
   background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 100%; 
   overflow: hidden;
 }
 
 .page-title:after {
   content: '';
-  background-color: rgba(238, 238, 238, 0.9);
   margin: auto;
   position: absolute;
   top: 0;

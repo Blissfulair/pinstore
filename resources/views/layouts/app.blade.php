@@ -12,6 +12,7 @@
     <!-- Scripts -->
 
     <!-- Fonts -->
+    <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,600italic,700' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Oswald:400,700,300' rel='stylesheet' type='text/css'>
 

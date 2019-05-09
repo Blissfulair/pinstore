@@ -9,6 +9,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use App\Service;
 use App\Post;
 use App\Comment;
+use App\Contact;
 use App\Subject;
 use App\Scholarship;
 
@@ -69,6 +70,26 @@ class FrontendController extends Controller
             'post_id'=>$request->post_id
         ]);
         return redirect()->back();
+    }
+    public function contact_form(Request $request){
+        $this->validate($request,[
+            'name'=>'required',
+            'email'=>'required',
+            'phone'=>'required',
+            'subject'=>'required',
+            'message'=>'required',
+        ]);
+        $contact = Contact::create([
+            'name'=>$request->name,
+            'email'=>filter_var($request->email, FILTER_VALIDATE_EMAIL),
+            'subject'=>$request->subject,
+            'phone_num'=>$request->phone,
+            'message'=>$request->message
+        ]);
+        if($contact)
+        return redirect()->back()->with('success', 'Your message has been sent successfully, Thank you for contacting us.');
+        else
+        return redirect()->back()->with('error', 'Your message could not be sent, please check the form and submit again');
     }
     public function save_scholarship(Request $request){
         $this->validate($request, [

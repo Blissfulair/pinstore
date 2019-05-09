@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
-<div class="page-title" style="background-image: url('images/title/bg01.jpg')">
+<div class="page-title" style="background-image: url('images/title/bg1.png')">
   <div class="container">
-    <h1 class="entry-title">Scholarship Application</h1>
+    <h1 class="entry-title"></h1>
     <ol class="breadcrumb">
       <li><a href="#">Home</a></li>
       <li class="active">Scholarship</li>
@@ -21,8 +21,8 @@
         </div>
         <div class="panel-collapse" role="tabpanel" >
         <div class="panel-content">
-           Are you a jambite seeking admission in Nigerian universites, take advantage of this opportunity by applying for Givitec scholarship which will take care of your first year school fees. Application fee is #1000 only.
-           <br><strong>NOTE:</strong> Successfully applied candidates will be contacted for examination on their selected subjects.
+           <p style="font-size:16px;">Are you a jambite seeking admission in Nigerian universites, take advantage of this opportunity by applying for Givitec scholarship which will take care of your first year school fees. Application fee is #1000 only.
+           <br><strong>NOTE:</strong> Successfully applied candidates will be contacted for examination on their selected subjects.</p>
         </div>
         </div>
     </div>
