@@ -33,30 +33,29 @@
           <h2>TALK TO GIVITEC</h2>
         </div>
 
-        <p>We love to listen and we are eagerly waiting to talk to you regarding your project. Get in touch with us if you have any queries and we will get back to you as soon as possible.</p>
-        @include('includes.message')
+        <p id="contact">We love to listen and we are eagerly waiting to talk to you regarding your project. Get in touch with us if you have any queries and we will get back to you as soon as possible.</p>
         <div class="request-form container">
-          <form action="{{ route('contact_form') }}" method="post" novalidate="novalidate">
+          <form id="form" action="#"  novalidate="novalidate">
           <div class="row">
             <div class="col-lg-6">
-                <input class="form-control" type="text" name="name" value="" size="40" aria-required="true" aria-invalid="false" placeholder="Your name here">
+                <input class="form-control" type="text" id="name" name="name"  size="40" aria-required="true" aria-invalid="false" placeholder="Your name here">
             </div>
             <div class="col-lg-6">
-              <input class="form-control" type="email" name="email" value="" size="40" aria-required="true" aria-invalid="false" placeholder="Your email">
+              <input class="form-control" type="email" id="email" name="email"  size="40" aria-required="true" aria-invalid="false" placeholder="Your email">
             </div>
             <div class="col-lg-6">
-                <input class="form-control" type="text" name="subject" value="" size="40" aria-invalid="false" placeholder="Subject">
+                <input class="form-control" type="text" id="subject" name="subject"  size="40" aria-invalid="false" placeholder="Subject">
             </div>
 
             <div class="col-lg-6">
-                <input class="form-control" type="text" name="phone" value="" size="40" aria-required="true" aria-invalid="false" placeholder="Phone">
+                <input class="form-control" type="text" id="phone" name="phone"  size="40" aria-required="true" aria-invalid="false" placeholder="Phone">
             </div>
             <div class="col-xs-12">
-              <textarea class="form-control" name="message" cols="40" rows="4" aria-invalid="false" placeholder="Your message"></textarea>
+              <textarea class="form-control" name="message" id="message" cols="40" rows="4" aria-invalid="false" placeholder="Your message"></textarea>
             </div>
             @csrf()
             <div class="col-xs-12">
-              <input class="btn btn-primary" type="submit" value="SEND MESSAGE">
+              <input class="btn btn-primary" id="submit"  type="submit" value="SEND MESSAGE">
             </div>
           </div>
           </form>
@@ -284,17 +283,17 @@
         </a>
       </div>
       <div class="col-lg-2 col-sm-4 col-xs-6">
-        <a href="#">
+        <a href="https://www.agbakanews.com">
           <img src="images/clients/agbaka.png" alt="Agbaka News" title="Agbaka News" class="thumbnail img-fluid">
         </a>
       </div>
       <div class="col-lg-2 col-sm-4 col-xs-6">
-        <a href="#">
+        <a href="https://www.winroseschools.com">
           <img src="images/clients/winrose.jpg" alt="Winrose logo" title="Winrose Schools" class="thumbnail img-fluid">
         </a>
       </div>
       <div class="col-lg-2 col-sm-4 col-xs-6">
-        <a href="#">
+        <a href="https://www.jamb.org.ng">
           <img src="images/clients/jamb.png" alt="Jamb" title="JAMB" class="thumbnail img-fluid">
         </a>
       </div>
@@ -304,12 +303,85 @@
         </a>
       </div>
       <div class="col-lg-2 col-sm-4 col-xs-6">
-        <a href="#">
+        <a href="https://www.kenjons.com">
           <img src="images/clients/kenjons.png" alt="Ken Jon's" title="Ken Jon's" class="thumbnail img-fluid">
         </a>
       </div>
     </div>
   </div>
 </section>
+<script>
+  jQuery(document).ready(function($){
+    $('#submit').on('click', function(e){
+       e.preventDefault();
+       $(document).find('.alert').css('display', 'none')
+        var name = $('#name').val();
+        var email = $('#email').val();
+        var  phone = $('#phone').val();
+        var  subject = $('#subject').val();
+        var  message = $('#message').val();
+        var error = [];
+       if(name == ''){
+          error[0] = 'Your name is required';
+       }
+       if(email == ''){
+         error[1] = 'Your email is required'
+       }
+       if(phone == ''){
+         error[2] = 'Your phone number is required'
+       }
+       if(subject == ''){
+         error[3] = 'The subject is required'
+       }
+       if(message == ''){
+        error[4] = 'The message is required'
+       }
+       if(error.length != 0 ){
+          error.forEach(function(value){
+            $('#contact').append(`<div class="alert alert-danger text-center fade in">
+                              <button data-dismiss="alert" class="close close-sm" type="button">
+                                  <i class="icon-remove"></i>
+                              </button>
+                             `+value+`
+                          </div>`);
+          })
 
+            return;
+       }
+
+      $.ajax({
+        type: 'POST',
+        url: '{{ route('contact_form') }}',
+        data: {
+          _token: '{{ Session::token() }}',
+          name :$('#name').val(),
+          email :$('#email').val(),
+          phone :$('#phone').val(),
+          subject :$('#subject').val(),
+          message :$('#message').val(),
+        }, 
+        success: function(response){
+          if(response['status'] == 'sent'){
+            $('#contact').append(`<div class="alert alert-success text-center fade in">
+                              <button data-dismiss="alert" class="close close-sm" type="button">
+                                  <i class="icon-remove"></i>
+                              </button>
+                              Your message has been sent successfully, Thank you for contacting us.
+                          </div>`);
+          }else{
+            $('#contact').append(`<div class="alert alert-danger text-center fade in">
+                              <button data-dismiss="alert" class="close close-sm" type="button">
+                                  <i class="icon-remove"></i>
+                              </button>
+                              Your message could not be sent, please check the form and submit again.
+                          </div>`);
+          }
+          setTimeout(function(){
+            $(document).find('.alert').css('display', 'none');
+          },2500)
+        }
+      });
+     });
+  });
+</script>
 @endsection

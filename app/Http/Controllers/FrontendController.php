@@ -87,9 +87,9 @@ class FrontendController extends Controller
             'message'=>$request->message
         ]);
         if($contact)
-        return redirect()->back()->with('success', 'Your message has been sent successfully, Thank you for contacting us.');
+        return response()->json(['status'=>'sent']);
         else
-        return redirect()->back()->with('error', 'Your message could not be sent, please check the form and submit again');
+        return response()->json(['error'=>'failed']);
     }
     public function save_scholarship(Request $request){
         $this->validate($request, [

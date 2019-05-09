@@ -147,7 +147,7 @@
 
              data-end="5500"
 
-             style="z-index: 6; white-space: nowrap; line-height: px;font-family:Arial;text-align:center;text-transform:left;border-color:rgba(255, 214, 88, 1.00);">THE BEST <span>WAREHOUSING</span> WORDPRESS THEME  </div>
+             style="z-index: 6; white-space: nowrap; line-height: px;font-family:Arial;text-align:center;color:#1f3753 !important;font-size:20px; text-transform:left;border-color:rgba(255, 214, 88, 1.00);">CCTV CAMERA SALES AND INSTALLATION</div>
 
         <!-- LAYER NR. 3 -->
         <div class="tp-caption b1  "
