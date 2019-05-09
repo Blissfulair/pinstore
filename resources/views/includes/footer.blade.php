@@ -13,13 +13,13 @@
                 <div class="social-menu">
                     <ul id="social-menu-footer" class="menu">
                     <li class="menu-item">
-                        <a href="http://facebook.com"><i class="fa fa-facebook"></i></a>
+                        <a href="https://facebook.com/givitecworld"><i class="fa fa-facebook"></i></a>
                     </li>
                     <li class="menu-item">
-                        <a href="http://twitter.com"><i class="fa fa-google-plus"></i></a>
+                        <a href="http://plus.google.com"><i class="fa fa-google-plus"></i></a>
                     </li>
                     <li class="menu-item">
-                        <a href="http://plus.google.com"><i class="fa fa-twitter"></i></a>
+                        <a href="https://twitter.com/givitecworld"><i class="fa fa-twitter"></i></a>
                     </li>
                     <li class="menu-item">
                         <a href="http://linkedin.com"><i class="fa fa-youtube-play"></i></a></li>

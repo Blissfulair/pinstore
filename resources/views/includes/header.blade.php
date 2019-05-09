@@ -1,20 +1,12 @@
 <nav id="mobile-menu" style="display:none">
     <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#about">About us</a>
-            <ul>
-            <li><a href="#about/history">History</a></li>
-            <li><a href="#about/team">The team</a>
-                <ul>
-                <li><a href="#about/team/management">Management</a></li>
-                <li><a href="#about/team/sales">Sales</a></li>
-                <li><a href="#about/team/development">Development</a></li>
-                </ul>
-            </li>
-            <li><a href="#about/address">Our address</a></li>
-            </ul>
-        </li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="{{ url('/') }}">Home</a></li>
+        <li><a href="{{ route('services') }}">Services</a></li>
+        <li><a href="{{ route('careers') }}">Careers</a></li>
+        <li><a href="{{ route('about') }}">About us</a></li>
+        <li><a href="{{ route('trainings') }}">Scholarship</a></li>
+        <li><a href="{{ route('bulletins') }}">Bulletins</a></li>
+        <li><a href="{{ route('contact') }}">Contact</a></li>
     </ul>
 </nav>
     
@@ -45,13 +37,13 @@
                     <div class="social-menu">
                       <ul id="social-menu-top" class="menu">
                         <li class="menu-item">
-                          <a href="http://facebook.com"><i class="fa fa-facebook"></i></a>
+                          <a href="https://facebook.com/givitecworld"><i class="fa fa-facebook"></i></a>
                         </li>
                         <li class="menu-item">
-                          <a href="http://twitter.com"><i class="fa fa-google-plus"></i></a>
+                          <a href="http://plus.google.com"><i class="fa fa-google-plus"></i></a>
                         </li>
                         <li class="menu-item">
-                          <a href="http://plus.google.com"><i class="fa fa-twitter"></i></a>
+                          <a href="http://twitter.com/givitecworld"><i class="fa fa-twitter"></i></a>
                         </li>
                         <li class="menu-item">
                           <a href="http://linkedin.com"><i class="fa fa-youtube-play"></i></a></li>
