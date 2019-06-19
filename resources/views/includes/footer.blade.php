@@ -1,3 +1,4 @@
+<?php $setting =  \App\Setting::find(1); ?>
 <footer class="site-footer">
         <div class="container">
             <div class="row">
@@ -5,26 +6,26 @@
                 <aside class="widget widget_text"><h3 class="widget-title"><span>About Us</span></h3>
                 <div class="textwidget">
                     <p>
-                    <img alt="Transport Logo" src="{{ asset('images/logo/givitec.png') }}"><br>
-                    Transport offers a host of logistic management services and supply chain solutions. We provide innovative solutions with the best people, processes, and technology.
+                    <img alt="Givitec logo" src="{{ asset('images/logo/'. $setting->logo ) }}"><br>
+                        {{ $setting?$setting->about:'' }}
                     </p>
                 </div>
                 </aside>
                 <div class="social-menu">
                     <ul id="social-menu-footer" class="menu">
                     <li class="menu-item">
-                        <a href="https://facebook.com/givitecworld"><i class="fa fa-facebook"></i></a>
+                        <a href="https://facebook.com/{{ $setting?$setting->facebook:'' }}"><i class="fa fa-facebook"></i></a>
                     </li>
                     <li class="menu-item">
-                        <a href="http://plus.google.com"><i class="fa fa-google-plus"></i></a>
+                        <a href="http://plus.google.com/{{ $setting?$setting->gplus:'' }}"><i class="fa fa-google-plus"></i></a>
                     </li>
                     <li class="menu-item">
-                        <a href="https://twitter.com/givitecworld"><i class="fa fa-twitter"></i></a>
+                        <a href="https://twitter.com/{{ $setting?$setting->twitter:'' }}"><i class="fa fa-twitter"></i></a>
                     </li>
                     <li class="menu-item">
-                        <a href="http://linkedin.com"><i class="fa fa-youtube-play"></i></a></li>
+                        <a href="http://youtube.com/{{ $setting?$setting->youtube:'' }}"><i class="fa fa-youtube-play"></i></a></li>
                     <li class="menu-item">
-                        <a href="http://foursquare.com"><i class="fa fa-vimeo-square"></i></a></li>
+                        <a href="http://foursquare.com/{{$setting?$setting->foursquare:''}}"><i class="fa fa-vimeo-square"></i></a></li>
                     <li class="menu-item">
                         <a href="/feed"><i class="fa fa-dribbble"></i></a>
                     </li>
@@ -45,7 +46,7 @@
                     <li><a href="{{ route('about') }}">About us</a></li>
                     <li><a href="{{ route('contact') }}">Contact us</a></li>
                     <li><a target="_blank" href="http://givitec.com/webmail">Webmail</a></li>
-                    <li><a href="http://transport.thememove.com/classic-blog/">Classic Blog</a></li>
+                    <li><a href="{{ route('bulletins') }}">Givitec Updates</a></li>
                     </ul>
                 </div>
                 </aside>

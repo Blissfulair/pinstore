@@ -12,6 +12,10 @@ use App\Comment;
 use App\Contact;
 use App\Subject;
 use App\Scholarship;
+use App\Career;
+use App\AboutUs;
+use App\Team;
+use App\Training;
 
 class FrontendController extends Controller
 {
@@ -21,12 +25,45 @@ class FrontendController extends Controller
         $posts = Post::orderBy('created_at', 'DESC')->limit(3)->get();
         return view('frontend.home',compact('services', 'posts','activities'));
     }
+    public function register_training(Request $request){
+        $program = $request->program;
+        return view('frontend.register', compact('program'));
+    }
+    public function train(){
+        return view('frontend.train');
+    }
+    public function training_register(Request $request){
+        $this->validate($request, [
+            'program'=>'required',
+            'first_name'=>'required',
+            'last_name'=>'required',
+            'email'=>'required|unique:trainings',
+            'phone_num'=>'required|min:11|max:11|unique:trainings'
+        ]);
+        $trainings = Training::create([
+            'program'=>$request->program,
+            'fname'=>$request->first_name,
+            'name'=>$request->last_name,
+            'email'=>$request->email,
+            'phone_num'=>$request->phone_num
+        ]);
+        if($trainings)
+        return response()->json(['status'=>'sent']);
+        else
+        return response()->json(['status'=>'error']);
+    }
     public function services(){
         $services = Service::orderBy('created_at', 'ASC')->get();
         return view('frontend.service', compact('services'));
     }
     public function careers(){
-        return view('frontend.career');
+        $careers = Career::all();
+        return view('frontend.career',compact('careers'));
+    }
+    public function career($name){
+        $careers = Career::orderBy('created_at', 'ASC')->get();
+        $career = Career::where('name', $name)->first();
+        return view('frontend.career-single',compact('career', 'careers'));
     }
     public function trainings(){
         $subjects = Subject::all();
@@ -40,7 +77,9 @@ class FrontendController extends Controller
         return view('frontend.contact');
     }
     public function about(){
-        return view('frontend.about');
+        $aboutus = AboutUs::find(1);
+        $teams = Team::limit(4)->get();
+        return view('frontend.about', compact('aboutus','teams'));
     }
     public function service_single($name){
         $services = Service::orderBy('created_at', 'ASC')->get();
@@ -55,8 +94,7 @@ class FrontendController extends Controller
         $obj = new Post();
         $post = $obj::get_post_by_title($name);
         $posts = $obj::get_recent();
-        $comments = Comment::where('post_id', $post->id)->get();
-        return view('frontend.post-single', compact('post','comments', 'posts'));   
+        return view('frontend.post-single', compact('post', 'posts'));   
     }
     public function create_comment(Request $request){
         $this->validate($request,[
@@ -125,12 +163,12 @@ class FrontendController extends Controller
                     'subject4'=>$request->subject[2],
                 ]);
                 if($scholarship)
-                    return redirect()->back()->with('success', 'Hello, '.$request->name.' your application was sent successfully');
+                    return response()->json(['success'=>'sent']);
                 else
-                    return redirect()->back()->with('error', 'Hello, '.$request->name.' your application was declined please try again later');
+                    return response()->json(['error'=>'declined']);
             }else
-                return redirect()->back()->with('error', 'The email address '.$request->email.' is already taken');
+                return response()->json(['error'=>'email']);
         }else
-        return redirect()->back()->with('error', 'Your Passport is required');
+        return response()->json(['error'=>'passport']);
     }
 }

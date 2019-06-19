@@ -18,8 +18,9 @@ function countUp(count)
         }
     }, int_speed);
 }
-
-countUp(495);
+let users = '{{ count($users) }}';
+console.log(users)
+countUp(9);
 
 function countUp2(count)
 {

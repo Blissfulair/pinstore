@@ -24,14 +24,13 @@
           <img class="img-fluid  attachment-post-thumbnail" src="{{ asset('images/posts/'.$post->featured_image) }}" alt="hero-bg">
         </div>
         <!-- post-image -->
-
         <header class="entry-header">
           <h3 class="entry-title"><a href="{{ route('post', ['name'=>$post->title]) }}">{{ ucwords($post->title) }}</a></h3>
 
           <div class="post-details">
-            <i class="fa fa-user"></i>  Posted by <a href="#" >admin</a>
+            <i class="fa fa-user"></i>  Posted by <a href="#" >{{ $post->user->username }}</a>
             <i class="fa fa-folder"></i> in <a href="#" rel="category tag">Blog </a>
-            <i class="fa fa-comments"></i><a href="#"> 3 Comments</a>
+            <i class="fa fa-comments"></i><a href="#cmt"> {{ $post->comments()->count() == 1? '1 comment':$post->comments()->count().' comments' }}</a>
           </div>
           <!-- post-details -->
 
@@ -65,13 +64,13 @@
 
       </article>
       <!-- #post-## -->
-      @if($comments)
-          <section class="comment-list">
+      @if($post->comments)
+          <section id="cmt" class="comment-list">
             <div class="custom-heading part-heading three-slashes">
-              <h2>{{ count($comments) == 1?count($comments).' COMMENT':  count($comments).' COMMENTS' }}</h2>
+              <h2>{{ $post->comments->count() == 1?$post->comments->count().' COMMENT':  $post->comments->count().' COMMENTS' }}</h2>
             </div>
             <!-- First Comment -->
-            @foreach($comments as $comment)
+            @foreach($post->comments as $comment)
             <article class="row">
               <div class="col-md-2 col-sm-2 hidden-xs-down">
                 <figure class="thumbnail">

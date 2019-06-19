@@ -202,9 +202,9 @@
               <h3><a href="{{ route('post', ['name'=>$post->title]) }}">{{ $post->title }}</a></h3>
 
               <div class="post-meta">
-                <span class="author"><i class="fa fa-user"></i> admin</span>
+                <span class="author"><i class="fa fa-user"></i> {{ $post->user->username }}</span>
                 <span class="post-date"><i class="fa fa-clock-o"></i> {{ date('F, j Y', strtotime($post->created_at)) }}</span>
-                <span class="post-com"><i class="fa fa-comments"></i> 2 responses</span>
+                <span class="post-com"><i class="fa fa-comments"></i> {{ $post->comments->count() == 1? '1 response': $post->comments->count(). ' responses' }}</span>
               </div>
             </div>
           @endforeach
@@ -278,8 +278,8 @@
     </div>
     <div class="row">
       <div class="col-lg-2 col-sm-4 col-xs-6">
-        <a href="#">
-          <img src="images/clients/jasmot.jpeg" alt="Jasemont" title="Jasemot Foundation" class="thumbnail img-fluid">
+        <a href="https://www.jamb.org.ng">
+          <img src="images/clients/jamb.png" alt="Jamb" title="JAMB" class="thumbnail img-fluid">
         </a>
       </div>
       <div class="col-lg-2 col-sm-4 col-xs-6">
@@ -288,23 +288,23 @@
         </a>
       </div>
       <div class="col-lg-2 col-sm-4 col-xs-6">
+        <a href="https://www.kjbookshop.com">
+          <img src="images/clients/kenjons.png" alt="Ken Jon's" title="Ken Jon's" class="thumbnail img-fluid">
+        </a>
+      </div>
+      <div class="col-lg-2 col-sm-4 col-xs-6">
+        <a href="#">
+          <img src="images/clients/jasmot.jpeg" alt="Jasemont" title="Jasemot Foundation" class="thumbnail img-fluid">
+        </a>
+      </div>
+      <div class="col-lg-2 col-sm-4 col-xs-6">
         <a href="https://www.winroseschools.com">
           <img src="images/clients/winrose.jpg" alt="Winrose logo" title="Winrose Schools" class="thumbnail img-fluid">
         </a>
       </div>
       <div class="col-lg-2 col-sm-4 col-xs-6">
-        <a href="https://www.jamb.org.ng">
-          <img src="images/clients/jamb.png" alt="Jamb" title="JAMB" class="thumbnail img-fluid">
-        </a>
-      </div>
-      <div class="col-lg-2 col-sm-4 col-xs-6">
         <a href="#">
           <img src="images/clients/kugbe.png" alt="kugbe Radio" title="Kugbe Radio" class="thumbnail img-fluid">
-        </a>
-      </div>
-      <div class="col-lg-2 col-sm-4 col-xs-6">
-        <a href="https://www.kenjons.com">
-          <img src="images/clients/kenjons.png" alt="Ken Jon's" title="Ken Jon's" class="thumbnail img-fluid">
         </a>
       </div>
     </div>

@@ -21,6 +21,9 @@ class Post extends Model
     public static function get_recent(){
         return self::orderBy('created_at', 'DESC')->limit(3)->get();
     }
+    public function user(){
+        return $this->belongsTo('App\User','created_by');
+    }
     public function comments(){
         return $this->hasMany('App\Comment');
     }

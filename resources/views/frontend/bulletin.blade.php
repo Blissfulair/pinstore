@@ -32,7 +32,7 @@
                 <h3 class="entry-title"><a href="{{ route('post', ['name'=>$post->title]) }}">{{ $post->title }}</a></h3>
 
                 <div class="post-details">
-                  <i class="fa fa-user"></i>  Posted by <a href="#" >admin</a>
+                  <i class="fa fa-user"></i>  Posted by <a href="#" >{{ $post->user->username }}</a>
                   <i class="fa fa-folder-open"></i> in <a href="#" rel="category tag">Blog </a>
 
                 </div>

@@ -5,17 +5,18 @@
         <li><a href="{{ route('careers') }}">Careers</a></li>
         <li><a href="{{ route('about') }}">About us</a></li>
         <li><a href="{{ route('trainings') }}">Scholarship</a></li>
+        <li><a href="{{ route('train') }}">Training</a></li>
         <li><a href="{{ route('bulletins') }}">Bulletins</a></li>
         <li><a href="{{ route('contact') }}">Contact</a></li>
     </ul>
 </nav>
-    
+    <?php $setting =  \App\Setting::find(1); ?>
  <header class="site-header style-1">
       <div class="container">
         <div class="row">
           <div class="col-xs-10 col-lg-2 site-branding">
             <a href="{{ url('/') }}" rel="home">
-              <img src="{{ asset('images/logo/givitec.png') }}" alt="">
+              <img src="{{ asset('images/logo/'.$setting->logo) }}" alt="">
             </a>
           </div>
           <div class="col-lg-10 hidden-md-down">
@@ -37,20 +38,20 @@
                     <div class="social-menu">
                       <ul id="social-menu-top" class="menu">
                         <li class="menu-item">
-                          <a href="https://facebook.com/givitecworld"><i class="fa fa-facebook"></i></a>
+                          <a href="https://facebook.com/{{ $setting?$setting->facebook:'' }}"><i class="fa fa-facebook"></i></a>
                         </li>
                         <li class="menu-item">
-                          <a href="http://plus.google.com"><i class="fa fa-google-plus"></i></a>
+                          <a href="http://plus.google.com/{{ $setting?$setting->gplus:'' }}"><i class="fa fa-google-plus"></i></a>
                         </li>
                         <li class="menu-item">
-                          <a href="http://twitter.com/givitecworld"><i class="fa fa-twitter"></i></a>
+                          <a href="http://twitter.com/{{ $setting?$setting->twitter:'' }}"><i class="fa fa-twitter"></i></a>
                         </li>
                         <li class="menu-item">
-                          <a href="http://linkedin.com"><i class="fa fa-youtube-play"></i></a></li>
+                          <a href="http://youtube.com/{{ $setting?$setting->youtube:'' }}"><i class="fa fa-youtube-play"></i></a></li>
                         <li id="menu-item680" class="menu-item">
-                          <a href="http://foursquare.com"><i class="fa fa-vimeo-square"></i></a></li>
+                          <a href="http://foursquare.com/{{ $setting?$setting->foursquare:'' }}"><i class="fa fa-vimeo-square"></i></a></li>
                         <li id="menu-item681" class="menu-item">
-                          <a href="/feed"><i class="fa fa-dribbble"></i></a>
+                          <a href="/feed/{{ $setting?$setting->feed:'' }}"><i class="fa fa-dribbble"></i></a>
                         </li>
                       </ul>
                     </div>
@@ -64,12 +65,12 @@
                       <div class="row">
                         <div class="col-md-4 col-xl-3 col-xl-offset-1">
                           <i class="fa fa-phone"></i>
-                          <h3>0807 943 6049</h3>
-                          <span>info@givitec.com</span>
+                          <h3>{{ $setting?$setting->number:'' }}</h3>
+                          <span>{{ $setting?$setting->email:'' }}</span>
                         </div>
                         <div class="col-md-4">
                           <i class="fa fa-home"></i>
-                          <h3>192 MM Way</h3>
+                          <h3>{{ $setting?$setting->address:'' }}</h3>
                           <span>Benin City, Nigeria.</span>
                         </div>
                         <div class="col-md-4">
@@ -114,43 +115,6 @@
 
       <li class="nav-item  mega-fw">
         <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" href="{{ route('services') }}">SERVICES</a>
-        <div class="dropdown-menu">
-          <div class="mega-content">
-            <div class="row">
-
-              <img class="mega-menu-img" src="{{ asset('images/menu/menu-img.png') }}" alt="Transport Menu Image">
-
-              <ul class="col-sm-3 col-sm-offset-3  list-unstyled">
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-cubes"></i>  Page Builder ($28 saved)</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-picture-o"></i>  Revolution Slider ($18 saved)</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-th-large"></i> Essential Grid ($25 saved)</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-puzzle-piece"></i>  Templatera ($11 saved)</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-space-shuttle"></i>  Blazing Fast Loading Speed</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-hand-o-up"></i> feature-list-icon One-Click Sample Data</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-desktop"></i>Live Customizer</a></h6></li>
-              </ul>
-              <ul class="col-sm-3 list-unstyled">
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-sitemap"></i>Mega Menu Supported</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-laptop"></i>Responsive & Retina</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-minus"></i>Sticky Header</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-css3"></i>Smooth CSS3 Animation</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-arrows-v"></i>Parallax Sections</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-google"></i>600+ Google Fonts</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-language"></i>WPML Supported</a></h6></li>
-              </ul>
-              <ul class="col-sm-3 list-unstyled">
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-html5"></i>  Bootstrap 3.x Based</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa fa-shopping-cart"></i>WooCommerce Compatible</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-map-marker"></i>Contact Form 7 Support</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-home"></i>5+ Homepage Options</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-th"></i>2+ Services Page Layouts</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-font"></i>Font Awesome Icons</a></h6></li>
-                <li class="feature-list-item"><h6 class="feature-list-title"><a href="#"><i class="feature-list-icon fa fa-magic"></i>Unlimited Color</a></h6></li>
-              </ul>
-
-            </div>
-          </div>
-        </div>
       </li>
 
       <li class="nav-item dropdown">
@@ -163,6 +127,9 @@
 
       <li class="nav-item dropdown">
         <a class="nav-link" href="{{ route('trainings') }}">SCHOLARSHIP</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="{{ route('train') }}">TRAINING</a>
       </li>
 
       <li class="nav-item dropdown">

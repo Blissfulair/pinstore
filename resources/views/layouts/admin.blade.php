@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
-    <meta name="author" content="Mosaddek">
+    <meta name="author" content="Givitec">
     <meta name="keyword" content="Websites Apps Mobile Apps CCTV CBT">
     <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}">
 
@@ -34,6 +34,7 @@
 
     <link href="{{ asset('assets/advanced-datatable/media/css/demo_page.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/advanced-datatable/media/css/demo_table.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/jquery.js') }}"></script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
     <!--[if lt IE 9]>
       <script src="js/html5shiv.js"></script>
@@ -62,7 +63,6 @@
   </section>
 
     <!-- js placed at the end of the document so the pages load faster -->
-    <script src="{{ asset('js/jquery.js') }}"></script>
     <script src="{{ asset('js/jquery-1.8.3.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script class="include" type="text/javascript" src="{{ asset('js/jquery.dcjqaccordion.2.7.js') }}"></script>
@@ -97,7 +97,7 @@
     <!--script for this page-->
     <script src="{{ asset('js/sparkline-chart.js') }}"></script>
     <script src="{{ asset('js/easy-pie-chart.js') }}"></script>
-    <script src="{{ asset('js/count.js') }}"></script>
+    <script src="{{ asset('js/jquery.stepy.js') }}"></script>
 
   <script>
 
@@ -123,7 +123,17 @@
       $(function(){
           $('select.styled').customSelect();
       });
+//step wizard
 
+$(function() {
+    $('#default').stepy({
+        backLabel: 'Previous',
+        block: true,
+        nextLabel: 'Next',
+        titleClick: true,
+        titleTarget: '.stepy-tab'
+    });
+});
   </script>
 
   </body>

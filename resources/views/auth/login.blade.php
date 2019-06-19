@@ -4,8 +4,8 @@
 @endsection
 @section('content')
 <form class="form-signin" action="{{ route('login') }}" method="post">
-        @csrf
-    <h2 class="form-signin-heading">sign in now</h2>
+        <input type="hidden" name="_token" value="{{ Session::token() }}">
+    <h2 class="form-signin-heading">login</h2>
     <div class="login-wrap">
         <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email">
         <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password">
@@ -26,12 +26,6 @@
             <a href="index.html" class="twitter">
                 <i class="icon-twitter"></i>
                 Twitter
-            </a>
-        </div>
-        <div class="registration">
-            Don't have an account yet?
-            <a class="" href="{{ route('register') }}">
-                Create an account
             </a>
         </div>
 
