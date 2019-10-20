@@ -9,7 +9,7 @@ class ServiceList extends Model
     public function items(){
         return $this->hasMany('App\ServiceListItem');
     }
-    public function package(){
-        return $this->belongsTo('App\ServiceItem', 'id');
+    public function service(){
+        return $this->belongsTo('App\ServiceItem','service_item_id', 'id');
     }
 }

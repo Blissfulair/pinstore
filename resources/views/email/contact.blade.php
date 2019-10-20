@@ -9,6 +9,7 @@
      <p>{!! $msg !!} </p>
      <p><strong><u>Givitec Ltd Team</u></strong><br>
      <p>192 MM Way, Benin City</p>
+     <p><a href="mailto:info@givitec.com">info@givitec.com</a></p>
      <br>+234(0) 807 9436 049</p>
 </body>
 </html>

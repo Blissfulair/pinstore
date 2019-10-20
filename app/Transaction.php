@@ -10,4 +10,7 @@ class Transaction extends Model
     protected $fillable = [
         'name', 'email', 'amount', 'additionals', 'service', 'package', 'phone', 'ref', 'status'
     ];
+    public function service(){
+        return $this->belongsTo('App\ServiceItem','id', 'service');
+    }
 }

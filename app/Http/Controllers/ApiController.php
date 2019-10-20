@@ -78,8 +78,7 @@ class ApiController extends Controller
         $tranRef = '8768649879248768009848798476877926256626871652664249847100989101876548773428478428';
         $tranRef = substr(str_shuffle($tranRef), 11 ,10);
         $transact = Transaction::where('ref', $tranRef)->first();
-        // $package = ServiceList::find($request->package);
-        // $service = ServiceItem::find($request->service);
+         $package = ServiceList::find($request->package);
         if(!$transact){
             $transaction =Transaction::create([
                 'name'=>$request->name,
@@ -92,13 +91,13 @@ class ApiController extends Controller
                 'additionals'=>$request->additionals
             ]);
             if($transaction){
-                // $e_subject = 'Givitec '.ucwords($service->name).' ('.ucwords($package->name).' Package) Order';
+                $e_subject = 'Givitec '.ucwords($package->service->name).' ('.ucwords($package->name).' Package) Order';
         
-                // $e_body = ucwords($request['name'])." ($request->phone) has requested for the  ".$service->name.' '.$package->name 
-                // .' package @ N'.$request->amount. ". $tranRef is the transaction reference.";
-                // $mailer->to('orders@givitec.com')->send( new Email('Order ['.$tranRef.']' ,$e_body));
-                // $usermessage = "Thank you for purchasing this service, we will respond within the next 24hours.";
-                // $mailer->to($request->email)->send( new Email( $e_subject,$usermessage));
+                $e_body = ucwords($request['name'])." ($request->phone) has requested for the  ".$package->service->name.' '.$package->name 
+                .' package @ N'.$request->amount. ". <p>Including $request->add. $tranRef is the transaction reference.</p>";
+                $mailer->to('orders@givitec.com')->send( new Email('Order ['.$tranRef.']' ,$e_body));
+                $usermessage = "Thank you for purchasing this service, we will respond within the next 24hours. <p><strong>NOTE:</strong> Do not reply to this email because this is a virtual email address.</P>";
+                $mailer->to($request->email)->send( new Email( $e_subject,$usermessage));
                 return response()->json(['status'=>'Hello '.$request->name.', thank you for choosing this service, we will respond shortly.', 'transaction'=>$transaction]);
             }
         }
