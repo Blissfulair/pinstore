@@ -20,6 +20,7 @@ use App\Setting;
 use App\Contact;
 use App\UserMeta;
 
+
 class BackendController extends Controller
 {
     public function dashboard(){
