@@ -60,7 +60,7 @@
               <div class="col-xs-12">
                 <input class="btn btn-primary" id="submit" type="submit" value="SEND MESSAGE">
               </div>
-              @csrf()
+              <input type="hidden" name="_token" value="{{ Session::token() }}">
             </div>
           </form>
 

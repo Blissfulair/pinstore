@@ -21,8 +21,11 @@
         </div>
         <div class="panel-collapse" role="tabpanel" >
         <div class="panel-content">
-           <p style="font-size:16px;">Are you a jambite seeking admission in Nigerian universites, take advantage of this opportunity by applying for Givitec scholarship which will take care of your first year school fees. Application fee is #1000 only.
-           <br><strong>NOTE:</strong> Successfully applied candidates will be contacted for examination on their selected subjects.</p>
+           <p style="font-size:16px;">Are you a JAMBITE seeking admission into any Nigerian university - whatever your UTME score is? Do you need Scholarship for yourself or a loved one? <br><br>
+            Take advantage of this opportunity by applying for <b>The GIVITEC Scholarship 2019</b> which will take care of your First Year School Fees.
+            <br>
+            Application form is free, online - Apply NOW.
+           <br><br><strong>NOTE:</strong> Successful applicants will be contacted and posted to an accredited CBT Centre for the Aptitude Test. CBT Centres are not allowed to charge more than One Thousand Naira for administering the exam.</p>
         </div>
         </div>
     </div>
@@ -60,6 +63,9 @@
                 </div>
 
                 <input type="hidden" name="_token" value="{{ Session::token() }}">
+                <div class="form-group">
+                    <button type="submit" id="submit" class="btn btn-info">Submit Application</button>
+                </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
@@ -79,13 +85,6 @@
                             </span>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-11 col-md-offset-1">
-            <div class="form-group">
-                    <button type="submit" id="submit" class="btn btn-info">Submit Application</button>
                 </div>
             </div>
         </div>
@@ -164,8 +163,8 @@
       contentType: false, 
         success: function(response){
             console.log(response)
-    // $('.fileupload-preview').find('img').attr('src', '')
-    //    $('.fileupload-new').css('display', 'block')
+    $('.fileupload-preview').find('img').attr('src', '')
+       $('.fileupload-new').css('display', 'block')
         $('span').find('.fileupload-exists').css('display', 'none');
           if(response['success'] == 'sent'){
             $('#form').prepend(`<div class="alert alert-success text-center fade in">

@@ -131,7 +131,6 @@
       <li class="nav-item dropdown">
         <a class="nav-link" href="{{ route('train') }}">TRAINING</a>
       </li>
-
       <li class="nav-item dropdown">
         <a class="nav-link" href="{{ route('bulletins') }}">BULLETINS</a>
       </li>

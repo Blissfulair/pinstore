@@ -56,6 +56,10 @@ class FrontendController extends Controller
         $services = Service::orderBy('created_at', 'ASC')->get();
         return view('frontend.service', compact('services'));
     }
+        public function bootcamp(){
+        
+        return view('frontend.bootcamp');
+    }
     public function careers(){
         $careers = Career::all();
         return view('frontend.career',compact('careers'));
@@ -142,7 +146,7 @@ class FrontendController extends Controller
             $filename = str_replace(' ','',$request->name).date('YmdHis').'.'.$file->getClientOriginalExtension();
             $image_resize = Image::make($file->getRealPath());              
             $image_resize->resize(300, 300);
-            $image_resize->save(public_path('images/application/' .$filename));
+            $image_resize->save('/home/givitec1/public_html/images/application/' .$filename);
             if(filter_var($request->email, FILTER_VALIDATE_EMAIL))
                 $email = $request->email;
             else

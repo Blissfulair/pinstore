@@ -18,8 +18,6 @@ use App\AboutUs;
 use App\Team;
 use App\Setting;
 use App\Contact;
-use App\UserMeta;
-
 
 class BackendController extends Controller
 {
@@ -133,7 +131,7 @@ class BackendController extends Controller
             $filename = date('YmdHis').'.'.$file->getClientOriginalExtension();
             $image_resize = Image::make($file->getRealPath());              
             $image_resize->resize(148, 40);
-            $image_resize->save(public_path('images/logo/' .$filename));
+            $image_resize->save('/home/givitec1/public_html/images/logo/' .$filename);
         }
         $setting = Setting::create([
             'about' => $request['about'],
@@ -173,7 +171,7 @@ class BackendController extends Controller
             $filename = date('YmdHis').'.'.$file->getClientOriginalExtension();
             $image_resize = Image::make($file->getRealPath());              
             $image_resize->resize(148, 40);
-            $image_resize->save(public_path('images/logo/' .$filename));
+            $image_resize->save('/home/givitec1/public_html/images/logo/' .$filename);
             $setting->logo= $filename;
         }
             $setting->about= $request['about'];
@@ -280,7 +278,7 @@ class BackendController extends Controller
             $filename = str_replace(' ','',$request->name).date('YmdHis').'.'.$file->getClientOriginalExtension();
             $image_resize = Image::make($file->getRealPath());              
             $image_resize->resize(870, 480);
-            $image_resize->save(public_path('images/services/' .$filename));
+            $image_resize->save('/home/givitec1/images/services/' .$filename);
             $service->featured_image = $filename;
         }
         $service->icon = $request->icon;
@@ -304,7 +302,7 @@ class BackendController extends Controller
             $filename = str_replace(' ','',$request->name).date('YmdHis').'.'.$file->getClientOriginalExtension();
             $image_resize = Image::make($file->getRealPath());              
             $image_resize->resize(270, 200);
-            $image_resize->save(public_path('images/members/' .$filename));
+            $image_resize->save('/home/givitec1/public_html/images/members/' .$filename);
             $team->featured_image = $filename;
         }
         $team->name = $request->name;
@@ -347,19 +345,6 @@ class BackendController extends Controller
         else
             return redirect('manage_career')->with('success', 'Updated Successfully.');
     }
-    public function update_message_ajax(){
-        $user = Auth::user();
-        $usermeta = UserMeta::where('user_id',$user->id)->first();
-        if($usermeta){
-            $usermeta->post_id=$usermeta->post_id + 1;
-            $usermeta->update();
-        }else{
-                $usermeta = new UserMeta();
-                $usermeta->user_id=$user->id;
-                $usermeta->save();
-        }
-        return response()->json(['ok'=>'ok']);
-    }
     public function update_post(Request $request, $id){
         $post = Post::find($request->id);
         $this->validate($request, [
@@ -371,7 +356,7 @@ class BackendController extends Controller
             $filename = str_replace(':', '',str_replace(' ','',$request->title)).date('YmdHis').'.'.$file->getClientOriginalExtension();
             $image_resize = Image::make($file->getRealPath());              
             $image_resize->resize(870, 480);
-            $image_resize->save(public_path('images/posts/' .$filename));
+            $image_resize->save('/home/givitec1/public_html/images/posts/' .$filename);
             $post->featured_image = $filename;
         }
         $post->title = $request->title;
@@ -411,7 +396,7 @@ class BackendController extends Controller
             $filename = str_replace(' ','',$request->name).date('YmdHis').'.'.$file->getClientOriginalExtension();
             $image_resize = Image::make($file->getRealPath());              
             $image_resize->resize(200, 200);
-            $image_resize->save(public_path('images/profile/' .$filename));
+            $image_resize->save('/home/givitec1/public_html/images/profile/' .$filename);
             $user->image = $filename;
         }
         $user->name = $request->name;
@@ -453,7 +438,7 @@ class BackendController extends Controller
             $filename = str_replace(' ','',$request->name).date('YmdHis').'.'.$file->getClientOriginalExtension();
             $image_resize = Image::make($file->getRealPath());              
             $image_resize->resize(870, 480);
-            $image_resize->save(public_path('images/services/' .$filename));
+            $image_resize->save('/home/givitec1/public_html/images/services/' .$filename);
             $service = Service::exist($request);
             if(!$service){
                $service = Service::create([
@@ -484,7 +469,7 @@ class BackendController extends Controller
             $filename = str_replace(' ','',$request->name).date('YmdHis').'.'.$file->getClientOriginalExtension();
             $image_resize = Image::make($file->getRealPath());              
             $image_resize->resize(270, 200);
-            $image_resize->save(public_path('images/members/' .$filename));
+            $image_resize->save('/home/givitec1/public_html/images/members/' .$filename);
             $team = Team::exist($request);
             if(!$team){
                $team = Team::create([
@@ -532,7 +517,7 @@ class BackendController extends Controller
             $filename = str_replace(':', '',str_replace(' ','',$request->title)).date('YmdHis').'.'.$file->getClientOriginalExtension();
             $image_resize = Image::make($file->getRealPath());              
             $image_resize->resize(870, 480);
-            $image_resize->save(public_path('images/posts/' .$filename));
+            $image_resize->save('/home/givitec1/public_html/images/posts/' .$filename);
             // Storage::disk('local')->put($filename, File::get($file));
             $service = Post::exist($request);
             if(!$service){
@@ -540,7 +525,7 @@ class BackendController extends Controller
                     'title'=>$request->title,
                     'content'=>$request->content,
                     'featured_image'=>$filename,
-                    'created_by'=>Auth::user()->id,
+                    'created_by'=>1
                 ]);
                 if($service)
                     return redirect('manage_post')->with('success', 'Post  was created successfully');

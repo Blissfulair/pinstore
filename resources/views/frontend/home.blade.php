@@ -53,7 +53,7 @@
             <div class="col-xs-12">
               <textarea class="form-control" name="message" id="message" cols="40" rows="4" aria-invalid="false" placeholder="Your message"></textarea>
             </div>
-            @csrf()
+            <input type="hidden" name="_token" value="{{ Session::token() }}">
             <div class="col-xs-12">
               <input class="btn btn-primary" id="submit"  type="submit" value="SEND MESSAGE">
             </div>
@@ -132,7 +132,7 @@
             </div>
             <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
               <div class="panel-content">
-                With over 2years of innovative works or designs with both private and government enterprises, we deliver our services with professionalism. 
+                With over 2years of innovative works or designs with both private and government enterprises, we deliver our services with professionalism and precision. 
               </div>
             </div>
           </div>
@@ -146,22 +146,7 @@
             </div>
             <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
               <div class="panel-content">
-                I am text block. Click edit button to change this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
-              </div>
-            </div>
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingThree">
-              <h4 class="panel-title">
-                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                  <i class="fa fa-arrow-down"></i> <span>Quality Commitment</span>
-                </a>
-              </h4>
-            </div>
-            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-              <div class="panel-content">
-                I am text block. Click edit button to change this text. Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
+                We have a reputation for honesty, and because of our integrity over the years our clients know that we are dependable to do the job we are contracted to do.
               </div>
             </div>
           </div>
@@ -175,8 +160,7 @@
               </h4>
             </div>
             <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-              <div class="panel-content">I am text block. Click edit button to change this text. Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
+              <div class="panel-content">We know that great jobs are actually improvements from previous good jobs, that is why we are constantly in the habit of improving on our good jobs, even also on our great jobs.
               </div>
             </div>
           </div>
@@ -202,9 +186,9 @@
               <h3><a href="{{ route('post', ['name'=>$post->title]) }}">{{ $post->title }}</a></h3>
 
               <div class="post-meta">
-                <span class="author"><i class="fa fa-user"></i> {{ $post->user->username }}</span>
+                <span class="author"><i class="fa fa-user"></i> admin</span>
                 <span class="post-date"><i class="fa fa-clock-o"></i> {{ date('F, j Y', strtotime($post->created_at)) }}</span>
-                <span class="post-com"><i class="fa fa-comments"></i> {{ $post->comments->count() == 1? '1 response': $post->comments->count(). ' responses' }}</span>
+                <span class="post-com"><i class="fa fa-comments"></i> 2 responses</span>
               </div>
             </div>
           @endforeach
@@ -226,26 +210,13 @@
         </div>
         <div class="owl-carousel owl-theme ui-carousel testimonials-carousel">
           <div class="item">
-            <div class="quote last no-image">
-              <blockquote class="testimonials-text">
-                <p>I’ve been happy with the services provided by Construction LLC. Scooter Libby has been wonderful! He has returned my calls quickly, and he answered all my questions</p>
-              </blockquote>
-              <cite class="author">
-                <span>Frankie Kao</span>
-                <span class="title">Fouder &amp; CEO ThemeMove Ltd.,</span>
-                <!--/.title-->
-              </cite>
-              <!--/.author-->
-            </div>
-          </div>
-          <div class="item">
             <div class="quote">
               <blockquote class="testimonials-text">
-                <p>I have always received good service from Transport. Timing and quality have always met my expectations and everything is communicated in a professional and timely manner.</p>
+                <p> Givitec is the best. We enjoy their work on our website. Since we started to work with Givitec, we have achieved lots of successes that is why we have won several awards.</p>
               </blockquote>
               <cite class="author">
-                <span>Johny Vu</span>
-                <span class="title">CEO Transport Ltd.,</span>
+                <span>Faith Iguodala Okoro</span>
+                <span class="title">URHOKPOTA REPORTERS</span>
                 <!--/.title-->
               </cite>
               <!--/.author-->
@@ -254,11 +225,11 @@
           <div class="item">
             <div class="quote first no-image">
               <blockquote class="testimonials-text">
-              <p>I’ve been happy with the services provided by Transport. Scooter Libby has been wonderful! He has returned my calls quickly, and he answered all my questions</p>
+              <p>I have followed GIVITEC LTD from the very beginning and I can say that a great IT firm has been planted in Nigeria, even in Benin City. They built our NGO website, ONEGHE SELE FOUNDATION and we have been delighted about it ever since.</p>
               </blockquote>
               <cite class="author">
-                <span>John Doe</span>
-                <span class="title">CEO Transport Ltd.,</span>
+                <span>Kingsley Ohens</span>
+                <span class="title"> National President, ESAN YOUTH CONGRESS.,</span>
                 <!--/.title-->
               </cite><!--/.author-->
             </div>
@@ -274,7 +245,7 @@
 <section class="our-clients">
   <div class="container">
     <div class="custom-heading section-heading">
-      <h1>OUR CLIENTS</h1>
+      <h1>RECENT CLIENTS</h1>
     </div>
     <div class="row">
       <div class="col-lg-2 col-sm-4 col-xs-6">

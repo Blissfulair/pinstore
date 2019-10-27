@@ -50,16 +50,13 @@
 
       <section class="widget">
         <div class="custom-heading part-heading three-slashes">
-          <h2>BROCHURES</h2>
+          <h2>SERVICE DOCUMENT</h2>
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-download"><i class="fa fa-file-pdf-o"></i> Download.PDF</button>
+          <a type="submit" href="{{ asset('images/brochure/service.docx') }}" class="btn btn-download"><i class="fa fa-file-pdf-o"></i> Download.PDF</a>
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-download"><i class="fa fa-file-word-o"></i> Download.DOC</button>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-download"><i class="fa fa-file-powerpoint-o"></i> Download.PPT</button>
+          <a href="{{ asset('images/brochure/service.docx') }}" type="submit" class="btn btn-download"><i class="fa fa-file-word-o"></i> Download.DOC</a>
         </div>
       </section>
     </aside>
@@ -95,7 +92,7 @@
             </div>
           </section>
           <div class="custom-heading section-heading three-slashes">
-            <h2>WHAT IS INCLUDE</h2>
+            <h2>WHAT IS INCLUDED</h2>
           </div>
           <div id="accordion" class="accordion" role="tablist" aria-multiselectable="false">
             <div class="panel panel-default">
@@ -108,7 +105,7 @@
               </div>
               <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                 <div class="panel-content">
-                  With over 60 years of providing world class service to their customers on the asset side, a need to provide a one stop shop for a” true customer service logistic solution” was introduced. By adding this dimension to an already dynamic and customer centric asset based provider, we feel we bring a total solution.
+                With over 2years of innovative works or designs with both private and government enterprises, we deliver our services with professionalism and precision. 
                 </div>
               </div>
             </div>
@@ -122,7 +119,7 @@
               </div>
               <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                 <div class="panel-content">
-                  I am text block. Click edit button to change this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
+                We have a reputation for honesty, and because of our integrity over the years our clients know that we are dependable to do the job we are contracted to do.
                 </div>
               </div>
             </div>
@@ -130,30 +127,13 @@
               <div class="panel-heading" role="tab" id="headingThree">
                 <h4 class="panel-title">
                   <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    <i class="fa fa-arrow-down"></i> <span>Quality Commitment</span>
+                    <i class="fa fa-arrow-down"></i> <span>We Are Always Improving</span>
                   </a>
                 </h4>
               </div>
               <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                 <div class="panel-content">
-                  I am text block. Click edit button to change this text. Lorem ipsum dolor sit
-                  amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
-                </div>
-              </div>
-            </div>
-
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingFour">
-                <h4 class="panel-title">
-                  <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
-                    <i class="fa fa-arrow-down"></i> <span>We Are Always Improving</span>
-                  </a>
-                </h4>
-              </div>
-              <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                <div class="panel-content">I am text block. Click edit button to change this text. Lorem ipsum dolor sit
-                  amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
-                </div>
+We know that great jobs are actually improvements from previous good jobs, that is why we are constantly in the habit of improving on our good jobs, even also on our great jobs.
               </div>
             </div>
           </div>
@@ -161,15 +141,15 @@
         <div class="col-md-6">
           <section class="service-brochure highlight-part">
             <div class="custom-heading part-heading three-slashes">
-              <h2>SERVICE BROCHURE</h2>
+              <h2>GETTING STARTED WITH YOUR WEBSITE PROJECT DOCUMENT</h2>
             </div>
             <img style="max-width:100%" src="{{ asset('images/brochure/brochure.jpg') }}" alt="Transport">
             <div class="form-inline clearfix">
-              <button style="font-size:80%" type="submit" class="btn btn-download pull-left"><i class="fa fa-file-pdf-o"></i> Download.PDF</button>
-              <button style="font-size:80%" type="submit" class="btn btn-download pull-right"><i class="fa fa-file-word-o"></i> Download.DOC</button>
+              <a href="{{ asset('images/brochure/gettingstarted.pdf') }}" style="font-size:80%" type="submit" class="btn btn-download pull-left"><i class="fa fa-file-pdf-o"></i> Download.PDF</a>
+              <a style="font-size:80%" href="{{ asset('images/brochure/gettingstarted.docx') }}" type="submit" class="btn btn-download pull-right"><i class="fa fa-file-word-o"></i> Download.DOC</a>
             </div>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus id nisl neque. Proin tincidunt porttitor vestibulum. Ut dictum vel tellus ac semper. In leo lectus, malesuada sed feugiat quis.
+                Download the Getting Started With Your Website Project and Service Document, fill and send to info@givitec.com 
             </p>
           </section>
         </div>

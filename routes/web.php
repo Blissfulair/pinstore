@@ -23,6 +23,10 @@ Route::group(['middleware'=>['web']], function(){
         'uses'=>'FrontendController@services',
         'as'=>'services'
     ]);
+    Route::get('/bootcamp', [
+        'uses'=>'FrontendController@bootcamp',
+        'as'=>'bootcamp'
+    ]);
     Route::post('/register_training', [
         'uses'=>'FrontendController@register_training',
         'as'=>'register_training'

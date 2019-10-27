@@ -22,13 +22,15 @@
         <div class="panel-heading" role="tab" id="">
         <h4 class="panel-title">
             <a data-toggle="collapse"   aria-expanded="true" >
-            <i class="fa fa-arrow-right"></i> <span>Registration Form</span>
+            <i class="fa fa-arrow-right"></i> <span>Givitec Academy</span>
             </a>
         </h4>
         </div>
         <div class="panel-collapse" role="tabpanel" >
         <div class="panel-content">
-           <p style="font-size:16px;">APPLY HERE FOR THE GIVITEC ACADEMY COMPUTER TRAINING COURSE, HOLDING AT 192 MM WAY, BENIN CITY - 08079436049, 09016659733</p>
+           <p style="font-size:16px;">Apply here for The Givitec Academy <span class="text-success"><strong>Cycle 015</strong></span> Computer and Software Training Course. Holding @ 192 MM Way, Benin City - 08079436049, 09016659733
+           <p><strong>NOTE:</strong> Online form is free and application is ongoing.</p>
+           </p>
         </div>
         </div>
     </div>
@@ -47,17 +49,17 @@
                                   <div style="background-image:url('images/training/desktop_publishing.png');" class="custom-center"></div>
                                   <div class="panel-body text-center">
                                       <h6 style="text-align:center;color:green;font-size:18px;font-weight:500" class="price">
-                                              Desktop Publishing
+                                              Graphics
                                       </h6>
                                       <div class="amount">
-                                        <span style="text-align:center;margin-left:10px; font-size: 26px;color: white;">&#8358;3000/ </span> <del style="color: white;font-size: 18px;">&#8358;30000</del><span style="float: right;margin-right: 10px;margin-top: 11px;" class="badge"> -90%</span>
+                                        <p style="text-align:center; font-size: 26px;color: white;">&#8358; 20,000</p>
                                       </div>
                                   </div>
                                  <div style="width:100%">
                                     <form action="{{ route('register_training') }}" method="post">
                                         <button class="btn btn-info" style="width:60%; margin:0 20%">APPLY</button>
                                         <input type="hidden" name="_token" value="{{ Session::token() }}">
-                                        <input type="hidden" name="program" value="Desktop Publishing">
+                                        <input type="hidden" name="program" value="Graphics">
                                     </form>
                                  </div>
                               </section>
@@ -67,10 +69,10 @@
                                   <div style="background-image:url('images/training/webdesigning.jpg');" class="custom-center"></div>
                                   <div class="panel-body text-center">
                                       <h6 style="text-align:center;color:green;font-size:18px;font-weight:500" class="price">
-                                              Web Designing
+                                              Web Designing-Frontend
                                       </h6>
                                       <div class="amount">
-                                        <span style="text-align:center;margin-left:10px; font-size: 26px;color: white;">&#8358;4000/ </span> <del style="color: white;font-size: 18px;">&#8358;40000</del><span style="float: right;margin-right: 10px;margin-top: 11px;" class="badge"> -90%</span>
+                                        <p style="text-align:center; font-size: 26px;color: white;">&#8358; 50,000</p>
                                       </div>
                                   </div>
                                  <div style="width:100%">
@@ -90,7 +92,7 @@
                                               Mobile App Development
                                       </h6>
                                       <div class="amount">
-                                        <span style="text-align:center;margin-left:10px; font-size: 26px;color: white;">&#8358;4000/ </span> <del style="color: white;font-size: 18px;">&#8358;40000</del><span style="float: right;margin-right: 10px;margin-top: 11px;" class="badge"> -90%</span>
+                                        <p style="text-align:center; font-size: 26px;color: white;">&#8358; 80,000</p>
                                       </div>
                                   </div>
                                  <div style="width:100%">
@@ -110,7 +112,7 @@
                                               Python
                                       </h6>
                                       <div class="amount">
-                                        <span style="text-align:center;margin-left:10px; font-size: 26px;color: white;">&#8358;4000/ </span> <del style="color: white;font-size: 18px;">&#8358;60000</del><span style="float: right;margin-right: 10px;margin-top: 11px;" class="badge"> -93.33%</span>
+                                        <p style="text-align:center; font-size: 26px;color: white;">&#8358; 100,000</p>
                                       </div>
                                   </div>
                                  <div style="width:100%">
@@ -130,7 +132,7 @@
                                               Laravel
                                       </h6>
                                       <div class="amount">
-                                        <span style="text-align:center;margin-left:10px; font-size: 24px;color: white;">&#8358;10000/ </span> <del style="color: white;font-size: 16px;">&#8358;100,000</del><span style="float: right;margin-right: 10px;margin-top: 11px;" class="badge"> -90%</span>
+                                        <p style="text-align:center; font-size: 26px;color: white;">&#8358; 100,000</p>
                                       </div>
                                   </div>
                                  <div style="width:100%">
@@ -150,7 +152,7 @@
                                               Java
                                       </h6>
                                       <div class="amount">
-                                        <span style="text-align:center;margin-left:10px; font-size: 24px;color: white;">&#8358;10000/ </span> <del style="color: white;font-size: 14px;">&#8358;120000</del><span style="float: right;margin-right: 10px;margin-top: 11px;" class="badge"> -91.66%</span>
+                                        <p style="text-align:center; font-size: 26px;color: white;">&#8358; 100,000</p>
                                       </div>
                                   </div>
                                  <div style="width:100%">

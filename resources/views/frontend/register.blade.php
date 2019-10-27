@@ -21,7 +21,7 @@
         </div>
         <div class="panel-collapse" role="tabpanel" >
         <div class="panel-content">
-           <p style="font-size:16px;">APPLY HERE FOR THE GIVITEC ACADEMY COMPUTER TRAINING COURSE, HOLDING AT 192 MM WAY, BENIN CITY - 08079436049, 09016659733</p>
+           <p style="font-size:16px;"><div class="alert alert-warning" >Online Registration is ongoing...</div></p>
         </div>
         </div>
     </div>
@@ -40,7 +40,7 @@
                     <select name="program" id="program" class="form-control">
                         <option value="">Select Programme</option>
                         <option {{ $program == "Desktop Publishing"?'selected':'' }} value="Desktop Publishing">Desktop Publishing</option>
-                        <option {{ $program == "Web Designing"?'selected':'' }} value="Web Designing">Web Designing</option>
+                        <option {{ $program == "Graphics"?'selected':'' }} value="Web Designing">Graphics</option>
                         <option {{ $program == "Mobile App Development"?'selected':'' }} value="Mobile App Development">Mobile App Development</option>
                         <option {{ $program == "Python"?'selected':'' }} value="Python">Python</option>
                         <option {{ $program == "Laravel"?'selected':'' }} value="Laravel">Laravel</option>

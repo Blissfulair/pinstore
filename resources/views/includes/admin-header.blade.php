@@ -160,32 +160,54 @@
                     <!-- inbox dropdown end -->
                     <!-- notification dropdown start-->
                     <li id="header_notification_bar" class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle notification" href="#">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
 
                             <i class="icon-bell-alt"></i>
-                            @if(count($user->getnotifications()))
-                            <span class="badge bg-warning notice">{{ count($user->getnotifications()) }}</span>
-                            @endif
+                            <span class="badge bg-warning">7</span>
                         </a>
                         <ul class="dropdown-menu extended notification">
                             <div class="notify-arrow notify-arrow-yellow"></div>
                             <li>
-                                <p class="yellow">You have {{ count($user->getnotifications())?count($user->getnotifications()):'no' }} new notifications</p>
+                                <p class="yellow">You have 7 new notifications</p>
                             </li>
-                            @if(count($user->getnotifications()))
-                                @foreach($user->getnotifications() as $notification)
                             <li>
-                                <a target="_blank" href="{{ route('post', ['name'=>$notification->title]) }}">
-                                    {{ str_limit($notification->title, '20', '...')}}
-                                    <span class="small italic">{{ $notification->created_at }}</span>
+                                <a href="#">
+                                    <span class="label label-danger"><i class="icon-bolt"></i></span>
+                                    Server #3 overloaded.
+                                    <span class="small italic">34 mins</span>
                                 </a>
                             </li>
-                                @endforeach
-                                
                             <li>
-                                <a target="_blank" href="{{ route('bulletins') }}">See all notifications</a>
+                                <a href="#">
+                                    <span class="label label-warning"><i class="icon-bell"></i></span>
+                                    Server #10 not respoding.
+                                    <span class="small italic">1 Hours</span>
+                                </a>
                             </li>
-                            @endif
+                            <li>
+                                <a href="#">
+                                    <span class="label label-danger"><i class="icon-bolt"></i></span>
+                                    Database overloaded 24%.
+                                    <span class="small italic">4 hrs</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="label label-success"><i class="icon-plus"></i></span>
+                                    New user registered.
+                                    <span class="small italic">Just now</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="label label-info"><i class="icon-bullhorn"></i></span>
+                                    Application error.
+                                    <span class="small italic">10 mins</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">See all notifications</a>
+                            </li>
                         </ul>
                     </li>
                     <!-- notification dropdown end -->
@@ -222,15 +244,3 @@
             </div>
         </header>
       <!--header end-->
-      <script>
-            $(document).on('click','.notification', function(e){
-                e.preventDefault();
-            $.ajax({
-                method: 'GET',
-                url : '{{ route('notification') }}',
-                success: function(response){
-                    $('.notice').css('display','none');
-                }
-            });
-            });
-      </script>
