@@ -56,8 +56,8 @@
             padding-top:50px
         }
         section p{
-            font-size:1.3rem;
-            text-align:justify;
+            font-size:1.2rem;
+            text-align:left;
         }
         section h4{
             font-size:1.6rem;
