@@ -14,11 +14,11 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \App\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \App\Http\Middleware\Cors::class,
+        \App\Http\Middleware\TrustProxies::class,
     ];
 
     /**
@@ -51,11 +51,32 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
+        'admin' => \App\Http\Middleware\RedirectIfNotAdmin::class,
+        'admin.guest' => \App\Http\Middleware\RedirectIfAdmin::class,
+        'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'CheckStatus' => \App\Http\Middleware\CheckStatus::class,
+        'deposit' => \App\Http\Middleware\DepositAccess::class,
+        'withdraw' => \App\Http\Middleware\WithdrawAccess::class,
+        'sales' => \App\Http\Middleware\SalesAccess::class,
+        'createuser' => \App\Http\Middleware\CreateAdminAccess::class,
+        'viewuser' => \App\Http\Middleware\ViewUserAccess::class,
+        'manageuser' => \App\Http\Middleware\ManageUserAccess::class,
+        'kyc' => \App\Http\Middleware\KycAccess::class,
+        'settings' => \App\Http\Middleware\SettingsAccess::class,
+        'message' => \App\Http\Middleware\MessageAccess::class,
+        'frontend' => \App\Http\Middleware\FrontendAccess::class,
+        'transfer' => \App\Http\Middleware\TransferAccess::class,
+
+        'demo' => \App\Http\Middleware\Demo::class,
     ];
 }
