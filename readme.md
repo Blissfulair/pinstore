@@ -1,7 +1,7 @@
 <p align="center"><img src="https://poijobs.givitec.com/assets/images/favicon.png"></p>
 
 
-## About Telekomoni
+## POI Jobs
 
 POI Jobs is a job market for the Edo state residents, pioneered by Pastor Osagie Ize-Iyamu:
 
