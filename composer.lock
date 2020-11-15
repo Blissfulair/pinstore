@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "70dfa15027ffff28ca231831d3a6ce1d",
+    "content-hash": "1fe0eaed1f84cb011b3d5289cf8b980d",
     "packages": [
         {
             "name": "coingate/coingate-php",
@@ -708,6 +708,7 @@
                     "homepage": "http://www.acci.cz"
                 }
             ],
+            "abandoned": "php-parallel-lint/php-console-color",
             "time": "2014-04-08T15:00:19+00:00"
         },
         {
@@ -752,6 +753,7 @@
                     "homepage": "http://www.acci.cz/"
                 }
             ],
+            "abandoned": "php-parallel-lint/php-console-highlighter",
             "time": "2015-04-20T18:58:01+00:00"
         },
         {
@@ -2847,6 +2849,76 @@
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
             "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
             "time": "2017-11-27T11:13:29+00:00"
+        },
+        {
+            "name": "unicodeveloper/laravel-paystack",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/unicodeveloper/laravel-paystack.git",
+                "reference": "cf94c0d2af99347341cc1c56fa5387370bbcb70b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/unicodeveloper/laravel-paystack/zipball/cf94c0d2af99347341cc1c56fa5387370bbcb70b",
+                "reference": "cf94c0d2af99347341cc1c56fa5387370bbcb70b",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "5.*|6.*",
+                "illuminate/support": "5.*|6.*",
+                "php": "^5.4.0|^7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": ">=0.7.2",
+                "phpunit/phpunit": "4.*",
+                "satooshi/php-coveralls": "^0.7.0",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Unicodeveloper\\Paystack\\PaystackServiceProvider"
+                    ],
+                    "aliases": {
+                        "Paystack": "Unicodeveloper\\Paystack\\Facades\\Paystack"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Unicodeveloper\\Paystack\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "unicodeveloper",
+                    "email": "prosperotemuyiwa@gmail.com"
+                },
+                {
+                    "name": "iamfunsho",
+                    "email": "info@devfunsho.com"
+                }
+            ],
+            "description": "A Laravel Package for Paystack",
+            "keywords": [
+                "github",
+                "laravel",
+                "laravel 5",
+                "laravel 6",
+                "open source",
+                "payments",
+                "paystack",
+                "paystack.co",
+                "php",
+                "subscription"
+            ],
+            "time": "2020-01-27T09:43:11+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

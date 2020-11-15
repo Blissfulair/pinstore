@@ -14,6 +14,10 @@ class WithdrawLog extends Model
     {
         return $this->belongsTo(User::class,'user_id')->withDefault();
     }
+    public function cbt()
+    {
+        return $this->belongsTo(Cbt::class,'cbt_id')->withDefault();
+    }
 
     public function method()
     {

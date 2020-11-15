@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
+        'cbt' => [
+            'driver' => 'session',
+            'provider' => 'cbt',
+        ],
 
         'web' => [
             'driver' => 'session',
@@ -74,7 +78,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Admin::class,
         ],
-
+        
+        'cbt' => [
+            'driver' => 'eloquent',
+            'model' => App\Cbt::class,
+        ],
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,

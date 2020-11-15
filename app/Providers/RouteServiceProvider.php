@@ -40,6 +40,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapWebRoutes();
 
         $this->mapAdminRoutes();
+        $this->mapCbtRoutes();
 
         //
     }
@@ -60,6 +61,18 @@ class RouteServiceProvider extends ServiceProvider
             'namespace' => $this->namespace,
         ], function ($router) {
             require base_path('routes/admin.php');
+        });
+    }
+
+    protected function mapCbtRoutes()
+    {
+        Route::group([
+            'middleware' => ['web', 'cbt', 'auth:cbt'],
+            'prefix' => 'cbt',
+            'as' => 'cbt.',
+            'namespace' => $this->namespace,
+        ], function ($router) {
+            require base_path('routes/cbt.php');
         });
     }
 

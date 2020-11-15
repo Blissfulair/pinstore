@@ -100,24 +100,24 @@ $ip = \App\UserLogin::whereUser_id(Auth::user()->id)->latest()->take(1)->first()
                                          <div class="col-lg-5 col-xl-6">
                                             <div class="nk-block">
                                                 <div class="nk-block-head-xs">
-                                                    <div class="nk-block-head-content"><h5 class="nk-block-title title">Applied Jobs</h5></div>
+                                                    <div class="nk-block-head-content"><h5 class="nk-block-title title">Wallet</h5></div>
                                                 </div>
                                                 <div class="nk-block">
                                                     <div class="card card-bordered text-light is-dark h-100">
                                                         <div class="card-inner">
                                                             <div class="nk-wg7">
                                                                 <div class="nk-wg7-stats">
-                                                                    <div class="nk-wg7-title">Total Applied Jobs</div>
-                                                                    <div class="number-lg amount">{{number_format($submitted,0)}} </div>
+                                                                    <div class="nk-wg7-title">Balance</div>
+                                                                    <div class="number-lg amount">{{number_format($user->balance,2)}} </div>
                                                                 </div>
                                                                 <div class="nk-wg7-stats-group">
                                                                     <div class="nk-wg7-stats w-50">
-                                                                        <div class="nk-wg7-title">Submitted Jobs</div>
-                                                                        <div class="number">{{number_format($submitted,0)}} </div>
+                                                                        <div class="nk-wg7-title">Total</div>
+                                                                        <div class="number">{{number_format($total_funded,2)}} </div>
                                                                     </div>
                                                                     <div class="nk-wg7-stats w-50">
-                                                                        <div class="nk-wg7-title">Jobs Viewed By Recruiter</div>
-                                                                        <div class="number">{{number_format($completed,0)}} </div>
+                                                                        <div class="nk-wg7-title">Used</div>
+                                                                        <div class="number">{{number_format($used,2)}} </div>
                                                                     </div>
                                                                 </div>
 
@@ -131,15 +131,15 @@ $ip = \App\UserLogin::whereUser_id(Auth::user()->id)->latest()->take(1)->first()
                                         <div class="col-lg-5 col-xl-6">
                                             <div class="nk-block">
                                                 <div class="nk-block-head-xs">
-                                                    <div class="nk-block-head-content"><h5 class="nk-block-title title">Available Jobs</h5></div>
+                                                    <div class="nk-block-head-content"><h5 class="nk-block-title title">Requests</h5></div>
                                                 </div>
                                                 <div class="nk-block">
                                                     <div class="card card-bordered text-light is-dark h-100">
                                                         <div class="card-inner">
                                                             <div class="nk-wg7">
                                                                 <div class="nk-wg7-stats">
-                                                                    <div class="nk-wg7-title">Total</div>
-                                                                    <div class="number-lg amount">{{number_format($total_jobs, 0)}}  </div>
+                                                                    <div class="nk-wg7-title">Active Request</div>
+                                                                    <div class="number-lg amount">{{number_format($active_jobs, 0)}}  </div>
 
 
 
@@ -148,12 +148,12 @@ $ip = \App\UserLogin::whereUser_id(Auth::user()->id)->latest()->take(1)->first()
                                                                 </div>
                                                                 <div class="nk-wg7-stats-group">
                                                                     <div class="nk-wg7-stats w-50">
-                                                                        <div class="nk-wg7-title">Active Jobs</div>
-                                                                        <div class="number">{{number_format($active_jobs, 0)}} </div>
+                                                                        <div class="nk-wg7-title">Pending</div>
+                                                                        <div class="number">{{number_format($pending, 0)}} </div>
                                                                     </div>
                                                                     <div class="nk-wg7-stats w-50">
-                                                                        <div class="nk-wg7-title">New Jobs(Today's)</div>
-                                                                        <div class="number">{{number_format($new_jobs, 0)}}</div>
+                                                                        <div class="nk-wg7-title">Completed</div>
+                                                                        <div class="number">{{number_format($completed, 0)}}</div>
                                                                     </div>
                                                                 </div>
 
@@ -171,43 +171,86 @@ $ip = \App\UserLogin::whereUser_id(Auth::user()->id)->latest()->take(1)->first()
                                             <div class="nk-block">
                                                 <div class="nk-block-head-xs">
                                                     <div class="nk-block-between-md g-2">
-                                                        <div class="nk-block-head-content"><h6 class="nk-block-title title">Latest Jobs</h6></div>
+                                                        <div class="nk-block-head-content"><h6 class="nk-block-title title">Our Top Services</h6></div>
 
                                                     </div>
                                                 </div>
                                                 <div class="row g-2">
-                                                    <!-- <div class="col-sm-4 col-6">
-                                                        <div class="card bg-primary-dim">
-                                                            <div class="nk-wgw sm">
-                                                                <a class="nk-wgw-inner" href="#">
-                                                                    <div class="nk-wgw-name">
-                                                                        <div class="nk-wgw-icon bg-primary "><em class="icon ni ni-mobile"></em></div>
-                                                                        <h5 class="nk-wgw-title title">Computer Engineer</h5>
-                                                                    </div>
-                                                                    <div class="nk-wgw-balance">
-                                                                        <div class="sub-text">Airport Road </div>
-                                                                    </div>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div> -->
-                                                    @foreach($latest_jobs as $job)
                                                     <div class="col-sm-4 col-6">
                                                         <div class="card bg-primary-dim">
                                                             <div class="nk-wgw sm">
-                                                                <a class="nk-wgw-inner" href="#">
+                                                                <a class="nk-wgw-inner" href="{{route('user.depositLog')}}">
                                                                     <div class="nk-wgw-name">
-                                                                        <div class="nk-wgw-icon bg-primary "><em class="icon ni ni-briefcase"></em></div>
-                                                                        <h5 class="nk-wgw-title title">{{$job->job_title}}</h5>
+                                                                        <div class="nk-wgw-icon bg-primary "><em class="icon ni ni-upload"></em></div>
+                                                                        <h5 class="nk-wgw-title title">JAMB upload of O-Level/A-Level results</h5>
                                                                     </div>
                                                                     <div class="nk-wgw-balance">
-                                                                        <div class="sub-text">{{$job->location}} </div>
+                                                                        <div class="sub-text">We offer upload of O-Level and A-Level results to JAMB profile without stress</div>
                                                                     </div>
                                                                 </a>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @endforeach
+                                                    <div class="col-sm-4 col-6">
+                                                        <div class="card bg-primary-dim">
+                                                            <div class="nk-wgw sm">
+                                                                <a class="nk-wgw-inner" href="{{ route('depositfiat') }}">
+                                                                    <div class="nk-wgw-name">
+                                                                        <div class="nk-wgw-icon bg-primary "><em class="icon ni ni-download"></em></div>
+                                                                        <h5 class="nk-wgw-title title">JAMB Change of Institution/Course</h5>
+                                                                    </div>
+                                                                    <div class="nk-wgw-balance">
+                                                                        <div class="sub-text">You can change institution or course on pinstore </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-6">
+                                                        <div class="card bg-primary-dim">
+                                                            <div class="nk-wgw sm">
+                                                                <a class="nk-wgw-inner" href="{{route('waecCard')}}">
+                                                                    <div class="nk-wgw-name">
+                                                                        <div class="nk-wgw-icon bg-primary "><em class="icon ni ni-cards"></em></div>
+                                                                        <h5 class="nk-wgw-title title">WAEC Scratch Card</h5>
+                                                                    </div>
+                                                                    <div class="nk-wgw-balance">
+                                                                        <div class="sub-text">We sell WAEC scratch cards </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-6">
+                                                        <div class="card bg-primary-dim">
+                                                            <div class="nk-wgw sm">
+                                                                <a class="nk-wgw-inner" href="{{route('necoCard')}}">
+                                                                    <div class="nk-wgw-name">
+                                                                        <div class="nk-wgw-icon bg-primary "><em class="icon ni ni-mobile"></em></div>
+                                                                        <h5 class="nk-wgw-title title">NECO Scratch Card</h5>
+                                                                    </div>
+                                                                    <div class="nk-wgw-balance">
+                                                                        <div class="sub-text">NECO scratch cards also on sale at pinstore </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-6">
+                                                        <div class="card bg-primary-dim">
+                                                            <div class="nk-wgw sm">
+                                                                <a class="nk-wgw-inner" href="{{route('nabtebCard')}}">
+                                                                    <div class="nk-wgw-name">
+                                                                        <div class="nk-wgw-icon bg-primary "><em class="icon ni ni-mobile"></em></div>
+                                                                        <h5 class="nk-wgw-title title">NABTEB Scratch Card</h5>
+                                                                    </div>
+                                                                    <div class="nk-wgw-balance">
+                                                                        <div class="sub-text">Buy NABTEB scratch cards Now</div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <!-- <div class="col-sm-4 col-12">
                                                         <div class="card bg-primary-dim">
                                                             <div class="nk-wgw sm">

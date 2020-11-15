@@ -1,28 +1,28 @@
-<p align="center"><img src="https://poijobs.givitec.com/assets/images/favicon.png"></p>
+<p align="center"><img src="https://app.pinstore.com.ng/assets/images/favicon.png"></p>
 
 
-## POI Jobs
+## Pinstore
 
-POI Jobs is a job market for the Edo state residents, pioneered by Pastor Osagie Ize-Iyamu:
+Pinstore is an online platform for sales of WAEC, NECO and NABTEB pins along side were JAMB CBT owners sign up and perform CBT activites and get paid:
 
-- [POI Jobs Website](https://www.poijobs.givitec.com).
-- [POI Jobs Login](https://www.poijobs.givitec.com/login).
+- [Pinstore Website](https://www.pinstore.com.ng).
+- [Pinstore Login](https://www.app.pinstore.com.ng/login).
 
 Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
 
-## About POI Jobs
+## About Pinstore
 
-Pastor Osagie Ize-Iyamu (POI) of the All Progressives Congress (APC) has pledged to provide ten thousand (10,000) sustainable jobs for Edo residents within the first 100 days in office. These Jobs would demonstrate our commitment to provide employment and empowerment for Edo residents. Take advantage of this opportunity and be among the first ten thousand people to get immediate employment or empowerment before March 2021. Employers are also encouraged to post vacancies on this portal..
+We care of all your exams scratch cards(WAEC, NECO, JAMB, NABTEB etc) online through a secure and user-friendly web interface. Register today in less than 3 minutes with a valid Email. After registration, you can easily purchase your Exam scratch cards online.
 
-## POI Jobs Sponsors
+## Pinstore Sponsors
 
 We would like to extend our thanks to the following sponsors for helping fund on-going POI Job development.
 
-- **[Givitec Ltd](https://givitec.com/)**
-- **[POI](https://pastorosagieizeiyamu.com/)**
+- **[Yomnet](https://yomnet.com.ng/)**
+- **[AIB](https://aibng.com.ng/)**
 
 
 ## Security Vulnerabilities
 
-If you discover a security vulnerability within Telekomoni, please send an e-mail to Iyobosa Airehenbuwa via [blessing.airehenbuwa@gmail.com](mailto:blessing.airehenbuwa@gmail.com). All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within Pinstore, please send an e-mail to Iyobosa Airehenbuwa via [blessing.airehenbuwa@gmail.com](mailto:blessing.airehenbuwa@gmail.com). All security vulnerabilities will be promptly addressed.
 

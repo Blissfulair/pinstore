@@ -81,11 +81,14 @@
 
             @if($user->deposit == 1)
             <li class="has-dropdown page-links-all">
-              <a class="drop-toggle" href="#"><em class="text-primary ti ti-wallet"></em>&nbsp;  Jobs</a>
+              <a class="drop-toggle" href="#"><em class="text-primary ti ti-wallet"></em>&nbsp;  Deposits</a>
               <ul class="navbar-dropdown">
               <!-- </li> -->
-                <li>
+              <li>
                   <a href="{{route('deposits')}}">Processed Deposits</a>
+                </li>
+                <li>
+                  <a href="{{route('deposits.requests')}}">Unprocessed Deposits </a>
                 </li>
                 <li>
                   <a href="{{route('deposits.declined')}}">Declined Deposits </a>
@@ -93,52 +96,35 @@
               </ul>
             </li>
             @endif
-
-            @if($user->sales == 1)
+            @if($user->withdraw == 1 || $user->transfer == 1)
             <li class="has-dropdown page-links-all">
-              <a class="drop-toggle" href="#">
-                <em class="text-primary fa fa-sitemap"></em>&nbsp;  Application
-              </a>
+              <a class="drop-toggle" href="#"><em class="text-primary ti ti-shopping-cart"></em>&nbsp;  Withdrawal</a>
               <ul class="navbar-dropdown">
+              <!-- </li> -->
+                @if($user->withdraw == 1)
                 <li>
-                  <a href="{{route('manage.level')}}">Manage Matrix Level</a>
+                  <a href="{{route('withdraw.requests')}}">Pending Withdrawal</a>
                 </li>
                 <li>
-                  <a href="{{route('manage.plans')}}">Manage Matrix Plans  </a>
+                  <a href="{{route('withdraw.approved')}}">Processed Withdrawal  </a>
                 </li>
-              </ul>
-            </li>
-            @endif
-
-            @if($basic->merchant == 1 && $user->sales == 1)
-            <li class="has-dropdown page-links-all">
-              <a class="drop-toggle" href="#"><em class="text-primary ti ti-gift"></em>&nbsp; Merchant</a>
-              <ul class="navbar-dropdown">
-                @if($basic->television == 1)
-                <li class="has-dropdown">
-                  <a class="drop-toggle" href="#">Cable TV</a>
-                  <ul class="navbar-dropdown">
-                    <li>
-                      <a href="{{route('admin.cabletv')}}">Manage Bouquet</a>
-                    </li>
-                    <li>
-                      <a href="{{route('admin.cabletvplantrx')}}">View Sales  </a>
-                    </li>
-                  </ul>
-                </li>
-                @endif
-                @if($basic->electric == 1)
-                <li class="has-dropdown">
-                  <a class="drop-toggle" href="#">Electricity Bills</a>
-                    <ul class="navbar-dropdown">
-                      <li><a href="{{route('admin.power')}}">Manage Services</a></li>
-                      <li><a href="{{route('admin.powersales')}}">View Sales</a></li> 
-                    </ul>
+                <li>
+                  <a href="{{route('withdraw.refunded')}}">Declined Withdrawal  </a>
                 </li>
                 @endif
               </ul>
             </li>
+            <li><a href="{{route('admin.service')}}">Service Price</a></li>
             @endif
+            <li class="has-dropdown page-links-all">
+              <a class="drop-toggle" href="#"><em class="text-primary ti ti-shopping-cart"></em>&nbsp;  Scratch Card</a>
+              <ul class="navbar-dropdown">
+                    <li><a href="{{route('giftcard.index')}}">Add Scratch Cards</a></li>
+              </ul>
+            </li>
+     
+
+       
 
             @php
               $count = \App\Verification::whereStatus(0)->count();
@@ -154,16 +140,6 @@
                 @endif
                 @if($user->createuser == 1)
                 <li class=" "><a class=" " href="{{route('createadmin')}}">Create Admin</a></li>
-                @endif
-
-                @if($user->kyc == 1)
-                <li class=" ">
-                  <a class=" " href="{{route('admin.kyc')}}">Profiles
-                  @if($count > 0)
-                    ({{$count}} New)
-                  @endif
-                  </a>
-                </li>
                 @endif
               </ul>
             </li>
@@ -188,13 +164,6 @@
               <!-- </li> -->
                 @if($user->settings == 1)
                 <li class=" "><a class="" href="{{route('admin.GenSetting')}}">System Settings</a></li>
-                <li class="has-dropdown">
-                  <a class="drop-toggle" href="#">Giftcards</a>
-                  <ul class="navbar-dropdown">
-                    <li><a href="{{route('giftcard.index')}}">Manage Giftcards</a></li>
-                    <li><a href="{{route('giftcard.type')}}">Manage Giftcard Types</a></li>
-                  </ul>
-                </li>
                 <li class=" "><a class="" href="{{route('merchantapi')}}">Merchant Settings </a></li>
                 <li class=" "><a class="" href="{{route('email.template')}}">Email & SMS Settings</a></li>
                 <li class=" "><a class="" href="{{route('gateway')}}">Payment Gateway</a></li>

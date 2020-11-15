@@ -36,7 +36,7 @@ div.ex4 {
 
 
 
-<body class="nk-body toastr-info npc-crypto has-sidebar has-sidebar-fat ui-clean " ><div class="nk-app-root"><div class="nk-main "><div class="nk-sidebar nk-sidebar-fat nk-sidebar-fixed" data-content="sidebarMenu"><div class="nk-sidebar-element nk-sidebar-head"><div class="nk-sidebar-brand"><a href="{{route('home')}}" class="logo-link nk-sidebar-logo"><img class="logo-light logo-img" src="{{asset('assets/images/favicon.png')}}" srcset="{{asset('assets/images/favicon.png')}}" alt="logo"><img class="logo-dark logo-img" src="{{asset('assets/images/favicon.png')}}" srcset="{{asset('assets/images/favicon.png')}}" alt="logo-dark"> </a></div><div class="nk-menu-trigger mr-n2"><a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a></div></div><div class="nk-sidebar-element"><div class="nk-sidebar-body ex3" data-ssimplebar><div class="nk-sidebar-content"><div class="nk-sidebar-widget d-none d-xl-block"><div class="user-account-info between-center"></div>  </div><div class="nk-sidebar-widget nk-sidebar-widget-full d-xl-none pt-0"><a class="nk-profile-toggle toggle-expand" data-target="sidebarProfile" href="#"><div class="user-card-wrap"><div class="user-card"><div class="user-avatar"><span>{{substr(Auth::user()->fname, 0, 1)}}{{substr(Auth::user()->lname, 0, 1)}}</span></div><div class="user-info"><span class="lead-text">{{Auth::user()->username}}</span><span class="sub-text">{{Auth::user()->email}}</span></div><div class="user-action"><em class="icon ni ni-chevron-down"></em></div></div></div></a><div class="nk-profile-content toggle-expand-content" data-content="sidebarProfile"> <ul class="link-list"><li><a href="{{route('profile')}}"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li> <li><a href="{{route('activities')}}"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li></ul><ul class="link-list"><li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+<body class="nk-body toastr-info npc-crypto has-sidebar has-sidebar-fat ui-clean " ><div class="nk-app-root"><div class="nk-main "><div class="nk-sidebar nk-sidebar-fat nk-sidebar-fixed" data-content="sidebarMenu"><div class="nk-sidebar-element nk-sidebar-head"><div class="nk-sidebar-brand"><a href="{{route('home')}}" class="logo-link nk-sidebar-logo"><img class="logo-light logo-img" src="{{asset('assets/images/favicon.png')}}" srcset="{{asset('assets/images/favicon.png')}}" alt="logo"><img class="logo-dark logo-img" src="{{asset('assets/images/favicon.png')}}" srcset="{{asset('assets/images/favicon.png')}}" alt="logo-dark"> </a></div><div class="nk-menu-trigger mr-n2"><a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a></div></div><div class="nk-sidebar-element"><div class="nk-sidebar-body ex3" data-ssimplebar><div class="nk-sidebar-content"><div class="nk-sidebar-widget d-none d-xl-block"><div class="user-account-info between-center"></div>  </div><div class="nk-sidebar-widget nk-sidebar-widget-full d-xl-none pt-0"><a class="nk-profile-toggle toggle-expand" data-target="sidebarProfile" href="#"><div class="user-card-wrap"><div class="user-card"><div class="user-avatar"><span>{{substr(Auth::guard('web')->user()->fname, 0, 1)}}{{substr(Auth::guard('web')->user()->lname, 0, 1)}}</span></div><div class="user-info"><span class="lead-text">{{Auth::guard('web')->user()->username}}</span><span class="sub-text">{{Auth::guard('web')->user()->email}}</span></div><div class="user-action"><em class="icon ni ni-chevron-down"></em></div></div></div></a><div class="nk-profile-content toggle-expand-content" data-content="sidebarProfile"> <ul class="link-list"><li><a href="{{route('profile')}}"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li> <li><a href="{{route('activities')}}"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li></ul><ul class="link-list"><li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
 
 <em class="icon ni ni-signout"></em><span>Sign out</span></a></li></ul></div></div>
@@ -44,16 +44,17 @@ div.ex4 {
 
 
 <div class="nk-sidebar-menu"><ul class="nk-menu"><li class="nk-menu-heading"><h6 class="overline-title">Menu</h6></li><li class="nk-menu-item"><a href="{{route('home')}}" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-dashboard text-primary"></em></span><span class="nk-menu-text">Dashboard</span></a></li>
+<li class="nk-menu-item"><a href="{{ route('fund_wallet')}}" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-wallet text-primary"></em></span><span class="nk-menu-text">Fund Wallet</span></a></li>
 <li class="nk-menu-item has-sub">
     <a href="#" class="nk-menu-link nk-menu-toggle">
         <span class="nk-menu-icon">
-        <em class="icon ni ni-wallet text-primary "></em>
-        </span><span class="nk-menu-text">Apply</span>
+        <em class="icon ni ni-list text-primary "></em>
+        </span><span class="nk-menu-text">Services</span>
     </a>
     <ul class="nk-menu-sub">
         <li class="nk-menu-item">
             <a href="{{ route('depositfiat') }}" class="nk-menu-link">
-                <span class="nk-menu-text">New Application</span>
+                <span class="nk-menu-text">Change of Course/Institution</span>
             </a>
         </li>
         <!-- <li class="nk-menu-item">
@@ -63,12 +64,29 @@ div.ex4 {
         </li> -->
         <li class="nk-menu-item">
             <a href="{{route('user.depositLog')}}" class="nk-menu-link">
-                <span class="nk-menu-text">Applied Jobs</span>
+                <span class="nk-menu-text">Upload of OLevel/ALevel Results</span>
+            </a>
+        </li> 
+        <li class="nk-menu-item">
+            <a href="{{route('waecCard')}}" class="nk-menu-link">
+                <span class="nk-menu-text">WAEC scratch card</span>
+            </a>
+        </li> 
+        <li class="nk-menu-item">
+            <a href="{{route('necoCard')}}" class="nk-menu-link">
+                <span class="nk-menu-text">NECO scratch card</span>
+            </a>
+        </li> 
+        <li class="nk-menu-item">
+            <a href="{{route('nabtebCard')}}" class="nk-menu-link">
+                <span class="nk-menu-text">NABTEB scratch card</span>
             </a>
         </li> 
     </ul>
 </li>
-<li class="nk-menu-item"><a href="{{ route('verification')}}" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-shield text-primary"></em></span><span class="nk-menu-text">Account Verification</span></a></li>
+<li class="nk-menu-item"><a href="{{ route('transaction-history')}}" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-clock text-primary"></em></span><span class="nk-menu-text">Service History</span></a></li>
+<li class="nk-menu-item"><a href="{{ route('purchasedScratchcards')}}" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-cards text-primary"></em></span><span class="nk-menu-text">Purchased Scratch Cards</span></a></li>
+<li class="nk-menu-item"><a href="{{ route('payment-transactions')}}" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-money text-primary"></em></span><span class="nk-menu-text">Payments</span></a></li>
 
 
 <li class="nk-menu-item"><a href="{{route('profile')}}" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-user-c text-primary"></em></span><span class="nk-menu-text">My Account</span></a></li>
@@ -78,8 +96,8 @@ div.ex4 {
 <li class="nk-menu-item"><a href="{{route('user.testimonial')}}" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-happy text-primary"></em></span><span class="nk-menu-text">Testimonials</span></a></li>
 </ul></div>
 
-<div class="nk-sidebar-footer"><ul class="nk-menu nk-menu-footer"><li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-help-alt text-primary"></em></span><span class="nk-menu-text">Support</span></a></li><li class="nk-menu-item ml-auto"><div class="dropup"><a href="#" class="nk-menu-link dropdown-indicator has-indicator" data-toggle="dropdown" data-offset="0,10"><span class="nk-menu-icon"><em class="icon ni ni-globe"></em></span><span class="nk-menu-text">English</span></a><div class="dropdown-menu dropdown-menu-sm dropdown-menu-right"><ul class="language-list"><li><a href="#" class="language-item"><img src="../images/flags/english.png" alt="" class="language-flag"><span class="language-name">English</span></a></li><li><a href="#" class="language-item"><img src="../images/flags/spanish.png" alt="" class="language-flag"><span class="language-name">Español</span></a></li><li><a href="#" class="language-item"><img src="../images/flags/french.png" alt="" class="language-flag"><span class="language-name">Français</span></a></li><li><a href="#" class="language-item"><img src="../images/flags/turkey.png" alt="" class="language-flag"><span class="language-name">Türkçe</span></a></li></ul></div></div></li></ul></div></div></div></div></div><div class="nk-wrap "><div class="nk-header nk-header-fluid nk-header-fixed bg-primary"><div class="container-fluid"><div class="nk-header-wrap"><div class="nk-menu-trigger d-xl-none ml-n1"><a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a></div><div class="nk-header-brand d-xl-none"><a href="{{route('home')}}" class="logo-link"><img class="logo-light logo-img" src="{{asset('assets/images/favicon.png')}}" srcset="{{asset('assets/images/favicon.png')}}" alt="logo"><img class="logo-dark logo-img" src="{{asset('assets/images/favicon.png')}}" srcset="{{asset('assets/images/favicon.png')}}" alt="logo-dark"> </a></div><div class="nk-header-news d-none d-xl-block"><div class="nk-news-list"><a class="nk-news-item" href="#"><div class="nk-news-icon"><em class="icon ni ni-card-view"></em></div><div class="nk-news-text"><p>Do you know you can earn up to 1000% of money spent on purchasing package? <span> You success is a step away!!</span></p><em class="icon ni ni-external"></em></div></a></div></div><div class="nk-header-tools"><ul class="nk-quick-nav"><li class="dropdown user-dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><div class="user-toggle"><div class="user-avatar sm"> @if( file_exists(Auth::User()->image))
-                        <img src="{{asset(Auth::user()->image)}} " width="100"
+<div class="nk-sidebar-footer"><ul class="nk-menu nk-menu-footer"><li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-help-alt text-primary"></em></span><span class="nk-menu-text">Support</span></a></li><li class="nk-menu-item ml-auto"><div class="dropup"><a href="#" class="nk-menu-link dropdown-indicator has-indicator" data-toggle="dropdown" data-offset="0,10"><span class="nk-menu-icon"><em class="icon ni ni-globe"></em></span><span class="nk-menu-text">English</span></a><div class="dropdown-menu dropdown-menu-sm dropdown-menu-right"><ul class="language-list"><li><a href="#" class="language-item"><img src="../images/flags/english.png" alt="" class="language-flag"><span class="language-name">English</span></a></li><li><a href="#" class="language-item"><img src="../images/flags/spanish.png" alt="" class="language-flag"><span class="language-name">Español</span></a></li><li><a href="#" class="language-item"><img src="../images/flags/french.png" alt="" class="language-flag"><span class="language-name">Français</span></a></li><li><a href="#" class="language-item"><img src="../images/flags/turkey.png" alt="" class="language-flag"><span class="language-name">Türkçe</span></a></li></ul></div></div></li></ul></div></div></div></div></div><div class="nk-wrap "><div class="nk-header nk-header-fluid nk-header-fixed bg-primary"><div class="container-fluid"><div class="nk-header-wrap"><div class="nk-menu-trigger d-xl-none ml-n1"><a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a></div><div class="nk-header-brand d-xl-none"><a href="{{route('home')}}" class="logo-link"><img class="logo-light logo-img" src="{{asset('assets/images/favicon.png')}}" srcset="{{asset('assets/images/favicon.png')}}" alt="logo"><img class="logo-dark logo-img" src="{{asset('assets/images/favicon.png')}}" srcset="{{asset('assets/images/favicon.png')}}" alt="logo-dark"> </a></div><div class="nk-header-news d-none d-xl-block"><div class="nk-news-list"><a class="nk-news-item" href="#"><div class="nk-news-icon"><em class="icon ni ni-card-view"></em></div></a></div></div><div class="nk-header-tools"><ul class="nk-quick-nav"><li class="dropdown user-dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><div class="user-toggle"><div class="user-avatar sm"> @if( file_exists(Auth::guard('web')->user()->image))
+                        <img src="{{asset(Auth::guard('web')->user()->image)}} " width="100"
                              alt="Profile Pic">
                     @else
 
@@ -106,11 +124,11 @@ div.ex4 {
     if ($time >= "19") {
         echo "Good night";
     }
-    ?></div><div class="user-name dropdown-indicator">{{Auth::user()->username}}</div></div></div></a><div class="dropdown-menu dropdown-menu-md dropdown-menu-right dropdown-menu-s1"><div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block"><div class="user-card">
+    ?></div><div class="user-name dropdown-indicator">{{Auth::guard('web')->user()->username}}</div></div></div></a><div class="dropdown-menu dropdown-menu-md dropdown-menu-right dropdown-menu-s1"><div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block"><div class="user-card">
 
 
- <div class="user-avatar"><span>{{substr(Auth::user()->fname, 0, 1)}}{{substr(Auth::user()->lname, 0, 1)}}</span></div><div class="user-info"><span class="lead-text">{{Auth::user()->username}}</span><span class="sub-text">{{Auth::user()->email}}</span></div></div></div><div class="dropdown-inner"><ul class="link-list"> <li><a href="{{route('profile')}}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li><li><a href="{{route('activities')}}"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li></ul></div><div class="dropdown-inner"><ul class="link-list"><li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li></ul></div></div></li><li class="dropdown notification-dropdown mr-n1"><a href="#" class="dropdown-toggle nk-quick-nav-icon" data-toggle="dropdown">
-  <?php $coins = DB::table('messages')->whereStatus(0)->whereUser_id(Auth::user()->id)->get(); ?>
+ <div class="user-avatar"><span>{{substr(Auth::guard('web')->user()->fname, 0, 1)}}{{substr(Auth::guard('web')->user()->lname, 0, 1)}}</span></div><div class="user-info"><span class="lead-text">{{Auth::guard('web')->user()->username}}</span><span class="sub-text">{{Auth::guard('web')->user()->email}}</span></div></div></div><div class="dropdown-inner"><ul class="link-list"> <li><a href="{{route('profile')}}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li><li><a href="{{route('activities')}}"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li></ul></div><div class="dropdown-inner"><ul class="link-list"><li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li></ul></div></div></li><li class="dropdown notification-dropdown mr-n1"><a href="#" class="dropdown-toggle nk-quick-nav-icon" data-toggle="dropdown">
+  <?php $coins = DB::table('messages')->whereStatus(0)->whereUser_id(Auth::guard('web')->user()->id)->get(); ?>
 
   @if($coins)
  <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>
@@ -139,14 +157,14 @@ div.ex4 {
 @elseif( request()->is('user/activate-plan') )
 @yield('content2')
 
-@elseif (Auth()->user()->confirmed == '0')
+@elseif (Auth::guard('web')->user()->confirmed == '0')
 
 				 <div class="nk-content nk-content-fluid">
                         <div class="container-xl wide-lg">
                             <div class="nk-content-body">
                                 <div class="buysell  ">
 
-                                    <div class="buysell-title text-center"><h6 class="title text-danger">You won't be able to proceed to page as you will need to confirm your account package {{App\Plan::whereId(Auth()->user()->plan_id)->first()->name}}. Please select a payment method below and click on the proceed button to make payment of <b>{{$basic->currency_sym}} {{number_format(App\Plan::whereId(Auth()->user()->plan_id)->first()->price, $basic->decimal)}}</b>  in order to activate plan! You will earn {{$basic->regbonus}}% of this amount when payment is successful</h6></div>
+                                    <div class="buysell-title text-center"><h6 class="title text-danger">You won't be able to proceed to page as you will need to confirm your account package {{App\Plan::whereId(Auth::guard('web')->user()->plan_id)->first()->name}}. Please select a payment method below and click on the proceed button to make payment of <b>{{$basic->currency_sym}} {{number_format(App\Plan::whereId(Auth::guard('web')->user()->plan_id)->first()->price, $basic->decimal)}}</b>  in order to activate plan! You will earn {{$basic->regbonus}}% of this amount when payment is successful</h6></div>
                                     @if(session('success'))
                                         <div class="alert alert-success">
                                             {{session('success')}}
@@ -174,7 +192,7 @@ div.ex4 {
                                                     </ul>
                                                 </div>
                                             </div>
-<input name="id" value="{{Auth()->user()->plan_id}}" hidden />
+<input name="id" value="{{Auth::guard('web')->user()->plan_id}}" hidden />
                                             <div class="buysell-field form-action"><button type="submit" class="btn btn-lg btn-block btn-primary">Proceed</button></div>
                                             <div class="form-note text-base text-center">* Payment gateway company may charge you a <a href="#">processing fee.</a>.</div>
                                         </form>
@@ -192,7 +210,7 @@ div.ex4 {
 
 
 
-@if(Auth::user()->time < $time )
+@if(Auth::guard('web')->user()->time < $time )
 <div class="modal fade" tabindex="-1" id="modalbonus">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -251,7 +269,7 @@ div.ex4 {
                     </div>
                     <script>
 // Set the date we're counting down to
-var countDownDate = new Date("{{Auth::user()->time}}").getTime();
+var countDownDate = new Date("{{Auth::guard('web')->user()->time}}").getTime();
 
 // Update the count down every 1 second
 var x = setInterval(function() {

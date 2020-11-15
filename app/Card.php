@@ -4,9 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Epin extends Model
+class Card extends Model
 {
-    protected $guarded = ['id'];
+    protected $table = "cards";
+    protected $fillable = ['type', 'pin', 'serial_no', 'status'];
 
     public function pin_user(){
         return $this->belongsTo(User::class, 'user_id')->withDefault();

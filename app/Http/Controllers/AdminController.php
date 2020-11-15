@@ -25,14 +25,31 @@ class AdminController extends Controller
 		$Gset = GeneralSettings::first();
 		$this->sitename = $Gset->sitename;
 		$this->middleware('auth:admin');
-	}
-
+    }
+    public function home()
+    {
+        $data['page_title'] = "Admin";
+        $data['users'] = Admin::where('id','<>', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
+        return view('admin.staff.home', $data);
+    }
+    public function editadmin($id)
+    {
+        $data['page_title'] = "Edit Admin";
+        $data['admin'] = Admin::where('id',$id)->first();
+        return view('admin.staff.edit', $data);
+    }
 	 public function createadmin()
     {
         $data['page_title'] = "Create Admin";
         $data['admin'] = Admin::latest()->get();
         return view('admin.staff.create', $data);
     }
+    // public function editadmin($id)
+    // {
+    //     $data['page_title'] = "Edit Admin";
+    //     $data['admin'] = Admin::where('id',$id)->first();
+    //     return view('admin.staff.edit', $data);
+    // }
 
      public function createadminpost(Request $request)
     {
@@ -62,8 +79,43 @@ class AdminController extends Controller
         $notification = array('success' => 'New Administrative Staff Created Successfuly!', 'alert-type' => 'success');
         return back()->with($notification);
     }
+    public function editadminpost(Request $request, $id)
+    {
+                    $admin = Admin::where('id',$id)->first();
+                    $admin->update([
+                    'name' => $request->name,
+                    'username' => $request->username,
+                    'email' => $request->email,
+                    'mobile' => $request->mobile,
+                    'password' => $request->password,
+                    'manageuser' => $request->manageuser == 'on' ? '1' : '0',
+                    'createuser' => $request->createuser == 'on' ? '1' : '0',
 
+                    'viewuser' => $request->viewuser == 'on' ? '1' : '0',
+                    'blockchain' => $request->blockchain == 'on' ? '1' : '0',
+                    'purchase' => $request->purchase == 'on' ? '1' : '0',
+                    'sales' => $request->sales == 'on' ? '1' : '0',
+                    'withdraw' => $request->withdraw == 'on' ? '1' : '0',
+                    'deposit' => $request->deposit == 'on' ? '1' : '0',
+                    'transfer' => $request->transfer == 'on' ? '1' : '0',
+                    'settings' => $request->settings == 'on' ? '1' : '0',
+                    'frontend' => $request->frontend == 'on' ? '1' : '0',
+                    'message' => $request->message == 'on' ? '1' : '0',
+                    'kyc' => $request->kyc == 'on' ? '1' : '0',
+                ]);
 
+        $notification = array('success' => 'Administrative Staff Updated Successfuly!', 'alert-type' => 'success');
+        return back()->with($notification);
+    }
+
+    public function deleteadminpost($id){
+        $admin = Admin::find($id);
+        if($admin->delete())
+        {
+            $notification = array('success' => 'Administrative Staff Deleted Successfuly!', 'alert-type' => 'success');
+            return back()->with($notification);
+        }
+    }
     public function proex()
     {
         $data['exchange'] = Giftcardsale::where('status', '=',1)->latest()->get();
@@ -411,12 +463,13 @@ class AdminController extends Controller
             curl_setopt($ch, CURLOPT_HTTPGET, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
             $content = json_decode(curl_exec( $ch ),true);
             $err     = curl_errno( $ch );
             $errmsg  = curl_error( $ch );
         	curl_close($ch);
 			$result = implode(', ', (array)$content);
-            
+
            if(isset($content['balance'])){
            $balance = $content['balance'];
            }

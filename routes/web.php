@@ -102,8 +102,9 @@ Route::group(['middleware' => ['guest']], function () {
 });
 
 
-Route::group(['prefix' => 'user'], function () {
 
+
+Route::group(['prefix' => 'user'], function () {
     Route::get('verify', 'HomeController@authCheck')->name('user.authorization');
     Route::post('verification', 'HomeController@sendVcode')->name('user.send-vcode');
     Route::post('smsVerify', 'HomeController@smsVerify')->name('user.sms-verify');
@@ -173,7 +174,22 @@ Route::group(['prefix' => 'user'], function () {
          Route::post('/printvouchernow', 'MerchantController@printvouchernow')->name('printvouchernow');
 
         //user Deposit
-        Route::get('/deposit-fiat', 'HomeController@depositfiat')->name('depositfiat');
+        Route::get('/change-of-course-or-institution', 'HomeController@depositfiat')->name('depositfiat');
+        Route::get('/waec-scratch-card', 'HomeController@waecCard')->name('waecCard');
+        Route::get('/nabteb-scratch-card', 'HomeController@nabtebCard')->name('nabtebCard');
+        Route::get('/neco-scratch-card', 'HomeController@necoCard')->name('necoCard');
+        Route::get('/change-of-course-or-institution/{id}', 'HomeController@editChangeCourse')->name('editChangeCourse');
+        Route::get('/purchased-cards', 'HomeController@purchasedScratchcards')->name('purchasedScratchcards');
+        Route::get('/upload-of-olevel-or-alevel-results/{id}', 'HomeController@editUploadResult')->name('editUploadResult');
+        Route::post('/save-course', 'HomeController@saveChangeOfCourse')->name('saveChangeOfCourse');
+        
+        Route::post('/update-course', 'HomeController@updateChangeOfCourse')->name('updateChangeOfCourse');
+        Route::post('/update-upload', 'HomeController@updateUpload')->name('updateUpload');
+        Route::post('/save-waec', 'HomeController@buyWaecCard')->name('buyWaecCard');
+        Route::post('/save-neco', 'HomeController@buyNecoCard')->name('buyNecoCard');
+        Route::post('/save-nabteb', 'HomeController@buyNabtebCard')->name('buyNabtebCard');
+        Route::post('/save-uplaod', 'HomeController@saveUpload')->name('saveUpload');
+        Route::get('/fund-wallet', 'HomeController@fund_wallet')->name('fund_wallet');
         Route::get('/deposit-crypto', 'HomeController@depositcrypto')->name('depositcrypto');
         Route::get('/deposit', 'HomeController@depositLog')->name('deposit');
         Route::post('/deposit', 'HomeController@deposit')->name('deposit');
@@ -209,7 +225,7 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('/transfer-log', 'HomeController@transferlog')->name('transferlog');
 
         Route::get('/transaction-log', 'HomeController@activity')->name('user.trx');
-        Route::get('/deposit-log', 'HomeController@depositLog')->name('user.depositLog');
+        Route::get('/upload-of-olevel-or-alevel-results', 'HomeController@depositLog')->name('user.depositLog');
         Route::get('/withdrawal-log', 'HomeController@withdrawLog')->name('user.withdrawLog');
 
         Route::get('change-password', 'HomeController@changePassword')->name('user.change-password');
@@ -309,9 +325,15 @@ Route::group(['prefix' => 'user'], function () {
             Route::get('/matrix/upgrade', 'HomeController@matrixupgrade')->name('matrixupgrade');
             Route::get('/matrix/{lv_no}', 'HomeController@matrixIndex')->name('matrix.index');
 
+
+            Route::get('/my-histories', 'HomeController@transactionHistory')->name('transaction-history');
+            Route::get('/payment-transactions', 'HomeController@paymentTransactions')->name('payment-transactions');
+            Route::get('/payment/callback', 'HomeController@verifyPaystackPayment');
                  //plan
               Route::post('/activate-plan', 'HomeController@planactivate')->name('activateplan');
-              Route::post('/activate-plan-pay', 'HomeController@planactivated')->name('activate-plan-pay');
+              Route::post('/fund-wallet', 'HomeController@wallet_funding')->name('fund-wallet');
+              Route::post('/paystack-payment', 'HomeController@paystack_payment')->name('paystack-payment');
+              Route::post('/wallet-payment', 'HomeController@payWithWallet')->name('wallet-payment');
               Route::get('/plan', 'HomeController@planIndex')->name('plan.index');
               Route::post('/plan', 'HomeController@planStore')->name('plan.purchase');
               Route::post('/registration/package', 'HomeController@registrationPlan')->name('registration.package');
@@ -383,7 +405,31 @@ Route::group(['prefix' => 'user'], function () {
 
 });
 
-
+Route::group(['prefix' => 'cbt'], function () {
+    Route::get('/', 'CbtLoginController@index')->name('cbt.loginForm');
+    Route::post('/', 'CbtLoginController@authenticate')->name('cbt.login');
+    Route::get('/register', 'CbtLoginController@register')->name('cbt.register');
+    Route::post('/regisetersave', 'CbtLoginController@create')->name('cbt.registerSave');
+});
+Route::group(['prefix' => 'cbt', 'middleware' => 'auth:cbt'], function () {
+    Route::get('/dashboard', 'CbtController@dashboard')->name('cbt.dashboard');
+    Route::get('/change-of-institution', 'CbtController@changeOfInstitution')->name('cbt.change');
+    Route::get('/result-uploads', 'CbtController@cbtUploads')->name('cbt.uploads');
+    Route::get('/withdraw', 'CbtController@withdrawLog')->name('cbt.withdraw');
+    Route::get('/histories', 'CbtController@cbtHistories')->name('cbt.histories');
+    Route::get('/withdraw-log', 'CbtController@withdrawHistory')->name('cbt.withdraw-log');
+    Route::get('/result-upload/{id}', 'CbtController@cbtUpload')->name('cbt.upload');
+    Route::get('my-account', 'CbtController@Profile')->name('cbt.profile');
+    Route::post('my-account', 'CbtController@submitProfile')->name('cbt.edit-profile');
+    Route::get('my-security', 'CbtController@Security')->name('cbt.security');
+    Route::get('/change-of-institution/{id}', 'CbtController@changeOfInstitutionDetails')->name('cbt.change-details');
+    Route::post('/logout', 'CbtController@logout')->name('cbt.logout');
+    Route::post('/save-course', 'CbtController@updateChangeOfCourse')->name('cbt-updateChangeOfCourse');
+    Route::post('/save-upload', 'CbtController@updateUpload')->name('cbt-updateUpload');
+    Route::post('/save-withdraw', 'CbtController@saveWithdraw')->name('cbt-saveWithdraw');
+    Route::post('/bank', 'CbtController@postbank')->name('cbt.post.banky');
+    
+});
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', 'AdminLoginController@index')->name('admin.loginForm');
     Route::post('/', 'AdminLoginController@authenticate')->name('admin.login');
@@ -553,6 +599,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
     Route::resource('giftcard','GiftcardController');
      Route::get('/packages', 'GiftcardController@package')->name('package.type');
+     Route::get('/prices', 'GiftcardController@service')->name('admin.service');
+     Route::get('/edit-prices/{id}', 'GiftcardController@editService')->name('admin.edit-service');
      Route::get('/gift-card', 'GiftcardController@gifttype')->name('giftcard.type');
      Route::get('/activate-card/{id}', 'GiftcardController@activate')->name('activatecard');
      Route::get('/activate-pack/{id}', 'GiftcardController@activatepack')->name('activatepack');
@@ -568,6 +616,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/store-package/', 'GiftcardController@storepack')->name('storepack');
     Route::post('/edit-package/', 'GiftcardController@editpack')->name('editpack');
     Route::post('/store-card/', 'GiftcardController@store')->name('storecard');
+    Route::post('/saveService/', 'GiftcardController@saveService')->name('saveService');
+    Route::post('/updateService/', 'GiftcardController@updateService')->name('updateService');
     Route::post('/store-cardtype/{id}', 'GiftcardController@storetype')->name('storecard2');
      Route::get('/activate-cardtype/{id}', 'GiftcardController@activatetype')->name('activatecardtype');
      Route::get('/deactivate-cardtype/{id}', 'GiftcardController@deactivatetype')->name('deactivatecardtype');

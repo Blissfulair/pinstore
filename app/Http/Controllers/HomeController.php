@@ -12,9 +12,11 @@ use App\Gateway;
 use App\GeneralSettings;
 use App\SellMoney;
 use App\Package;
+use App\Service;
 use App\Etemplate;
 use App\Sms;
-use App\Epin;
+use App\Card;
+use App\Bill;
 use App\Mlmpay;
 use App\Coinmarket;
 use App\Coinmarketpay;
@@ -56,8 +58,8 @@ use App\Http\Traits\Matrix;
 use App\PaymentProveImage;
 use App\Plan;
 use App\Job;
-use App\Application;
-
+use App\Jamb;
+use App\Yom;
 
 class HomeController extends Controller
 {
@@ -110,16 +112,13 @@ class HomeController extends Controller
 
 
 
-
-
-
      function planactivate(Request $request)
     {
      $request->validate([
             'gateway' => 'required',
         ]);
 
-    if(Auth::user()->confirmed > 0){
+    if(Auth::guard('web')->user()->confirmed > 0){
     return back()->with('success', 'You account is already confrimed.');
     }
 
@@ -132,59 +131,109 @@ class HomeController extends Controller
         return view('user.payment.activateplan', $data);
     }
 
+    public function fund_wallet(){
+        $data['gate'] = Gateway::find(107);
+        $data['page_title'] = 'Fund Wallet';
+        return view( 'user.wallet', $data);
+    }
 
-     function planactivated(Request $request)
+public function makePayment($amount, $type){
+    $user = Auth::guard('web')->user();
+    $user->balance = $user->balance - $amount;
+    if($type == 1)
+    $plan = 'change of institution/course';
+    elseif($type == 2)
+    $plan = 'upload of results';
+    elseif($type == 3)
+    $plan = 'waec scratch card';
+    elseif($type == 4)
+    $plan = 'neco scratch card';
+    elseif($type == 5)
+    $plan = 'nabteb scratch card';
+    if($user->update())
+    return  Bill::create([
+          'trx' => getTrx(),
+          'user_id' => $user->id,
+          'amount' => $amount,
+          'type' => $type,
+          'plan'=>$plan,
+          'status'=>0
+      ]);
+      else
+    return back()->withAlert('Opps, Operation failed, please try again.');
+}
+
+public function makeCardPayment($amount, $type, $pin, $serial_no){
+    $user = Auth::guard('web')->user();
+    $user->balance = $user->balance - $amount;
+    if($type == 3)
+    $plan = 'waec scratch card';
+    elseif($type == 4)
+    $plan = 'neco scratch card';
+    elseif($type == 5)
+    $plan = 'nabteb scratch card';
+    if($user->update())
+    return  Bill::create([
+          'trx' => getTrx(),
+          'user_id' => $user->id,
+          'amount' => $amount,
+          'type' => $type,
+          'plan'=>$plan,
+          'pin'=>$pin,
+          'serial_no'=>$serial_no,
+          'status'=>1
+      ]);
+      else
+    return back()->withAlert('Opps, Operation failed, please try again.');
+}
+
+public function transactionHistory(){
+    $data['histories'] = Jamb::whereUser_id(Auth::guard('web')->id())->latest()->paginate(5);
+    $data['page_title'] = 'Service Histories';
+    return view('user.history',$data);
+}
+
+public function purchasedScratchcards(){
+    $histories = Bill::where(function($query){
+        $query->whereUser_id(Auth::guard('web')->id())->whereType(3);
+    })->orWhere(function($query){
+        $query->whereUser_id(Auth::guard('web')->id())->whereType(4);
+    })->latest()->paginate(5);
+    $data['histories'] = $histories;
+    $data['page_title'] = 'Purchased Scratch Cards';
+    return view('user.scratch-cards',$data);
+}
+
+public function paymentTransactions(){
+    $data['histories'] = Bill::whereUser_id(Auth::guard('web')->id())->latest()->paginate(5);
+    $data['page_title'] = 'Transaction Histories';
+    return view('user.payment-history',$data);
+}
+public function editChangeCourse($id){
+    $user = Auth::guard('web')->user();
+    $data['page_title'] = "JAMB Upload of Results";
+    $data['service'] = Jamb::find($id);
+    return view('user.edit.change-of-course', $data);
+}
+public function editUploadResult($id){
+    $user = Auth::guard('web')->user();
+    $data['page_title'] = "JAMB Upload of Results";
+    $data['service'] = Jamb::find($id);
+    return view('user.edit.upload-result', $data);
+}
+  public  function paystack_payment(Request $request)
     {
 
-        if(Auth::user()->confirmed > 0){
-         return redirect()->route('home')->with('success', 'your account is already confirmed');
+        $this->validate($request, ['amount' => 'required|integer']);
+         $user = Auth::guard('web')->user();
 
-        }
-
-        $this->validate($request, ['plan' => 'required|integer']);
-        $plan = Plan::whereId($request->plan)->first();
-        $gnl = GeneralSettings::first();
-        if ($plan) {
-         $basic = GeneralSettings::first();
-         $user = User::find(Auth::user()->id);
-         $get = $basic->regbonus*$plan->price/100;
-         $user->confirmed = 1;
-         $user->plan_id = $plan->id;
-         $user->pvs = $user->pvs + $plan->pvs;
-         $user->balance = $user->balance + $get;
-         $user->save();
-
-
-
-
-                     Mlmpay::create([
-
-                        'trx' => getTrx(),
-                        'user_id' => $user->id,
-                        'amount' => $plan->price,
-                        'plan' => $plan->id,
-                        'balance' => $user->balance,
-                        'title' => 'Purchased ' . $plan->name,
-                        'charge' => 0,
-                        'type' => 7,
+          $bill=  Bill::create([
+                'trx' => getTrx(),
+                'user_id' => $user->id,
+                'amount' => $request->amount,
+                'type' => 1,
+                'status'=>0
             ]);
-
-
-                    //hit position start
-                    $this->get_position($user->id);
-                    //hit position end
-
-
-
-                    //hit position start
-                    $this->give_referral_commission($user->id, $plan->id);
-                    //hit position end
-
-                    /// //hit ref level commission start
-                    $this->give_level_commission($user->id, $plan->id);
-                    //hit ref level commission end
-
-
                      $email = $user->email;
 
 
@@ -192,33 +241,123 @@ class HomeController extends Controller
 
                       "name"=> $user->username,
                       "email"=> $user->email,
-                                    "body"=> "Your have joined Successfully". $plan->name." Multilevel Network Plan",
-                                    "heading"=> "You Joined New MLM Plan",
+                                    "body"=> "Your wallet has been funded with ". $request->amount." and your transaction ID is ".$request->code,
+                                    "heading"=> "Wallet Funding",
                                     );
 
 
 
                           Mail::send('mail', $data, function($message) {
-                        $user = User::find(Auth::user()->id);
-                        $message->to($user->email, $user->username)->subject('New MLM Plan');
+                        $user = User::find(Auth::guard('web')->user()->id);
+                        $message->to($user->email, $user->username)->subject('Wallet Funding');
                     });
 
 
 
 
 
+                if($bill)
 
+                    return redirect()->route('depositfiat')->with('success', 'Payment was Success');
 
-                    return redirect()->route('home')->with('success', 'Purchased ' . $plan->name . ' Successfully');
-
-
-                }
+                else
                  session()->flash('alert', 'something went wrong with processing your request. ');
 
-               return redirect()->route('home');
+               return redirect()->route('dopositfiat');
 
     }
+    function makePaystackPayment($email, $amount, $trax){
+        $gate = Gateway::find(107);
+        $url = "https://api.paystack.co/transaction/initialize";
+        $fields = [
+            'reference'=>$trax,
+            'email' => $email,
+            'amount' => $amount*100,
+        ];
+        $fields_string = http_build_query($fields);
+        //open connection
+        $ch = curl_init();
+        
+        //set the url, number of POST vars, POST data
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt($ch,CURLOPT_POST, true);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            "Authorization: Bearer ".$gate->val2,
+            "Cache-Control: no-cache",
+        ));
+        
+        //So that curl_exec returns the contents of the cURL; rather than echoing it
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
+        
+        //execute post
+        $result = json_decode(curl_exec($ch));
+        if($result->status)
+        {
+           redirect()->to($result->data->authorization_url)->send();
+        }
+        else
+        return back()->withAlert('Payment failed, please try again');
+    }
+   public function verifyPaystackPayment(){
+    $gate = Gateway::find(107);
+    $reference = isset($_GET['reference']) ? $_GET['reference'] : '';
+    $url = "https://api.paystack.co/transaction/verify/".rawurlencode($reference);
+    //open connection
+    $ch = curl_init();
+    
+    //set the url, number of POST vars, POST data
+    curl_setopt($ch,CURLOPT_URL, $url);
+    curl_setopt($ch,CURLOPT_HTTPGET, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        "Authorization: Bearer ".$gate->val2,
+        "Cache-Control: no-cache",
+    ));
+    
+    //So that curl_exec returns the contents of the cURL; rather than echoing it
+    curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
+    
+    //execute post
+    $result = json_decode(curl_exec($ch));
+    if($result->status)
+    {
+        $user = Auth::guard('web')->user();
+        $trans = Deposit::whereTrx($reference)->first();
+        $user->balance = $user->balance + $trans->amount;
+        $user->update();
+        $trans->status = 1;
+        $trans->update();
 
+        return redirect()->route('home');
+    }
+    else
+    return redirect()->route('fund-wallet')->withAlert('Payment failed, please try again');
+    }
+
+    
+     function wallet_funding(Request $request)
+    {
+
+        $this->validate($request, ['amount' => 'required|integer']);
+        $user = Auth::guard('web')->user();
+        $trax = getTrx();
+        Deposit::create([
+
+            'trx' => $trax,
+            'user_id' => $user->id,
+            'amount' => $request->amount,
+            'charge' => 0,
+            'gateway_id'=>107,
+            'status'=>0,
+    ]);
+       $this->makePaystackPayment($user->email, $request->amount, $trax);
+
+        $tanx = Mlmpay::whereTrx($trax)->first();
+        if($trax->status ==1){
+            return redirect()->route('home');
+        }
+
+    }
 
 
 
@@ -227,7 +366,7 @@ class HomeController extends Controller
 
 
         $page_title = 'Recharge Wallet With E-PIN ';
-        $epin = Epin::where('created_user_id', auth()->id())->latest()->paginate(10);
+        $epin = Epin::where('created_user_id', Auth::guard('web')->id())->latest()->paginate(10);
         return view( 'user.mlm.pin_recharge', compact('page_title', 'epin'));
     }
 
@@ -237,7 +376,7 @@ class HomeController extends Controller
 
 
         $page_title = 'My E-Pin Recharged';
-        $epin = Epin::where('created_user_id', auth()->id())->where('status', 2)->latest()->get();
+        $epin = Epin::where('created_user_id', Auth::guard('web')->id())->where('status', 2)->latest()->get();
         return view(activeTemplate() . '.user.mlm.my_pin', compact('page_title', 'epin'));
     }
 
@@ -246,7 +385,7 @@ class HomeController extends Controller
 
 
         $page_title = 'My E-Pin Generated';
-        $epin = Epin::where('created_user_id', auth()->id())->latest()->get();
+        $epin = Epin::where('created_user_id', Auth::guard('web')->id())->latest()->get();
         return view(activeTemplate() . '.user.mlm.my_pin', compact('page_title', 'epin'));
     }
 
@@ -302,7 +441,7 @@ class HomeController extends Controller
             'amount' => 'required|numeric|min:100'
         ]);
 
-        $user = User::find(auth()->id());
+        $user = User::find(Auth::guard('web')->id());
         if ($user->balance < $request->amount) {
 
             $notify[] = ['error', 'Insufficient balance for generate pin'];
@@ -351,7 +490,7 @@ class HomeController extends Controller
         $data['plans'] = Plan::whereStatus(1)->where('id','>', 1)->get();
 
 
-        if (auth()->user()->plan_id > 1 && auth()->user()->confirmed > 0) {
+        if (Auth::guard('web')->user()->plan_id > 1 && Auth::guard('web')->user()->confirmed > 0) {
 
             return back()->with('danger', 'Plan subscription not possible twice as you have already purchased a plan');
 
@@ -368,7 +507,7 @@ class HomeController extends Controller
         'image' => 'required|mimes:jpeg,png,jpg,gif,svg',
         ]);
         $plan = Plan::find($request->plan);
-        $user = User::find(auth()->id());
+        $user = User::find(Auth::guard('web')->id());
         $deposCheck = Deposit::where(['user_id'=>$user->id, 'status'=>0])->first();
         if($deposCheck)
            return redirect()->route('home')->with('success', 'Bank Transfer Deposit Request Received.Please wait while we validate your payment. You will have access to your dashboard as soon as you get an email of approval.');
@@ -412,7 +551,7 @@ class HomeController extends Controller
 
 
               Mail::send('mail', $data, function($message) {
-            $user = User::find(Auth::user()->id);
+            $user = User::find(Auth::guard('web')->user()->id);
             $message->to($user->email, $user->username)->subject('New MLM Plan');
         });
        return redirect()->route('home')->with('success', 'Bank Transfer Deposit Request Received.Please wait while we validate your payment. You will have access to your dashboard as soon as you get an email of approval.');
@@ -424,18 +563,18 @@ class HomeController extends Controller
 
 
    $plan = Plan::find($request->plan_id);
-    if(Auth::user()->balance < $plan->price){
+    if(Auth::guard('web')->user()->balance < $plan->price){
     return back()->with('error', 'You dont have enough money in your deposit wallet to purchase this plan.');
     }
-    if(Auth::user()->balance >= $plan->price){
+    if(Auth::guard('web')->user()->balance >= $plan->price){
 
-    $user = User::find(auth()->id());
+    $user = User::find(Auth::guard('web')->id());
 
 
          $user->balance = $user->balance - $plan->price;
          $user->update();
          $basic = GeneralSettings::first();
-         $user = User::find(Auth::user()->id);
+         $user = User::find(Auth::guard('web')->user()->id);
          $get = $basic->regbonus*$plan->price/100;
          $user->confirmed = 1;
          $user->plan_id = $plan->id;
@@ -488,7 +627,7 @@ class HomeController extends Controller
 
 
                           Mail::send('mail', $data, function($message) {
-                        $user = User::find(Auth::user()->id);
+                        $user = User::find(Auth::guard('web')->user()->id);
                         $message->to($user->email, $user->username)->subject('New MLM Plan');
                     });
 
@@ -514,18 +653,16 @@ class HomeController extends Controller
 
             return redirect()->route('home')->withNotify($notify);
         }
-         $user = User::find(auth()->id());
+         $user = User::find(Auth::guard('web')->id());
          if ($user->plan_id < 2) {
 
                 return back()->with('danger', 'You must subscribe to an MLM network plan to view your network');
          }
          $data['page_title'] = "My Level " . $lv_no . " Referrer";
          $data['lv_no'] = $lv_no;
-         $data['referral'] = User::where('position_id', auth()->id())->get();
+         $data['referral'] = User::where('position_id', Auth::guard('web')->id())->get();
         return view('user.mlm.matrix', $data);
      }
-
-
 
 
 
@@ -535,14 +672,14 @@ class HomeController extends Controller
     public function index()
     {
         $data['page_title'] = "Dashboard";
-        $user = Auth::user();
-        $data['completed'] = Job::whereStatus(2)->whereStatus(0)->count();;
-        $data['submitted'] = Application::whereUserId(auth()->user()->id)->count();
+        $user = Auth::guard('web')->user();
+        $data['used'] = Bill::whereStatus(1)->whereUserId(Auth::guard('web')->user()->id)->sum('amount');
+        $data['total_funded'] = Deposit::whereStatus(1)->whereUserId(Auth::guard('web')->user()->id)->sum('amount');
 
-        $data['active_jobs'] = Job::whereStatus(1)->count();
-        $data['new_jobs'] = Job::whereStatus(1)->where('created_at', 'LIKE', date('Y-m-d').'%')->count();
-        $data['latest_jobs'] = Job::whereStatus(1)->orderBy('created_at', 'DESC')->limit(3)->get();
-        $data['total_jobs'] = Job::count();
+        $data['active_jobs'] = Jamb::whereStatus(-1)->whereUserId(Auth::guard('web')->user()->id)->count();
+        $data['pending'] = Jamb::whereStatus(0)->whereUserId(Auth::guard('web')->user()->id)->count();
+        $data['completed'] = Jamb::whereStatus(1)->whereUserId(Auth::guard('web')->user()->id)->count();
+        $data['user'] = $user;
 
         $user->lastseen = Carbon::now();
         $user->save();
@@ -561,7 +698,7 @@ class HomeController extends Controller
 
     public function daily()
     {
-        $user = Auth::user();
+        $user = Auth::guard('web')->user();
 		$settings = GeneralSettings::first();
         $now = Carbon::now();
 
@@ -596,14 +733,14 @@ class HomeController extends Controller
         if($basic->maintain == 1){
         return view('front.maintain', $data);
         }
-        $user = User::find(Auth::user()->id);
+        $user = User::find(Auth::guard('web')->user()->id);
 
 
 
 
 
 
-        if (Auth()->user()->status == '1' && Auth()->user()->email_verify == '1' && Auth()->user()->sms_verify == '1') {
+        if (Auth::guard('web')->user()->status == '1' && Auth::guard('web')->user()->email_verify == '1' && Auth::guard('web')->user()->sms_verify == '1') {
             return redirect()->route('home');
         } else {
             $data['docs'] = Verification::where('user_id', Auth::id())->latest()->first();
@@ -614,7 +751,7 @@ class HomeController extends Controller
 
     public function sendVcode(Request $request)
     {
-        $user = User::find(Auth::user()->id);
+        $user = User::find(Auth::guard('web')->user()->id);
 
         if (Carbon::parse($user->phone_time)->addMinutes(1) > Carbon::now()) {
             $time = Carbon::parse($user->phone_time)->addMinutes(1);
@@ -635,7 +772,7 @@ class HomeController extends Controller
 
     public function smsVerify(Request $request)
     {
-        $user = User::find(Auth::user()->id);
+        $user = User::find(Auth::guard('web')->user()->id);
         if ($user->sms_code == $request->sms_code) {
             $user->phone_verify = 1;
             $user->save();
@@ -649,7 +786,7 @@ class HomeController extends Controller
 
     public function sendEmailVcode(Request $request)
     {
-        $user = User::find(Auth::user()->id);
+        $user = User::find(Auth::guard('web')->user()->id);
 
         if (Carbon::parse($user->email_time)->addMinutes(1) > Carbon::now()) {
             $time = Carbon::parse($user->email_time)->addMinutes(1);
@@ -685,7 +822,7 @@ class HomeController extends Controller
     public function postEmailVerify(Request $request)
     {
 
-        $user = User::find(Auth::user()->id);
+        $user = User::find(Auth::guard('web')->user()->id);
         if ($user->verification_code == $request->email_code) {
             $user->email_verify = 1;
             $user->save();
@@ -700,7 +837,7 @@ class HomeController extends Controller
 
     public function faqs()
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $data['page_title'] = "FAQs";
         $data['faq'] = Faq::all();
         return view('user.faq', $data);
@@ -709,7 +846,7 @@ class HomeController extends Controller
 
     public function Profile()
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $data['page_title'] = "Profile";
         $data['user'] = User::findOrFail($auth->id);
         return view('user.profile', $data);
@@ -718,7 +855,7 @@ class HomeController extends Controller
 
     public function security()
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $data['page_title'] = "Security";
         $data['user'] = User::findOrFail($auth->id);
         return view('user.security', $data);
@@ -726,7 +863,7 @@ class HomeController extends Controller
 
     public function submitProfile(Request $request)
     {
-        $user = User::findOrFail(Auth::user()->id);
+        $user = User::findOrFail(Auth::guard('web')->user()->id);
         if(isset($request->updateadd)){
         $request->validate([
             'city' => 'required|string|max:255',
@@ -785,8 +922,8 @@ class HomeController extends Controller
             'password' => 'required|min:5|confirmed'
         ]);
         try {
-            $c_password = Auth::user()->password;
-            $c_id = Auth::user()->id;
+            $c_password = Auth::guard('web')->user()->password;
+            $c_id = Auth::guard('web')->user()->id;
             $user = User::findOrFail($c_id);
             if (Hash::check($request->current_password, $c_password)) {
 
@@ -813,8 +950,8 @@ class HomeController extends Controller
             'password' => 'required|min:4|confirmed'
         ]);
         try {
-            $c_password = Auth::user()->password;
-            $c_id = Auth::user()->id;
+            $c_password = Auth::guard('web')->user()->password;
+            $c_id = Auth::guard('web')->user()->id;
             $user = User::findOrFail($c_id);
             if (Hash::check($request->current_password, $c_password)) {
 
@@ -976,7 +1113,7 @@ class HomeController extends Controller
             Giftcardsale::create($docm);
 
 
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         Message::create([
                     'user_id' => $auth->id,
                     'title' => 'Exchanged Gift Card',
@@ -997,7 +1134,7 @@ class HomeController extends Controller
     public function excardlog()
     {
 
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $get['page_title'] = "Giftcard Log";
         $get['card'] = Giftcardsale::whereUser_id($auth->id)->orderBy('created_at','desc')->paginate(7);
 
@@ -1018,25 +1155,27 @@ class HomeController extends Controller
 
     public function depositfiat()
     {
-        $applied = Application::whereUser_id(auth()->user()->id)->pluck('job_id')->toArray();
-        $data['page_title'] = "Deposit Methods";
-        $data['jobs'] = Job::whereStatus(1)->whereNotIn('id',$applied)->get();
-        return view('user.deposit', $data);
+        $payment = Bill::whereUser_id(Auth::guard('web')->user()->id)->whereType(1)->whereStatus(0)->first();
+        $data['gate'] = Gateway::find(107);
+        $data['page_title'] = "Change of course/Institution";
+        $data['payment'] = $payment;
+        $data['service'] = Service::whereType(1)->first();
+        return view('user.change-of-course', $data);
     }
 
-    public function apply(Request $request){
-        $applied = Application::whereUser_id(auth()->user()->id)->whereJob_id($request->job_id)->first();
-        if($applied)
-            return redirect()->back()->with('error', 'You have already applied for this job');
-        if(!$request->job_id)
-            return redirect()->back()->with('error', 'No Job selected.');
+    // public function apply(Request $request){
+    //     $applied = Application::whereUser_id(Auth::guard('web')->user()->id)->whereJob_id($request->job_id)->first();
+    //     if($applied)
+    //         return redirect()->back()->with('error', 'You have already applied for this job');
+    //     if(!$request->job_id)
+    //         return redirect()->back()->with('error', 'No Job selected.');
         
-        $input = Input::except('_token');
-        $input['user_id'] = auth()->user()->id;
-        $input['status']=1;
-        if(Application::create($input))
-        return redirect()->back()->with('success', 'Application submitted successfully');
-    }
+    //     $input = Input::except('_token');
+    //     $input['user_id'] = Auth::guard('web')->user()->id;
+    //     $input['status']=1;
+    //     if(Application::create($input))
+    //     return redirect()->back()->with('success', 'Application submitted successfully');
+    // }
 
     public function activitylog()
     {
@@ -1047,7 +1186,7 @@ class HomeController extends Controller
 
 
     public function referral()
-    {   $data['referral'] =  User::whereRef_id(Auth::user()->id)->get();
+    {   $data['referral'] =  User::whereRef_id(Auth::guard('web')->user()->id)->get();
         $data['page_title'] = "Referral Log";
         return view('user.referral-log', $data);
     }
@@ -1055,7 +1194,7 @@ class HomeController extends Controller
 
 
     public function kyc()
-    {   $data['user'] =  Auth::user()->id;
+    {   $data['user'] =  Auth::guard('web')->user()->id;
         $data['page_title'] = "Account Verification";
         $data['docs'] = Verification::where('user_id', Auth::id())->latest()->first();
         return view('user.account-verification', $data);
@@ -1063,80 +1202,12 @@ class HomeController extends Controller
 
 
 
-    public function kyc2(Request $request)
-    {
-     $this->validate($request,
-            [
-            'lname' => 'required',
-            'country' => 'required',
-            'state' => 'required',
-            'city' => 'required',
-            'address' => 'required',
-            'fname' => 'required',
-            'dob' => 'required',
-            'gender' => 'required',
-            'photo' => 'mimes:jpeg,png,jpg,gif,svg',
-            'cv' => 'mimes:pdf,docx',
-            ]);
 
-        $docm['user_id'] = Auth::id();
-        $docm['type'] = $request->type;
-        $docm['date'] = $request->date;
-        $docm['number'] = $request->number;
-        $docm['status'] = 0;
-        if($request->hasFile('photo'))
-            {
-                $docm['image1'] = uniqid().'.jpg';
-                $request->photo->move('kyc',$docm['image1']);
-            }
-          if($request->hasFile('cv'))
-            {
-                $docm['image2'] = uniqid().'.'.$request->file('cv')->getClientOriginalExtension();
-                $request->cv->move('kyc',$docm['image2']);
-            }
-
-        Verification::create($docm);
-
-        $user = User::find(Auth::id());
-        $user['fname'] = $request->fname ;
-        $user['lname'] = $request->lname ;
-        $user['gender'] = $request->gender ;
-        $user['dob'] = $request->dob ;
-        $user['country'] = $request->country ;
-        $user['state'] = $request->state ;
-        $user['city'] = $request->city ;
-        $user['zip_code'] = $request->zip ;
-        $user['address'] = $request->address ;
-        $user['institute'] = $request->institute ;
-        $user['qualification'] = $request->qualification ;
-        $user['grade'] = $request->grade ;
-        $user['year_admitted'] = $request->year_admitted ;
-        $user['year_of_graduation'] = $request->year_of_graduation ;
-        $user['verified'] = 1 ;
-
-        $user->update();
-
-
-         Message::create([
-                    'user_id' => $user->id,
-                    'title' => 'Profile Updated',
-                    'details' =>'Your Profile submission has been received.',
-                    'admin' => 1,
-                    'status' =>  0
-                ]);
-
-
-
-
-          session()->flash('success', 'Your Profile has been updated successfully. ');
-
-         return redirect()->route('home');
-    }
 
 
 
     public function bank()
-    {   $data['user'] =  Auth::user()->id;
+    {   $data['user'] =  Auth::guard('web')->user()->id;
         $data['page_title'] = "Bank Account";
         return view('user.bank', $data);
     }
@@ -1144,7 +1215,7 @@ class HomeController extends Controller
 
     public function postbank(Request $request)
     {
-        $user = User::findOrFail(Auth::user()->id);
+        $user = User::findOrFail(Auth::guard('web')->user()->id);
 
         if(isset($request->wallet)){
 
@@ -1226,7 +1297,7 @@ class HomeController extends Controller
 
      public function veribank(Request $request)
     {
-        $user = User::findOrFail(Auth::user()->id);
+        $user = User::findOrFail(Auth::guard('web')->user()->id);
         $gate = Gateway::whereId(107)->first();
         $bankCode = $request->bank;
         $bank = Banky::whereCode($request->bank)->first();
@@ -1356,7 +1427,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         $track = Session::get('Track');
         $data = Deposit::where('status', 0)->where('trx', $track)->first();
         $page_title = "Deposit Preview";
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         return view('user.payment.preview', compact('data', 'page_title'));
     }
 
@@ -1408,7 +1479,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         ], [
              'amount.required' => 'The minimum amount you can convert is '.$basic->currency.''.$basic->minbonus.' '
         ]);
-        $user = Auth::user();
+        $user = Auth::guard('web')->user();
 
          if ($request->amount > $user->bonus) {
             return back()->with('alert', 'You Cant Convert An Amount Greater Than Your Current Bonus Balance.');
@@ -1433,7 +1504,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
 
       Mail::send('mail', $data, function($message) {
-    $user = User::find(Auth::user()->id);
+    $user = User::find(Auth::guard('web')->user()->id);
     $message->to($user->email, $user->username)->subject('Bonus Converted');
 });
 
@@ -1449,7 +1520,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         ], [
              'amount.required' => 'The minimum amount you can withdraw is '.$basic->currency.''.$basic->mlmmin.' '
         ]);
-        $user = Auth::user();
+        $user = Auth::guard('web')->user();
 
          if ($request->amount > $user->matrixpay) {
             return back()->with('alert', 'You Cant Withdraw An Amount Greater Than Your Current Matrix Wallet Balance.');
@@ -1480,7 +1551,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
 
       Mail::send('mail', $data, function($message) {
-    $user = User::find(Auth::user()->id);
+    $user = User::find(Auth::guard('web')->user()->id);
     $message->to($user->email, $user->username)->subject('Matrix Earning Withdrawn');
 });
 
@@ -1510,12 +1581,12 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
             'sender' => 'required',
             ]);
 
-        $user = Auth::user();
+        $user = Auth::guard('web')->user();
 
 
          if(isset($request->pin)){
          try {
-            $c_password = Auth::user()->transpin;
+            $c_password = Auth::guard('web')->user()->transpin;
              if (Hash::check($request->pin, $c_password)) {
 
             } else {
@@ -1566,7 +1637,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
          $tr = strtoupper(str_random(20));
             $w['transaction_id'] = $tr;
-            $w['user_id'] = Auth::user()->id;
+            $w['user_id'] = Auth::guard('web')->user()->id;
             $w['message'] = $request->message;
             $w['phone'] = $request->phone;
             $trr =Sms::create($w);
@@ -1592,12 +1663,12 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
  public function updatetransfer(Request $request)
     {
-        $user = Auth::user();
+        $user = Auth::guard('web')->user();
 
 
          if(isset($request->pin)){
          try {
-            $c_password = Auth::user()->transpin;
+            $c_password = Auth::guard('web')->user()->transpin;
              if (Hash::check($request->pin, $c_password)) {
 
             } else {
@@ -1636,7 +1707,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
          $tr = strtoupper(str_random(20));
             $w['amount'] = $request->amount;
             $w['transaction_id'] = $tr;
-            $w['user_id'] = Auth::user()->id;
+            $w['user_id'] = Auth::guard('web')->user()->id;
             $w['send_details'] = $request->username;
             $w['status'] = 2;
             $trr =Transfer::create($w);
@@ -1660,7 +1731,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
 
       Mail::send('mail', $data, function($message) {
-    $user = User::find(Auth::user()->id);
+    $user = User::find(Auth::guard('web')->user()->id);
     $message->to($user->email, $user->username)->subject('Bonus Converted');
 });
         return back()->with('success', 'Fund transfered to '.$request->username.' successfully.');
@@ -1717,7 +1788,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
             $w['charge'] = $ch;
             $w['transaction_id'] = $tr;
             $w['net_amount'] = $reAmo;
-            $w['user_id'] = Auth::user()->id;
+            $w['user_id'] = Auth::guard('web')->user()->id;
             $w['currency_id'] = $currency->id;
             $w['wallet_id'] = $request->wallet;
             $trr = WithdrawLog::create($w);
@@ -1742,7 +1813,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
             'amount' => 'required|numeric|min:1',
 
         ]);
-        $user = Auth::user();
+        $user = Auth::guard('web')->user();
         $c_password = $user->transpin;
         if($user->setpin == null)
             return redirect()->route('security')->with('message', 'Click on "Security Pin Code" switch, and click on the "Save" button before you can use this service');
@@ -1771,7 +1842,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
 
 
-        // $user = Auth::user();
+        // $user = Auth::guard('web')->user();
         $method = WithdrawMethod::findOrFail($request->method_id);
         $ch = $method->fix + round(($request->amount * $method->percent) / 100, $basic->decimal);
         $reAmo = $request->amount + $ch;
@@ -1801,7 +1872,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
             $w['transaction_id'] = $tr;
             $w['net_amount'] = $reAmo;
             $w['status'] = 0;
-            $w['user_id'] = Auth::user()->id;
+            $w['user_id'] = Auth::guard('web')->user()->id;
             $trr = WithdrawLog::create($w);
             $data['withdraw'] = $trr;
             Session::put('wtrx', $trr->transaction_id);
@@ -1824,7 +1895,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
 
       Mail::send('mail', $data, function($message) {
-    $user = User::find(Auth::user()->id);
+    $user = User::find(Auth::guard('web')->user()->id);
     $message->to($user->email, $user->username)->subject('Withdrawal Request');
 });
 
@@ -1847,7 +1918,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         $ww->status = 1;
         $ww->save();
 
-        $user = Auth::user();
+        $user = Auth::guard('web')->user();
         $user->balance = $user->balance - $ww->net_amount;
         $user->save();
 
@@ -1861,7 +1932,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
     public function activity()
     {
-        $user = Auth::user();
+        $user = Auth::guard('web')->user();
         $data['invests'] = Trx::whereUser_id($user->id)->latest()->paginate(15);
         $data['page_title'] = "Transaction Log";
         return view('user.trx', $data);
@@ -1869,23 +1940,244 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
     public function depositLog()
     {
-        $user = Auth::user();
-
-        $data['page_title'] = "Applied Jobs";
-        $data['deposit'] = Application::whereUser_id($user->id)->latest()->paginate(5);
+        $user = Auth::guard('web')->user();
+        $data['gate'] = Gateway::find(107);
+        $data['payment'] = Bill::whereUser_id(Auth::guard('web')->user()->id)->whereType(2)->whereStatus(0)->first();
+        $data['page_title'] = "JAMB Upload of Results";
+        $data['service'] = Service::whereType(2)->first();
+        $data['deposit'] = Jamb::whereUser_id($user->id)->latest()->paginate(5);
         return view('user.deposit-log', $data);
+    }
+    public function waecCard()
+    {
+        $user = Auth::guard('web')->user();
+        $data['gate'] = Gateway::find(107);
+        $data['card'] = Card::whereType(3)->whereStatus(0)->first();
+        $data['user'] = $user;
+        $data['service'] = Service::whereType(3)->first();
+        $data['page_title'] = "WAEC Scratch card";
+        return view('user.waec', $data);
+    }
+    public function nabtebCard()
+    {
+        $user = Auth::guard('web')->user();
+        $data['gate'] = Gateway::find(107);
+        $data['card'] = Card::whereType(5)->whereStatus(0)->first();
+        $data['user'] = $user;
+        $data['service'] = Service::whereType(5)->first();
+        $data['page_title'] = "NABTEB Scratch card";
+        return view('user.nabteb', $data);
+    }
+    public function necoCard()
+    {
+        $user = Auth::guard('web')->user();
+        $data['gate'] = Gateway::find(107);
+        $data['card'] = Card::whereType(4)->whereStatus(0)->first();
+        $data['user'] = $user;
+        $data['service'] = Service::whereType(4)->first();
+        $data['page_title'] = "NECO Scratch card";
+        return view('user.neco', $data);
+    }
+    public function buyWaecCard(Request $request){
+        $user = Auth::guard('web')->user();
+        if($request->amount > $user->balance)
+        return back()->withAlert('You have insufficient fund in your wallet.'); 
+        $card = Card::whereType($request->type)->whereStatus(0)->first();
+
+        if($this->makeCardPayment($request->amount, $request->type, $card->pin, $card->serial_no))
+        $card->status = 1;
+        $card->update();
+        return redirect()->route('purchasedScratchcards');
+    }
+    public function buyNabtebCard(Request $request){
+        $user = Auth::guard('web')->user();
+        if($request->amount > $user->balance)
+        return back()->withAlert('You have insufficient fund in your wallet.'); 
+        $card = Card::whereType($request->type)->whereStatus(0)->first();
+
+        if($this->makeCardPayment($request->amount, $request->type, $card->pin, $card->serial_no))
+        $card->status = 1;
+        $card->update();
+        return redirect()->route('purchasedScratchcards');
+    }
+
+    public function buyNecoCard(Request $request){
+        $user = Auth::guard('web')->user();
+        if($request->amount > $user->balance)
+        return back()->withAlert('You have insufficient fund in your wallet.'); 
+        $card = Card::whereType($request->type)->whereStatus(0)->first();
+
+        if($this->makeCardPayment($request->amount, $request->type, $card->pin, $card->serial_no))
+        $card->status = 1;
+        $card->update();
+        return redirect()->route('purchasedScratchcards');
+    }
+
+    public function payWithWallet(Request $request){
+        $user = Auth::guard('web')->user();
+        if($request->amount > $user->balance)
+        return back()->withAlert('You have insufficient fund in your wallet.'); 
+        if($this->makePayment($request->amount, $request->type))
+        return back();
     }
     public function withdrawLog()
     {
-        $user = Auth::user();
+        $user = Auth::guard('web')->user();
         $data['withdraw'] = WithdrawLog::whereUser_id($user->id)->where('status', '!=', 0)->latest()->paginate(5);
         $data['page_title'] = "Withdraw Log";
         return view('user.withdraw-log', $data);
     }
+    public function saveChangeOfCourse(Request $request){
+        $this->validate($request,
+        [
+        'profile_code' => 'required',
+        'otp' => 'required',
+        'institute1' => 'required',
+        'course1' => 'required',
+        'fname'=>'required',
+        'lname'=>'required'
+        ]);
+        $bill = Bill::find($request->bill);
+        $jamb = Jamb::create([
+            'user_id'=>Auth::guard('web')->id(),
+            'bill_id'=>$request->bill,
+            'profile_code'=>$request->profile_code,
+            'institute1'=>$request->institute1,
+            'course1'=>$request->course1,
+            'institute2'=>$request->institute2,
+            'course2'=>$request->course2,
+            'institute3'=>$request->institute3,
+            'course3'=>$request->course3,
+            'otp'=>$request->otp,
+            'type'=>$request->type,
+            'lname'=>$request->lname,
+            'fname'=>$request->fname,
+            'status'=>0
+        ]);
+        if($jamb){
+            $bill->status = 1;
+            if($bill->update())
+            return redirect()->route('transaction-history');
+        }
+        return back()->withAlert('Sorry, we encounted an error.');
+    }
+    public function updateChangeOfCourse(Request $request){
+        $this->validate($request,
+        [
+        'profile_code' => 'required',
+        'otp' => 'required',
+        'institute1' => 'required',
+        'course1' => 'required',
+        'fname'=>'required',
+        'lname'=>'required'
+        ]);
+        $data['profile_code']=$request->profile_code;
+        $data['institute1']=$request->institute1;
+        $data['course1']=$request->course1;
+        $data['institute2']=$request->institute2;
+        $data['course2']=$request->course2;
+        $data['institute3']=$request->institute3;
+        $data['course3']=$request->course3;
+        $data['lname']=$request->lname;
+        $data['fname']=$request->fname;
+        $data['otp']=$request->otp;
+        $data['comment']=null;
+        $data['cbt_id']=0;
+        
+        $jamb = Jamb::find($request->id);
+        if($jamb->status == -1)
+        $data['status']=0;
+        if($jamb->update($data)){
+            return back()->withSuccess('Updated successfully');
+        }
+        return back()->withAlert('Sorry, we encounted an error.');
+    }
+    public function saveUpload(Request $request)
+    {
+     $this->validate($request,
+            [
+            'profile_code' => 'required',
+            'fname'=>'required',
+            'lname'=>'required',
+            'photo1' => 'required|mimes:jpeg,png,jpg,gif,svg',
+            'photo2' => 'mimes:jpeg,png,jpg,gif,svg',
+            'photo3' => 'mimes:jpeg,png,jpg,gif,svg',
+            ]);
+        $bill = Bill::find($request->bill);
+        $docm['user_id'] = Auth::id();
+        $docm['profile_code'] = $request->profile_code;
+        $docm['bill_id'] = $request->bill;
+        $docm['lname']=$request->lname;
+        $docm['fname']=$request->fname;
+        $docm['type']=$request->type;
+        $docm['status'] = 0;
+        if($request->hasFile('photo1'))
+            {
+                $docm['olevel1'] = uniqid().'.jpg';
+                $request->photo1->move('kyc',$docm['olevel1']);
+            }
+          if($request->hasFile('photo2'))
+            {
+                $docm['olevel2'] = uniqid().'.jpg';
+                $request->photo2->move('kyc',$docm['olevel2']);
+            }
+        if($request->hasFile('photo3'))
+        {
+            $docm['alevel'] = uniqid().'.jpg';
+            $request->photo3->move('kyc',$docm['alevel']);
+        }
 
+       $jamb = Jamb::create($docm);
 
+        if($jamb){
+            $bill->status = 1;
+            if($bill->update()){
+                return redirect()->route('transaction-history'); 
+            }
+        }
+        return back()->withAlert('Sorry, we encounted an error.');
+    }
+
+    public function updateUpload(Request $request)
+    {
+     $this->validate($request,
+            [
+            'profile_code' => 'required',
+            'fname'=>'required',
+            'lname'=>'required',
+            'photo1' => 'mimes:jpeg,png,jpg,gif,svg',
+            'photo2' => 'mimes:jpeg,png,jpg,gif,svg',
+            'photo3' => 'mimes:jpeg,png,jpg,gif,svg',
+            ]);
+        $jamb = Jamb::find($request->id);
+        $docm['profile_code'] = $request->profile_code;
+        $docm['lname']=$request->lname;
+        $docm['fname']=$request->fname;
+        $docm['status']=0;
+        $docm['comment']=null;
+        if($request->hasFile('photo1'))
+            {
+                $docm['olevel1'] = uniqid().'.jpg';
+                $request->photo1->move('kyc',$docm['olevel1']);
+            }
+          if($request->hasFile('photo2'))
+            {
+                $docm['olevel2'] = uniqid().'.jpg';
+                $request->photo2->move('kyc',$docm['olevel2']);
+            }
+        if($request->hasFile('photo3'))
+        {
+            $docm['alevel'] = uniqid().'.jpg';
+            $request->photo3->move('kyc',$docm['alevel']);
+        }
+
+        if($jamb->update($docm)){
+                return back()->withSuccess('Updated Successfully'); 
+        }
+        return back()->withAlert('Sorry, we encounted an error.');
+    }
       public function buycoin()
-    {    $auth = Auth::user();
+    {    $auth = Auth::guard('web')->user();
          if ($auth->verified != 2 ){
          return back()->withAlert('You are not eligible to buy cryptocurrency. Please verify your account first');
         }
@@ -1897,7 +2189,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         return view('user.buy', $get);
     }
        public function buylog()
-    {    $auth = Auth::user();
+    {    $auth = Auth::guard('web')->user();
          if ($auth->verified != 2 ){
          return back()->withAlert('You are not eligible to buy cryptocurrency. Please verify your account first');
         }
@@ -1906,7 +2198,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         return view('user.buy-log', $get);
     }
       public function buymartlog()
-    {    $auth = Auth::user();
+    {    $auth = Auth::guard('web')->user();
          if ($auth->verified != 2 ){
          return back()->withAlert('You are not eligible to buy cryptocurrency. Please verify your account first');
         }
@@ -1925,7 +2217,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
        return view('user.sell', $get);
     }
         public function sellog()
-    {    $auth = Auth::user();
+    {    $auth = Auth::guard('web')->user();
          if ($auth->verified != 2 ){
 
          return back()->withAlert('You are not eligible to sell cryptocurrency. Please verify your account first');
@@ -1939,7 +2231,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
   public function sellmarket()
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
          if ($auth->verified != 2 ){
          return back()->withAlert('You are not eligible to sell cryptocurrency on the market place yet. Please verify your account first');
         }
@@ -1955,7 +2247,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
   public function buymarket()
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $get['page_title'] = "Buy Currency";
         $get['currency'] = Currency::whereStatus(1)->orderBy('name','asc')->get();
         $get['method'] = PaymentMethod::whereStatus(1)->orderBy('name','asc')->get();
@@ -1966,7 +2258,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
   public function buymarketpost(Request $request)
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $coin = Currency::findOrFail($request->coin);
         $get['deal'] = Coinmarket::whereStatus(1)->whereCoin($request->coin)->orderBy('id','desc')->get();
         $basic = GeneralSettings::first();
@@ -1978,7 +2270,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
   public function coinmarket()
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $track = Session::get('Track');
         $coin = Currency::findOrFail($track);
         $get['page_title'] = "".$coin->name." Market Place";
@@ -2028,13 +2320,13 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         $track = Session::get('Track');
         $data = Coinmarketpay::where('status', 0)->where('trx', $track)->first();
         $page_title = "Deposit Preview";
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         return view('user.marketpay', compact('data', 'page_title'));
     }
 
           public function marketpay(Request $request)
     {
-         $auth = Auth::user();
+         $auth = Auth::guard('web')->user();
          $market = Coinmarketpay::whereTrx($request->trx)->whereBuyer($auth->id)->first();
          $market->status = 1;
          $market->save();
@@ -2083,7 +2375,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
   public function activedeal()
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $get['page_title'] = "Active Deal";
         $get['deal'] = Coinmarket::whereStatus(1)->whereUser_id($auth->id)->orderBy('id','desc')->paginate(5);
        return view('user.mystore', $get);
@@ -2093,7 +2385,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
   public function mystore()
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $get['page_title'] = "My Store";
         $get['deal'] = Coinmarket::whereUser_id($auth->id)->orderBy('id','desc')->paginate(5);
        return view('user.mystore', $get);
@@ -2101,7 +2393,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
  public function viewdeal($id)
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $get['page_title'] = "My Deal";
         $get['store'] = Coinmarket::whereUser_id($auth->id)->whereCode($id)->first();
         $get['deal'] = Coinmarketpay::whereSeller($auth->id)->whereMarketcode($id)->where('status', '>', '0')->orderBy('id','desc')->paginate(5);
@@ -2115,7 +2407,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         $this->validate($request, [
             'order' => 'required',
         ]);
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $get['page_title'] = "My Deal";
         $deal = Coinmarketpay::whereSeller($auth->id)->whereTrx($request->order)->orderBy('id','desc')->first();
 
@@ -2125,7 +2417,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
     }
        public function viewtrx($id)
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $get['deal'] = Coinmarketpay::whereSeller($auth->id)->where('trx', $id)->where('status' ,'>' , '1')->first();
         $count = Coinmarketpay::whereSeller($auth->id)->where('trx', $id)->where('status' ,'>' , '1')->count();
          if($count < 1){
@@ -2143,7 +2435,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
       public function vieworder2()
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $track = Session::get('Track');
         $get['deal'] = Coinmarketpay::whereSeller($auth->id)->where('trx', $track)->first();
         $order = Coinmarketpay::whereSeller($auth->id)->where('trx', $track)->first();
@@ -2162,8 +2454,8 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
             'trx' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
-          $auth = Auth::user();
-          $c_password = Auth::user()->password;
+          $auth = Auth::guard('web')->user();
+          $c_password = Auth::guard('web')->user()->password;
           if (Hash::check($request->password, $c_password)) {
           $market = Coinmarketpay::whereTrx($id)->whereSeller($auth->id)->first();
           $market->status = 2;
@@ -2212,8 +2504,8 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
           $this->validate($request, [
             'password' => 'required',
         ]);
-          $auth = Auth::user();
-          $c_password = Auth::user()->password;
+          $auth = Auth::guard('web')->user();
+          $c_password = Auth::guard('web')->user()->password;
           if (Hash::check($request->password, $c_password)) {
           $market = Coinmarketpay::whereTrx($id)->whereBuyer($auth->id)->first();
           $market->buyer_reply = 1;
@@ -2245,8 +2537,8 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
           $this->validate($request, [
             'password' => 'required',
         ]);
-          $auth = Auth::user();
-          $c_password = Auth::user()->password;
+          $auth = Auth::guard('web')->user();
+          $c_password = Auth::guard('web')->user()->password;
           if (Hash::check($request->password, $c_password)) {
           $market = Coinmarketpay::whereTrx($id)->whereBuyer($auth->id)->first();
           $market->buyer_reply = 2;
@@ -2277,7 +2569,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
             'details' => 'required',
             'subject' => 'required',
         ]);
-          $auth = Auth::user();
+          $auth = Auth::guard('web')->user();
           $market = Coinmarketpay::whereTrx($id)->whereSeller($auth->id)->first();
           $basic = GeneralSettings::first();
 
@@ -2299,8 +2591,8 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
           $this->validate($request, [
             'password' => 'required',
         ]);
-          $auth = Auth::user();
-          $c_password = Auth::user()->password;
+          $auth = Auth::guard('web')->user();
+          $c_password = Auth::guard('web')->user()->password;
           if (Hash::check($request->password, $c_password)) {
           $market = Coinmarketpay::whereTrx($id)->whereSeller($auth->id)->first();
           $market->status = 3;
@@ -2330,7 +2622,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
   public function closeddeal()
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $get['page_title'] = "Closed Deal";
         $get['deal'] = Coinmarket::whereStatus(0)->whereUser_id($auth->id)->orderBy('id','desc')->paginate(5);
        return view('user.mystore', $get);
@@ -2338,7 +2630,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
     public function searchmarket(Request $request)
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $get['page_title'] = "Search Result";
         $count = Coinmarket::whereCode($request->code)->whereUser_id($auth->id)->orderBy('id','desc')->count();
 
@@ -2351,7 +2643,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
   public function searchmarketplace(Request $request)
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $get['page_title'] = "Search Result";
         $count = Coinmarket::whereCode($request->code)->whereUser_id($auth->id)->orderBy('id','desc')->count();
 
@@ -2368,9 +2660,9 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
          $this->validate($request, [
             'password' => 'required',
         ]);
-         $auth = Auth::user();
+         $auth = Auth::guard('web')->user();
 
-          $c_password = Auth::user()->password;
+          $c_password = Auth::guard('web')->user()->password;
           if (Hash::check($request->password, $c_password)) {
           $market = Coinmarket::whereId($id)->whereUser_id($auth->id)->first();
           $market->status = 0;
@@ -2392,13 +2684,13 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
           $this->validate($request, [
             'password' => 'required',
         ]);
-         $auth = Auth::user();
+         $auth = Auth::guard('web')->user();
          $market = Coinmarket::whereId($id)->whereUser_id($auth->id)->first();
          if($market->balance < 1){
          return back()->with('alert', 'You cant reactivate a deal with 0.00 remaining balance. please create another deal');
          };
 
-          $c_password = Auth::user()->password;
+          $c_password = Auth::guard('web')->user()->password;
           if (Hash::check($request->password, $c_password)) {
           $market = Coinmarket::whereId($id)->whereUser_id($auth->id)->first();
           $market->status = 1;
@@ -2427,7 +2719,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         $code = strtoupper(Str::random(6));
         $coin = Currency::findOrFail($request->coin);
         $basic = GeneralSettings::first();
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $sell['buyer'] = $request->buyer;
         $sell['coin'] = $request->coin;
         $sell['details'] = $request->details;
@@ -2466,7 +2758,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         ]);
 
 
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $basic = GeneralSettings::first();
         $currency = Currency::whereId($request->coin)->first();
         $trx = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890') , 0 , 6 );
@@ -2569,7 +2861,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         $track = Session::get('Track');
         $data = Trx::where('status', 0)->where('trx', $track)->first();
         $page_title = "Purchase Preview";
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
 
 
         $basic = GeneralSettings::first();
@@ -2596,7 +2888,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
     {
         $data = Trx::where('status', 0)->where('trx', $id)->first();
         $page_title = "Purchase Preview";
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         return view('user.ebuypay', compact('data', 'page_title'));
     }
 
@@ -2604,7 +2896,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
      {
         $data = Trx::where('status', 0)->where('trx', $id)->first();
         $page_title = "Purchase Preview";
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $data->delete();
         return redirect()->route('home')->with("success", "Unpaid Transaction Was Deleted successful");
     }
@@ -2625,7 +2917,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
          $data = Trx::where('status', 0)->where('trx', $track)->first();
          $method = PaymentMethod::all();
          $page_title = "Purchase Coin";
-         $auth = Auth::user();
+         $auth = Auth::guard('web')->user();
          return view('user.ebuypay', compact('data','method', 'page_title'));
 
     }
@@ -2643,7 +2935,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         $basic = GeneralSettings::first();
         $data = Trx::where('status', 0)->where('trx', $request->trx)->first();
         $page_title = "Purchased Coin";
-         $auth = Auth::user();
+         $auth = Auth::guard('web')->user();
 
          $data->amountpaid = $request->amount;
          $data->depositor = $request->payer;
@@ -2691,7 +2983,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         ]);
 
 
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $basic = GeneralSettings::first();
         $currency = Currency::whereId($request->coin)->first();
         $trx = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890') , 0 , 6 );
@@ -2789,7 +3081,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         $track = Session::get('Track');
         $data = Trx::where('status', 0)->where('trx', $track)->first();
         $page_title = "Purchase Preview";
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
 
         $basic = GeneralSettings::first();
         date_default_timezone_set($auth->timezone);
@@ -2816,7 +3108,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         $track = Session::get('Track');
         $data = Trx::where('status', 0)->where('trx', $track)->first();
         $page_title = "Sales Preview";
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         return view('user.esellpay', compact('data', 'page_title'));
     }
 
@@ -2825,7 +3117,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         $track = Session::get('Track');
         $data = Trx::where('status', 0)->where('trx', $track)->first();
         $page_title = "Sales Preview";
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         return view('user.esellscan', compact('data', 'page_title'));
     }
 
@@ -2834,7 +3126,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
     {
         $data = Trx::where('status', 0)->where('trx', $id)->first();
         $page_title = "Sales Preview";
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         return view('user.esellscan', compact('data', 'page_title'));
     }
 
@@ -2842,7 +3134,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
      {
         $data = Trx::where('status', 0)->where('trx', $id)->first();
         $page_title = "Sale Preview";
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $data->delete();
         return redirect()->route('home')->with("success", "Unpaid Transaction Was Deleted successful");
     }
@@ -2868,7 +3160,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         $basic = GeneralSettings::first();
         $data = Trx::where('status', 0)->where('trx', $request->trx)->first();
         $page_title = "Sold Coin";
-         $auth = Auth::user();
+         $auth = Auth::guard('web')->user();
 
          $data->tnum = $request->trxx;
          $data->status = 1;
@@ -2900,7 +3192,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
     public function buyonline(Request $request)
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $basic = GeneralSettings::first();
         $currency = Currency::whereId($request->coin)->first();
         $wallet = Cryptowallet::whereUser_id($auth->id)->whereCoin_id($request->coin)->first();
@@ -2967,7 +3259,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         $track = Session::get('Track');
         $data = Buymoney::where('status', 0)->where('trx', $track)->first();
         $page_title = "Purchase Preview";
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         return view('user.onlinebuy', compact('data', 'page_title'));
     }
 
@@ -2978,7 +3270,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         ], [
              'radio2.required' => 'Please select a method to payment '
         ]);
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $basic = GeneralSettings::first();
         $currency = Currency::whereId($request->coin)->first();
         $wallet = Cryptowallet::whereUser_id($auth->id)->whereCoin_id($request->coin)->first();
@@ -3050,7 +3342,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         ], [
              'radio.required' => 'Please select a method to payment '
         ]);
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $currency = Currency::whereId($request->coin)->first();
         $basic = GeneralSettings::first();
         $trx = rand(000000, 999999) . rand(000000, 999999);
@@ -3084,7 +3376,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
 
 
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $sell = SellMoney::where('trx', $trx)->where('user_id', $auth->id)->whereStatus(0)->first();
         $basic = GeneralSettings::first();
          Message::create([
@@ -3130,7 +3422,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         ], [
              'radio2.required' => 'Please select a method of payment '
         ]);
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $basic = GeneralSettings::first();
         $hwallet = Cryptowallet::whereUser_id($auth->id)->whereCoin_id($request->hcoin)->first();
         $gwallet = Cryptowallet::whereUser_id($auth->id)->whereCoin_id($request->gcoin)->first();
@@ -3223,7 +3515,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         ], [
              'radio2.required' => 'Please select a method of payment '
         ]);
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $basic = GeneralSettings::first();
         $hwallet = Cryptowallet::whereUser_id($auth->id)->whereCoin_id($request->hcoin)->first();
         $gwallet = Cryptowallet::whereUser_id($auth->id)->whereCoin_id($request->gcoin)->first();
@@ -3288,7 +3580,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
                     'status' =>  0
                 ]);
 
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $exchange = ExchangeMoney::where('transaction_number', $request->account)->where('user_id', $auth->id)->whereStatus(0)->first();
         $basic = GeneralSettings::first();
 
@@ -3300,7 +3592,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
     public function transactions()
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $data['page_title'] = "My Trade";
         $data['sell']=  Trx::where('user_id', $auth->id)->whereType(0)->latest()->get();
         $data['buy']=  Trx::where('user_id', $auth->id)->latest()->whereType(1)->get();
@@ -3313,7 +3605,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
 
     public function notifications()
-    {     $auth = Auth::user();
+    {     $auth = Auth::guard('web')->user();
         $data['page_title'] = "Notifications";
         $data['notify']=  Post::whereNotify(1)->latest()->get();
          return view('user.notifications', $data);
@@ -3322,7 +3614,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
 
     public function inbox()
-    {     $auth = Auth::user();
+    {     $auth = Auth::guard('web')->user();
         $data['page_title'] = "Inbox";
         $data['code'] = strtoupper(Str::random(6));
         $data['inbox']=  Message::where('user_id', $auth->id)->whereAdmin(1)->orderBy('created_at','desc')->paginate(7);
@@ -3332,7 +3624,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
 
     public function tickets()
-    {     $auth = Auth::user();
+    {     $auth = Auth::guard('web')->user();
         $data['page_title'] = "Support Ticket";
         $data['inbox']=  Message::where('user_id', $auth->id)->whereAdmin(0)->orderBy('created_at','desc')->paginate(7);
          return view('user.ticket', $data);
@@ -3343,7 +3635,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
     public function ticketview($id)
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $data['page_title'] = "Ticket View";
         $data['tickets']=  Message::where('user_id', $auth->id)->whereCode($id)->orderBy('created_at','desc')->get();
         $data['ticket']=  Ticket::where('user_id', $auth->id)->whereCode($id)->first();
@@ -3357,7 +3649,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
     public function inboxview($id)
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $data['page_title'] = "Inbox View";
         $data['inbox']=  Message::where('user_id', $auth->id)->whereId($id)->first();
         $inbox =  Message::where('user_id', $auth->id)->whereId($id)->first();
@@ -3371,7 +3663,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
 
     public function inboxdelete($id)
     {
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $data['page_title'] = "Inbox Delete";
         $data['inbox']=  Message::where('user_id', $auth->id)->whereId($id)->first();
         $inbox =  Message::where('user_id', $auth->id)->whereId($id)->first();
@@ -3422,7 +3714,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
   public function replyticket(Request $request)
     {
 
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $ticket =  Ticket::where('user_id', $auth->id)->whereCode($request->code)->first();
         $data['user_id'] = Auth::id();
         $data['title'] = $ticket->title;
@@ -3476,7 +3768,7 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
             $basic = GeneralSettings::first();
         if ($basic->blockallow == 0) {
 				return back()->with('alert', 'Blockchain feature has been disabled'); }
-        $auth = Auth::user();
+        $auth = Auth::guard('web')->user();
         $data['page_title'] = "Blockchain Wallet";
         $data['id'] = $id;
         $data['coin'] = Coin::whereId($id)->first();

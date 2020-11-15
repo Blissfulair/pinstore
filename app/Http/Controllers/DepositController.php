@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Deposit;
+use App\Mlmpay;
 use App\Trx;
 use App\User;
 use App\Package;

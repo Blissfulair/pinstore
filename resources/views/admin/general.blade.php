@@ -55,7 +55,7 @@
 
 
 
-<div class="row"><div class="col-md-6"><div class="input-item input-with-label"><label class="input-item-label text-exlight">Referral Bonus</label><div class="relative"><span class="input-icon input-icon-right"><em class="ti ti-mobile"></em></span> <input type="text" class="input-bordered"  value="{{$general->ref}}"
+<div class="row"><div class="col-md-6"><div class="input-item input-with-label"><label class="input-item-label text-exlight">CBT percent(%)</label><div class="relative"><span class="input-icon input-icon-right"><em class="ti ti-mobile"></em></span> <input type="text" class="input-bordered"  value="{{$general->ref}}"
                                            onkeyup="this.value = this.value.replace (/^\.|[^\d\.]/g, '')"
                                            name="ref"></div><span class="input-note">Input system referral bonus in %. </span></div></div>
 
