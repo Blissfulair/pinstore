@@ -50,11 +50,9 @@
                                                         <div class="nk-tb-item nk-tb-head">
                                                             <div class="nk-tb-col"><span>Service</span></div>
                                                             <div class="nk-tb-col tb-col-xxl"><span>Source</span></div>
-
-                                                            <div class="nk-tb-col text-right"><span>Amount</span></div>
-                                                            <div class="nk-tb-col text-right tb-col-sm"><span>Date</span></div>
+                                                            <div class="nk-tb-col text-left tb-col-sm"><span>Date</span></div>
                                                             <div class="nk-tb-col nk-tb-col-status"><span class="sub-text d-none d-md-block">Status</span></div>
-                                                            <div class="nk-tb-col nk-tb-col-tools"></div>
+                                                            <div class="nk-tb-col nk-tb-col-tools text-right">Action</div>
                                                         </div>
                                                         @if(count($histories) >0)
                                                          @foreach($histories as $k=>$data)
@@ -73,11 +71,7 @@
                                                                     <div class="nk-tnx-type-text"><span class="tb-lead" style="text-transform:capitalize">{{$data->bill->plan}}</span></div>
                                                                 </div>
                                                             </div>
-
-                                                            <div class="nk-tb-col text-right">
-                                                                <span class="tb-amount">{{$data->bill->amount}}</span>
-                                                            </div>
-                                                            <div class="nk-tb-col text-right tb-col-sm">
+                                                            <div class="nk-tb-col text-left tb-col-sm">
                                                                 <span class="tb-amount">{{ Carbon\Carbon::parse($data->updated_at)->diffForHumans() }} <span></span></span><span class="tb-amount-sm">{{$data->updated_at}}</span>
                                                             </div>
                                                             <div class="nk-tb-col nk-tb-col-status">
@@ -96,11 +90,11 @@
                                                             <div class="nk-tb-col nk-tb-col-tools">
                                                                 <ul class="nk-tb-actions gx-2">
 
-                                                                    <li class="nk-tb-action-hidden">
+                                                                    <li class="nk-tb-action-show">
                                                                         @if($data->bill->type == 1)
-                                                                        <a href="{{ route('cbt.change-details', ['id'=>$data->id]) }}"  class="bg-white btn btn-sm btn-outline-light btn-icon" title="Details"><em class="icon ni ni-eye"></em></a>
+                                                                        <a href="{{ route('cbt.change-details', ['id'=>$data->id]) }}"  class="bg-white btn btn-sm btn-outline-light btn-icon"><em class="icon ni ni-eye"></em></a>
                                                                         @elseif($data->bill->type == 2)
-                                                                        <a href="{{ route('cbt.upload', ['id'=>$data->id]) }}"  class="bg-white btn btn-sm btn-outline-light btn-icon" title="Details"><em class="icon ni ni-eye"></em></a>
+                                                                        <a href="{{ route('cbt.upload', ['id'=>$data->id]) }}"  class="bg-white btn btn-sm btn-outline-light btn-icon"><em class="icon ni ni-eye"></em></a>
 
                                                                         @endif
                                                                     </li>

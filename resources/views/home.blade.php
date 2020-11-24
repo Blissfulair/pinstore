@@ -176,96 +176,25 @@ $ip = \App\UserLogin::whereUser_id(Auth::user()->id)->latest()->take(1)->first()
                                                     </div>
                                                 </div>
                                                 <div class="row g-2">
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="card bg-primary-dim">
-                                                            <div class="nk-wgw sm">
-                                                                <a class="nk-wgw-inner" href="{{route('user.depositLog')}}">
-                                                                    <div class="nk-wgw-name">
-                                                                        <div class="nk-wgw-icon bg-primary "><em class="icon ni ni-upload"></em></div>
-                                                                        <h5 class="nk-wgw-title title">JAMB upload of O-Level/A-Level results</h5>
+                                                    @if($services)
+                                                        @foreach($services as $service)
+                                                            <div class="col-sm-4 col-6">
+                                                                <div class="card bg-primary-dim">
+                                                                    <div class="nk-wgw sm">
+                                                                        <a class="nk-wgw-inner" href="{{ route('user.service', ['name'=>$service->name]) }}">
+                                                                            <div class="nk-wgw-name">
+                                                                                <div class="nk-wgw-icon bg-primary "><img src="{{ asset('kyc').'/'.$service->image }}" style="width:14px;height:14px;border-radius:50%" alt="{{$service->name}}" ></div>
+                                                                                <h5 class="nk-wgw-title title">{{ $service->name }}</h5>
+                                                                            </div>
+                                                                            <div class="nk-wgw-balance">
+                                                                                <div class="sub-text">{{$service->description}}</div>
+                                                                            </div>
+                                                                        </a>
                                                                     </div>
-                                                                    <div class="nk-wgw-balance">
-                                                                        <div class="sub-text">We offer upload of O-Level and A-Level results to JAMB profile without stress</div>
-                                                                    </div>
-                                                                </a>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="card bg-primary-dim">
-                                                            <div class="nk-wgw sm">
-                                                                <a class="nk-wgw-inner" href="{{ route('depositfiat') }}">
-                                                                    <div class="nk-wgw-name">
-                                                                        <div class="nk-wgw-icon bg-primary "><em class="icon ni ni-download"></em></div>
-                                                                        <h5 class="nk-wgw-title title">JAMB Change of Institution/Course</h5>
-                                                                    </div>
-                                                                    <div class="nk-wgw-balance">
-                                                                        <div class="sub-text">You can change institution or course on pinstore </div>
-                                                                    </div>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="card bg-primary-dim">
-                                                            <div class="nk-wgw sm">
-                                                                <a class="nk-wgw-inner" href="{{route('waecCard')}}">
-                                                                    <div class="nk-wgw-name">
-                                                                        <div class="nk-wgw-icon bg-primary "><em class="icon ni ni-cards"></em></div>
-                                                                        <h5 class="nk-wgw-title title">WAEC Scratch Card</h5>
-                                                                    </div>
-                                                                    <div class="nk-wgw-balance">
-                                                                        <div class="sub-text">We sell WAEC scratch cards </div>
-                                                                    </div>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="card bg-primary-dim">
-                                                            <div class="nk-wgw sm">
-                                                                <a class="nk-wgw-inner" href="{{route('necoCard')}}">
-                                                                    <div class="nk-wgw-name">
-                                                                        <div class="nk-wgw-icon bg-primary "><em class="icon ni ni-mobile"></em></div>
-                                                                        <h5 class="nk-wgw-title title">NECO Scratch Card</h5>
-                                                                    </div>
-                                                                    <div class="nk-wgw-balance">
-                                                                        <div class="sub-text">NECO scratch cards also on sale at pinstore </div>
-                                                                    </div>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4 col-6">
-                                                        <div class="card bg-primary-dim">
-                                                            <div class="nk-wgw sm">
-                                                                <a class="nk-wgw-inner" href="{{route('nabtebCard')}}">
-                                                                    <div class="nk-wgw-name">
-                                                                        <div class="nk-wgw-icon bg-primary "><em class="icon ni ni-mobile"></em></div>
-                                                                        <h5 class="nk-wgw-title title">NABTEB Scratch Card</h5>
-                                                                    </div>
-                                                                    <div class="nk-wgw-balance">
-                                                                        <div class="sub-text">Buy NABTEB scratch cards Now</div>
-                                                                    </div>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- <div class="col-sm-4 col-12">
-                                                        <div class="card bg-primary-dim">
-                                                            <div class="nk-wgw sm">
-                                                                <a class="nk-wgw-inner" href="#">
-                                                                    <div class="nk-wgw-name">
-                                                                        <div class="nk-wgw-icon bg-primary "><em class="icon ni ni-bulb"></em></div>
-                                                                        <h5 class="nk-wgw-title title">Mathematics Teacher</h5>
-                                                                    </div>
-                                                                    <div class="nk-wgw-balance">
-                                                                        <div class="sub-text">Edo College</div>
-                                                                    </div>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div> -->
+                                                        @endforeach
+                                                    @endif
                                                 </div>
                                             </div>
 

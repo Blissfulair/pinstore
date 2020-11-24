@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="nk-content-inner">
                 <div class="nk-content-body">
-                <form role="form" method="POST" action="{{ route('cbt-updateUpload') }}">
+                <form role="form" method="POST" action="{{ route('cbt-updateUpload') }}" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <input type="hidden" name="id" value="{{$jamb->id}}" />
                             <div class="kyc-app wide-ssm m-autso">
@@ -94,7 +94,7 @@
                                                     </div><!-- .col -->
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                                <a href="{{asset('kyc').'/'.$jamb->olevel1}}" >
+                                                                <a href="{{asset('kyc').'/'.$jamb->olevel1}}" download="{{$jamb->fname.'_'.$jamb->lname.'_first_setting.jpg'}}" >
                                                                     <img style="height:300px" src="{{asset('kyc').'/'.$jamb->olevel1}}" alt="first sitting">
                                                                 </a>
                                                         </div>
@@ -110,7 +110,7 @@
                                                     </div><!-- .col -->
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                                <a href="{{asset('kyc').'/'.$jamb->olevel2}}" >
+                                                                <a href="{{asset('kyc').'/'.$jamb->olevel2}}" download="{{$jamb->fname.'_'.$jamb->lname.'_second_setting.jpg'}}" >
                                                                     <img style="height:300px" src="{{asset('kyc').'/'.$jamb->olevel2}}" alt="Second sitting">
                                                                 </a>
                                                         </div>
@@ -126,7 +126,7 @@
                                                     </div><!-- .col -->
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                                <a href="{{asset('kyc').'/'.$jamb->alevel}}" >
+                                                                <a href="{{asset('kyc').'/'.$jamb->alevel}}" download="{{$jamb->fname.'_'.$jamb->lname.'_alevel.jpg'}}">
                                                                     <img style="height:300px" src="{{asset('kyc').'/'.$jamb->alevel}}" alt="A level">
                                                                 </a>
                                                         </div>
@@ -179,6 +179,22 @@
                                                         </div>
 
                                                     </div><!-- .col -->
+                                                        <div class="col-md-6">
+                                                        <label class="form-label">Proof of upload <span class="text-danger">*</span></label>
+                                                            <div class="nk-kycfm-upload-box">
+                                                                <div class="upload-zone">
+                                                                     <div class="custom-file">
+                                                                        <input type="file" onchange="uploadImage(this)" class="custom-file-input" name="proof"  >
+                                                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 d-none d-sm-block">
+                                                            <div class="mx-md-4">
+                                                                <img  src="{{$jamb->proof?asset('kyc').'/'.$jamb->proof:asset('dash-assets/images/icon-national-id.png')}}" alt="first sitting">
+                                                            </div>
+                                                        </div>
                                                     
                                                 </div><!-- .row -->
                                             </div><!-- nk-kycfm-content -->
@@ -198,4 +214,18 @@
                 </div>
             </div>
         </div>
-    </div>@stop
+    </div>
+    <script>
+
+const uploadImage = (e)=>{
+        let image = e.files[0];
+        let imageDom = e.parentElement.parentElement.parentElement.parentElement.nextElementSibling
+        let reader = new FileReader();
+        reader.readAsDataURL(image);
+        reader.onload = (e)=>{
+            imageDom.querySelector('img').setAttribute('src', reader.result);
+            
+        }
+    }
+</script>
+    @stop

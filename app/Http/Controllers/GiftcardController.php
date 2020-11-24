@@ -35,6 +35,7 @@ class GiftcardController extends Controller
     {
         $data['page_title'] = 'Manage scratch card';
         $data['currency'] = Card::latest()->get();
+        $data['cards'] = Service::whereType(3)->whereServiceType(1)->get();
         return view('admin.giftcard.index', $data);
     }
     public function service()
@@ -53,23 +54,45 @@ class GiftcardController extends Controller
         $request->validate([
             'type' => 'required',
             'amount' => 'required',
+            'image'=>'required',
+            'service_type'=>'required',
+            'name'=>'required',
+            'description'=>'required',
         ]);
-        $service = Service::create([
-            'type'=>$request->type,
-            'amount'=>$request->amount,
-        ]);
+        $service['type']=$request->type;
+        $service['name']=ucwords($request->name);
+        $service['amount']=$request->amount;
+        $service['description']=$request->description;
+        $service['service_type']=$request->service_type;
+        if($request->hasFile('image'))
+        {
+            $service['image'] = uniqid().'.jpg';
+            $request->image->move('kyc',$service['image']);
+        }
+        Service::create($service);
         return back()->withSuccess('Save Successfully');
     }
     public function updateService(Request $request){
         $request->validate([
             'type' => 'required',
             'amount' => 'required',
+            'service_type'=>'required',
+            'name'=>'required',
+            'description'=>'required',
         ]);
         $service = Service::find($request->id);
-        $service->update([
-            'type'=>$request->type,
-            'amount'=>$request->amount,
-        ]);
+        $service->type=$request->type;
+        $service->name=ucwords($request->name);
+        $service->amount=$request->amount;
+        $service->service_type=$request->service_type;
+        $service->description=$request->description;
+        if($request->hasFile('image'))
+        {
+            $name=uniqid().'.jpg';
+            $service->image = $name;
+            $request->image->move('kyc',$name);
+        }
+        $service->update();
         return back()->withSuccess('Save Successfully');
     }
 
@@ -105,6 +128,15 @@ class GiftcardController extends Controller
 
         $notification =  array('message' => 'Giftcard Deleted Successfully !!', 'alert-type' => 'success');
         return back()->with($notification);
+    }
+    public function deleteService($id)
+    {
+        $data = Service::find($id);
+        $data->delete();
+
+
+        $notification =  array('message' => 'Service Deleted Successfully !!', 'alert-type' => 'success');
+        return back()->with($notification);
 	}
 	 public function deletetype($id)
     {
@@ -122,14 +154,22 @@ class GiftcardController extends Controller
 
     public function activate($id)
     {
-        $data = Giftcard::find($id);
+        $data = Card::find($id);
         $data->status= 1;
         $data->save();
 
-        $notification =  array('message' => 'Giftcard Activated Successfully !!', 'alert-type' => 'success');
+        $notification =  array('message' => 'Card Activated Successfully !!', 'alert-type' => 'success');
         return back()->with($notification);
 	}
+    public function activateService($id)
+    {
+        $data = Service::find($id);
+        $data->status= 0;
+        $data->save();
 
+        $notification =  array('message' => 'Service Activated Successfully !!', 'alert-type' => 'success');
+        return back()->with($notification);
+	}
 
     public function deactivatepack($id)
     {
@@ -155,11 +195,20 @@ class GiftcardController extends Controller
 
     public function deactivate($id)
     {
-        $data = Giftcard::find($id);
+        $data = Card::find($id);
         $data->status= 0;
         $data->save();
 
-        $notification =  array('message' => 'Giftcard Deactivated Successfully !!', 'alert-type' => 'success');
+        $notification =  array('message' => 'Card Deactivated Successfully !!', 'alert-type' => 'success');
+        return back()->with($notification);
+    }
+    public function deactivateService($id)
+    {
+        $data = Service::find($id);
+        $data->status= -1;
+        $data->save();
+
+        $notification =  array('message' => 'Service Deactivated Successfully !!', 'alert-type' => 'success');
         return back()->with($notification);
 	}
 
@@ -187,6 +236,8 @@ class GiftcardController extends Controller
             'type' => 'required',
             'pin' => 'required',
             'serial_no' => 'required',
+            
+            
         ]);
 
 
@@ -294,6 +345,7 @@ class GiftcardController extends Controller
     {
         $data['giftcard'] = Card::find($id);
         $data['page_title'] = "Manage Scratch card";
+        $data['cards'] = Service::whereType(3)->whereServiceType(1)->get();
         return view('admin.giftcard.edit', $data);
     }
 
@@ -335,7 +387,6 @@ class GiftcardController extends Controller
             'pin' => 'required',
             'serial_no' => 'required',
         ]);
-
         $data = Card::find($request->id);
         $data['type'] = $request->type ;
         $data['serial_no'] = $request->serial_no ;

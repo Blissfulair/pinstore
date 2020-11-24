@@ -119,7 +119,7 @@
                                 <a class="nav-link" href="#">{{$basic->sitename}}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="https://www.givitec.com"> All Rights Reserved. Powered By Givitec Ltd</a>
+                                <a class="nav-link" href="https://www.yomnet.com.ng"> All Rights Reserved. Powered By Yomnet</a>
                             </li>
 
                         </ul><!-- .nav -->

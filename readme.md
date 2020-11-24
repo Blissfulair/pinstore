@@ -6,7 +6,7 @@
 Pinstore is an online platform for sales of WAEC, NECO and NABTEB pins along side were JAMB CBT owners sign up and perform CBT activites and get paid:
 
 - [Pinstore Website](https://www.pinstore.com.ng).
-- [Pinstore Login](https://www.app.pinstore.com.ng/login).
+- [Pinstore Login](https://www.pinstore.com.ng/login).
 
 Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
 

@@ -14,10 +14,11 @@
   <select type="text" class="input-bordered" 
                                                    name="type">
                                                    <option value="">Select Scratch Card Type</option>
-                                                   <option {{$giftcard->type==3?'selected':''}} value="3">WEAC</option>
-                                                   <option {{$giftcard->type==4?'selected':''}} value="4">NECO</option>
-                                                   <option {{$giftcard->type==5?'selected':''}} value="5">NABTEB</option>
-                                                   <option {{$giftcard->type==6?'selected':''}} value="6">WAEC Verification</option>
+                                                   @if($cards)
+                                                    @foreach($cards as $card)
+                                                        <option {{$giftcard->type==$card->id?'selected':''}} value="{{$card->id}}">{{$card->name}}</option>
+                                                    @endforeach
+                                                   @endif
                                             </select>
 
                                                    </div></div><div class="col-xl-12 col-sm-12"><div class="input-item input-with-label"><label class="input-item-label ucap text-exlight">Pin</label> 

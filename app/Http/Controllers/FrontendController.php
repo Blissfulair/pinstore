@@ -38,10 +38,7 @@ class FrontendController extends Controller
     {
         $basic = GeneralSettings::first();
         $data['page_title'] = "Home";
-        $data['currency'] = Currency::whereStatus(1)->orderBy('symbol','asc')->get();
-        $data['currency2'] = Currency::whereStatus(1)->orderBy('symbol','desc')->get();
-        $data['testimonial'] = Testimonial::whereStatus(1)->get();
-        $data['faq'] = Faq::all();
+        $data['services'] = Service::all();
 
         if($basic->maintain == 1){
         return view('front.maintain', $data);

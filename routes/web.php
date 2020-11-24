@@ -182,7 +182,8 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('/purchased-cards', 'HomeController@purchasedScratchcards')->name('purchasedScratchcards');
         Route::get('/upload-of-olevel-or-alevel-results/{id}', 'HomeController@editUploadResult')->name('editUploadResult');
         Route::post('/save-course', 'HomeController@saveChangeOfCourse')->name('saveChangeOfCourse');
-        
+        Route::get('/direct-deposit', 'HomeController@directDeposit')->name('directDeposit');
+        Route::post('/direct-deposit', 'HomeController@saveDirectDeposit')->name('saveDirectDeposit');
         Route::post('/update-course', 'HomeController@updateChangeOfCourse')->name('updateChangeOfCourse');
         Route::post('/update-upload', 'HomeController@updateUpload')->name('updateUpload');
         Route::post('/save-waec', 'HomeController@buyWaecCard')->name('buyWaecCard');
@@ -191,6 +192,8 @@ Route::group(['prefix' => 'user'], function () {
         Route::post('/save-uplaod', 'HomeController@saveUpload')->name('saveUpload');
         Route::get('/fund-wallet', 'HomeController@fund_wallet')->name('fund_wallet');
         Route::get('/deposit-crypto', 'HomeController@depositcrypto')->name('depositcrypto');
+        Route::get('/service/{name}', 'HomeController@services')->name('user.service');
+        Route::post('/services', 'HomeController@buyService')->name('user.buyService');
         Route::get('/deposit', 'HomeController@depositLog')->name('deposit');
         Route::post('/deposit', 'HomeController@deposit')->name('deposit');
         Route::post('/deposit-data-insert', 'HomeController@depositDataInsert')->name('deposit.data-insert');
@@ -408,8 +411,6 @@ Route::group(['prefix' => 'user'], function () {
 Route::group(['prefix' => 'cbt'], function () {
     Route::get('/', 'CbtLoginController@index')->name('cbt.loginForm');
     Route::post('/', 'CbtLoginController@authenticate')->name('cbt.login');
-    Route::get('/register', 'CbtLoginController@register')->name('cbt.register');
-    Route::post('/regisetersave', 'CbtLoginController@create')->name('cbt.registerSave');
 });
 Route::group(['prefix' => 'cbt', 'middleware' => 'auth:cbt'], function () {
     Route::get('/dashboard', 'CbtController@dashboard')->name('cbt.dashboard');
@@ -422,6 +423,8 @@ Route::group(['prefix' => 'cbt', 'middleware' => 'auth:cbt'], function () {
     Route::get('my-account', 'CbtController@Profile')->name('cbt.profile');
     Route::post('my-account', 'CbtController@submitProfile')->name('cbt.edit-profile');
     Route::get('my-security', 'CbtController@Security')->name('cbt.security');
+    Route::get('/change-password', 'CbtController@ChangePassword')->name('cbt.password');
+    Route::post('/change-password', 'CbtController@submitPassword')->name('cbt.change-password');
     Route::get('/change-of-institution/{id}', 'CbtController@changeOfInstitutionDetails')->name('cbt.change-details');
     Route::post('/logout', 'CbtController@logout')->name('cbt.logout');
     Route::post('/save-course', 'CbtController@updateChangeOfCourse')->name('cbt-updateChangeOfCourse');
@@ -603,12 +606,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
      Route::get('/edit-prices/{id}', 'GiftcardController@editService')->name('admin.edit-service');
      Route::get('/gift-card', 'GiftcardController@gifttype')->name('giftcard.type');
      Route::get('/activate-card/{id}', 'GiftcardController@activate')->name('activatecard');
+     Route::get('/activate-service/{id}', 'GiftcardController@activateService')->name('activateService');
      Route::get('/activate-pack/{id}', 'GiftcardController@activatepack')->name('activatepack');
      Route::get('/edit-card/{id}', 'GiftcardController@edit')->name('editcard');
      Route::get('/edit-card-type/{id}', 'GiftcardController@edittype')->name('editcardtype');
      Route::get('/edit-cardtype/{id}', 'GiftcardController@edittype2')->name('editcardtype2');
     Route::get('/deactivate-card/{id}', 'GiftcardController@deactivate')->name('deactivatecard');
     Route::get('/delete-card/{id}', 'GiftcardController@delete')->name('deletecard');
+    Route::get('/deactivate-service/{id}', 'GiftcardController@deactivateService')->name('deactivateService');
+    Route::get('/delete-service/{id}', 'GiftcardController@deleteService')->name('deleteService');
     Route::get('/deactivate-pack/{id}', 'GiftcardController@deactivatepack')->name('deactivatepack');
     Route::get('/delete-pack/{id}', 'GiftcardController@deletepack')->name('deletepack');
     Route::post('/post-card/', 'GiftcardController@post')->name('postcard');
@@ -724,6 +730,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     //Staff Management
     Route::get('create-admin', ['uses'=>'AdminController@createadmin', 'middleware'=>'createuser'])->name('createadmin');
     Route::post('create-admin', ['uses'=>'AdminController@createadminpost', 'middleware'=>'createuser'])->name('createnewadmin');
+
+    Route::get('create-cbt', ['uses'=>'AdminController@createCbt', 'middleware'=>'createuser'])->name('createCbt');
+    Route::post('create-cbt', ['uses'=>'AdminController@createCbtPost', 'middleware'=>'createuser'])->name('createnewCbt');
 
 
     //User Management

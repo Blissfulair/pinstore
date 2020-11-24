@@ -11,6 +11,7 @@ use App\Message;
 use App\Trx;
 use App\Giftcardsale;
 use App\User;
+use App\Cbt;
 use App\Lib\BlockIo;
 use Illuminate\Http\Request;
 use Auth;
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Hash;
 use File;
 use Image;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 class AdminController extends Controller
 {
 	public function __construct(){
@@ -44,6 +47,62 @@ class AdminController extends Controller
         $data['admin'] = Admin::latest()->get();
         return view('admin.staff.create', $data);
     }
+    public function createCbt()
+    {
+        $data['page_title'] = "Create CBT User";
+        return view('admin.staff.cbt.create', $data);
+    }
+    public function createCbtPost(Request $request)
+    {
+        $this->validate($request,[
+            'username'=>'required|unique:cbt',
+            'email'=>'required|unique:cbt',
+            'phone'=>'required'
+
+        ]);
+        $basic = GeneralSettings::first();
+
+        if ($basic->email_verification == 1) {
+            $email_verify = 0;
+        } else {
+            $email_verify = 1;
+        }
+
+        if ($basic->sms_verification == 1) {
+            $phone_verify = 0;
+        } else {
+            $phone_verify = 1;
+        }
+
+
+
+
+
+        $verification_code  = strtoupper(Str::random(6));
+        $sms_code  = strtoupper(Str::random(6));
+        $email_time = Carbon::parse()->addMinutes(5);
+        $phone_time = Carbon::parse()->addMinutes(5);
+
+
+
+        $user = Cbt::create([
+            'email' => $request['email'],
+            'timezone' => $basic->timezone,
+            'phone' => $request['phone'],
+            'username' => strtolower($request['username']),
+            'email_verify' => $email_verify,
+            'verification_code' => $verification_code,
+            'sms_code' => $sms_code,
+            'email_time' => $email_time,
+            'phone_verify' => $phone_verify,
+            'confirmed' => 1,
+			'status'=>1,
+            'token' => strtoupper(Str::random(100)),
+            'phone_time' => $phone_time,
+            'password' => $request['password'],
+        ]);
+        return back()->withSuccess('Created successfully');
+	}
     // public function editadmin($id)
     // {
     //     $data['page_title'] = "Edit Admin";
@@ -53,6 +112,12 @@ class AdminController extends Controller
 
      public function createadminpost(Request $request)
     {
+            $this->validate($request,[
+                    'username'=>'required|unique:admins',
+                    'email'=>'required|unique:admins',
+                    'phone'=>'required'
+
+                ]);
 
                     Admin::create([
                     'name' => $request->name,

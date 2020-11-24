@@ -15,9 +15,7 @@
 
  @if($user->verified == 2)
 <div class="data-state data-state-sm data-state-approved"></div>
-@else
-<div class="data-state data-state-sm data-state-pending"></div>
-@endif KYC</li></ul></td><td class="data-col dt-login"><span class="sub sub-s2 sub-time">{{$user->created_at}}</span></td><td class="data-col dt-status">
+@endif</li></ul></td><td class="data-col dt-login"><span class="sub sub-s2 sub-time">{{$user->created_at}}</span></td><td class="data-col dt-status">
 @if($user->status == 1)
 <span class="dt-status-md badge badge-outline badge-success badge-md">Active</span>
 @else

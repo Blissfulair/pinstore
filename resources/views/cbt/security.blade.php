@@ -23,6 +23,7 @@
                                 <ul class="nk-nav nav nav-tabs">
                                     <li class="nav-item"><a class="nav-link" href="{{route('cbt.profile')}}">Personal</a></li>
                                     <li class="nav-item"><a class="nav-link  active" href="#">Bank Details</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{route('cbt.password')}}">Change-Password</a></li>
                                    
                                 </ul>
                                 <div class="nk-block">

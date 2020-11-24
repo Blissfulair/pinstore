@@ -51,10 +51,10 @@
                                                             <div class="nk-tb-col"><span>Service</span></div>
                                                             <div class="nk-tb-col tb-col-xxl"><span>Source</span></div>
 
-                                                            <div class="nk-tb-col text-right"><span>Profile Code</span></div>
-                                                            <div class="nk-tb-col text-right tb-col-sm"><span>Date</span></div>
+                                                            <div class="nk-tb-col text-left"><span>Profile Code</span></div>
+                                                            <div class="nk-tb-col text-left tb-col-sm"><span>Date</span></div>
                                                             <div class="nk-tb-col nk-tb-col-status"><span class="sub-text d-none d-md-block">Status</span></div>
-                                                            <div class="nk-tb-col nk-tb-col-tools"></div>
+                                                            <div class="nk-tb-col nk-tb-col-tools text-right">Action</div>
                                                         </div>
                                                         @if(count($histories) >0)
                                                          @foreach($histories as $k=>$data)
@@ -74,10 +74,10 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="nk-tb-col text-right">
+                                                            <div class="nk-tb-col text-left">
                                                                 <span class="tb-amount">{{$data->profile_code}}</span>
                                                             </div>
-                                                            <div class="nk-tb-col text-right tb-col-sm">
+                                                            <div class="nk-tb-col text-left tb-col-sm">
                                                                 <span class="tb-amount">{{ Carbon\Carbon::parse($data->updated_at)->diffForHumans() }} <span></span></span><span class="tb-amount-sm">{{$data->updated_at}}</span>
                                                             </div>
                                                             <div class="nk-tb-col nk-tb-col-status">
@@ -93,14 +93,14 @@
 
 
                                                             </div>
-                                                            <div class="nk-tb-col nk-tb-col-tools">
+                                                            <div class="nk-tb-col nk-tb-col-tools ">
                                                                 <ul class="nk-tb-actions gx-2">
 
-                                                                    <li class="nk-tb-action-hidden">
+                                                                    <li>
                                                                         @if($data->bill->type == 1)
-                                                                        <a href="{{ route('editChangeCourse', ['id'=>$data->id]) }}"  class="bg-white btn btn-sm btn-outline-light btn-icon" title="Details"><em class="icon ni ni-eye"></em></a>
+                                                                        <a href="{{ route('editChangeCourse', ['id'=>$data->id]) }}"  class="bg-white btn-icon btn-outline-light" title="Details"><em class="icon ni ni-eye"></em>View</a>
                                                                         @elseif($data->bill->type == 2)
-                                                                        <a href="{{ route('editUploadResult', ['id'=>$data->id]) }}"  class="bg-white btn btn-sm btn-outline-light btn-icon" title="Details"><em class="icon ni ni-eye"></em></a>
+                                                                        <a href="{{ route('editUploadResult', ['id'=>$data->id]) }}"  class="bg-white btn-icon btn-outline-light" title="Details"><em class="icon ni ni-eye"></em>View</a>
                                                                         @else
 
                                                                         @endif
@@ -120,7 +120,7 @@
 
                                                          @endforeach
                                                          @else
-                                                         No Deposit
+                                                         No history
                                                          @endif
 
 

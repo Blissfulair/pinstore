@@ -69,13 +69,6 @@
                         </div>
                     </form><!-- form -->
 
-                    <div class="text-center pt-4 pb-3">
-                        <h6 class="overline-title overline-title-sap"><span>OR REGISTER</span></h6>
-                    </div>
-                    <ul class="nav justify-center gx-4">
-                        <li class="nav-item"><a class="nav-link" href="{{ route('cbt.register') }}">Register With Email</a></li>
-                    </ul>
-
                 </div><!-- .nk-block -->
                 <div class="nk-block nk-auth-footer">
                     <div class="nk-block-between">
@@ -88,7 +81,7 @@
                                 <a class="nav-link" href="#">{{$basic->sitename}}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="https://www.givitec.com"> All Rights Reserved. Powered By Givitec Ltd</a>
+                                <a class="nav-link" href="https://www.yomnet.com.ng"> All Rights Reserved. Powered By Yomnet</a>
                             </li>
 
                         </ul><!-- .nav -->

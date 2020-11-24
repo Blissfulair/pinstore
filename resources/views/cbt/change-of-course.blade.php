@@ -9,7 +9,7 @@
                                             <div class="nk-block-head-content">
                                                 <h3 class="nk-block-title page-title">Change Of Institution/Course</h3>
                                                 @php
-                                                 $count = \App\Jamb::whereStatus(0)->whereType(1)->whereCbt_id(0)->count();
+                                                 $count = \App\Jamb::whereStatus(0)->whereType(1)->count();
                                                  @endphp
                                                 <div class="nk-block-des text-soft"><p>You have a total of {{$count}} {{$count==1?'change of course/institution':'change of course/institutions'}} available</p></div>
                                             </div>
@@ -51,10 +51,10 @@
                                                             <div class="nk-tb-col"><span>Service</span></div>
                                                             <div class="nk-tb-col tb-col-xxl"><span>Source</span></div>
 
-                                                            <div class="nk-tb-col text-right"><span>Profile Code</span></div>
-                                                            <div class="nk-tb-col text-right tb-col-sm"><span>Date</span></div>
+                                                            <div class="nk-tb-col text-left"><span>Profile Code</span></div>
+                                                            <div class="nk-tb-col text-left tb-col-sm"><span>Date</span></div>
                                                             <div class="nk-tb-col nk-tb-col-status"><span class="sub-text d-none d-md-block">Status</span></div>
-                                                            <div class="nk-tb-col nk-tb-col-tools"></div>
+                                                            <div class="nk-tb-col nk-tb-col-tools">Action</div>
                                                         </div>
                                                         @if(count($jamb) >0)
                                                          @foreach($jamb as $k=>$data)
@@ -74,15 +74,17 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="nk-tb-col text-right">
+                                                            <div class="nk-tb-col text-left">
                                                                 <span class="tb-amount">{{$data->profile_code}}</span>
                                                             </div>
-                                                            <div class="nk-tb-col text-right tb-col-sm">
+                                                            <div class="nk-tb-col text-left tb-col-sm">
                                                                 <span class="tb-amount">{{ Carbon\Carbon::parse($data->updated_at)->diffForHumans() }} <span></span></span><span class="tb-amount-sm">{{$data->updated_at}}</span>
                                                             </div>
                                                             <div class="nk-tb-col nk-tb-col-status">
                                                                 <div class="dot dot-success d-md-none"></div>
-                                                                 @if($data->status == 1)
+                                                                @if($data->cbt_id !== 0)
+                                                                    <span class="badge badge-sm badge-dim badge-outline-info d-none d-md-inline-flex">Processing</span>
+                                                                 @elseif($data->status == 1)
                                                                    <span class="badge badge-sm badge-dim badge-outline-success d-none d-md-inline-flex">Completed</span>
                                                                     @elseif($data->status == 0)
                                                                     <span class="badge badge-sm badge-dim badge-outline-warning d-none d-md-inline-flex">Pending</span>
@@ -93,15 +95,13 @@
 
 
                                                             </div>
-                                                            <div class="nk-tb-col nk-tb-col-tools">
-                                                                <ul class="nk-tb-actions gx-2">
+                                                            <div class="nk-tb-col nk-tb-col-status">
 
-                                                                    <li class="nk-tb-action-hidden">
-                                                                        <a href="{{ route('cbt.change-details', ['id'=>$data->id]) }}"  class="bg-white btn btn-sm btn-outline-light btn-icon" title="Details"><em class="icon ni ni-eye"></em></a>
-
-                                                                    </li>
-
-                                                                </ul>
+                                                            <div class="badge badge-sm badge-dim badge-outline-success d-none d-md-inline-flex">
+                                                                        <a href="{{ route('cbt.change-details', ['id'=>$data->id]) }}" >Process</a>
+                                                                    </div>
+                                                                </div>
+    
                                                             </div>
                                                         </div>
 

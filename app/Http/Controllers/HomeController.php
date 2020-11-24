@@ -501,59 +501,32 @@ public function editUploadResult($id){
 
 
 
-    public function registrationPlan(Request $request){
+    public function saveDirectDeposit(Request $request){
         $request->validate(
         [
-        'image' => 'required|mimes:jpeg,png,jpg,gif,svg',
+        'amount'=>'required'
         ]);
-        $plan = Plan::find($request->plan);
         $user = User::find(Auth::guard('web')->id());
-        $deposCheck = Deposit::where(['user_id'=>$user->id, 'status'=>0])->first();
-        if($deposCheck)
-           return redirect()->route('home')->with('success', 'Bank Transfer Deposit Request Received.Please wait while we validate your payment. You will have access to your dashboard as soon as you get an email of approval.');
         $basic = GeneralSettings::first();
-        $user->plan_id = $plan->id;
-        $user->pvs = $user->pvs + $plan->pvs;
-        $user->update();
 
         $trx = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890') , 0 , 6 );
 
-        if($request->gateway == "bank"){
-         $usdamo = ($plan->price + 0) / $basic->rate;
-
-         $depo['user_id'] = Auth::id();
+         $depo['user_id'] = $user->id;
                     $depo['gateway_id'] = 101;
-                    $depo['amount'] = $plan->price;
+                    $depo['amount'] =$request->amount;
                     $depo['charge'] = 0;
-                    $depo['usd'] = round($usdamo, 2);
+                    $depo['usd'] = round(0, 2);
                     $depo['trx'] = $trx;
                     $depo['status'] = 0;
-                    $depo['image'] = uniqid().'.jpg';
-                    $request->image->move('uploads/payments',$depo['image']);
-                    $depo['code'] = $request->code ;
+                    if($request->hasFile('image')){
+                        $depo['image'] = uniqid().'.jpg';
+                        $request->proof->move('uploads/payments',$depo['image']);
+                    }
+
+                    $depo['code'] = $request->ref ;
                     Deposit::create($depo);
 
-                    
-
-        }
-
-         $email = $user->email;
-
-
-          $data = array(
-
-          "name"=> $user->username,
-          "email"=> $user->email,
-                        "body"=> "Your have joined Successfully". $plan->name." Multilevel Network Plan",
-                        "heading"=> "You Joined New MLM Plan",
-                        );
-
-
-
-              Mail::send('mail', $data, function($message) {
-            $user = User::find(Auth::guard('web')->user()->id);
-            $message->to($user->email, $user->username)->subject('New MLM Plan');
-        });
+ 
        return redirect()->route('home')->with('success', 'Bank Transfer Deposit Request Received.Please wait while we validate your payment. You will have access to your dashboard as soon as you get an email of approval.');
     }
 
@@ -680,6 +653,7 @@ public function editUploadResult($id){
         $data['pending'] = Jamb::whereStatus(0)->whereUserId(Auth::guard('web')->user()->id)->count();
         $data['completed'] = Jamb::whereStatus(1)->whereUserId(Auth::guard('web')->user()->id)->count();
         $data['user'] = $user;
+        $data['services'] = Service::whereStatus(0)->get();
 
         $user->lastseen = Carbon::now();
         $user->save();
@@ -694,7 +668,10 @@ public function editUploadResult($id){
 
         return view('home', $data);
     }
-
+    public function directDeposit(){
+        $data['page_title'] = 'Fund Wallet';
+        return view( 'user.deposit', $data);
+    }
 
     public function daily()
     {
@@ -1977,6 +1954,34 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         $data['service'] = Service::whereType(4)->first();
         $data['page_title'] = "NECO Scratch card";
         return view('user.neco', $data);
+    }
+    public function services($name)
+    {
+
+        $service = Service::whereName($name)->first();
+        $user = Auth::guard('web')->user();
+        $data['gate'] = Gateway::find(107);
+        if($service->service_type == 1)
+        $data['card'] = Card::whereType($service->id)->whereStatus(0)->first();
+        else{
+            $payment = Bill::whereUser_id($user->id)->whereType($service->type)->whereStatus(0)->first();
+            $data['payment'] = $payment;
+        }
+        $data['user'] = $user;
+        $data['service'] = $service;
+        $data['page_title'] = $service->name;
+        return view('user.services', $data);
+    }
+    public function buyService(Request $request){
+        $user = Auth::guard('web')->user();
+        if($request->amount > $user->balance)
+        return back()->withAlert('You have insufficient fund in your wallet.'); 
+        $card = Card::whereType($request->type)->whereStatus(0)->first();
+
+        if($this->makeCardPayment($request->amount, $request->type, $card->pin, $card->serial_no))
+        $card->status = 1;
+        $card->update();
+        return redirect()->route('purchasedScratchcards');
     }
     public function buyWaecCard(Request $request){
         $user = Auth::guard('web')->user();

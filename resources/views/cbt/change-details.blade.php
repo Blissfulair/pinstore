@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="nk-content-inner">
                 <div class="nk-content-body">
-                <form role="form" method="POST" action="{{ route('cbt-updateChangeOfCourse') }}">
+                <form role="form" method="POST" action="{{ route('cbt-updateChangeOfCourse') }}" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <input type="hidden" name="id" value="{{$jamb->id}}" />
                             <div class="kyc-app wide-ssm m-autso">
@@ -213,9 +213,10 @@
                                                         </div>
                                                     </div><!-- .col -->
                                                     <div class="col-md-6">
+                                                    <label class="form-label">Status <span class="text-danger">*</span></label>
+
                                                         <div class="form-group">
                                                             <div class="form-label-group">
-                                                                <label class="form-label">Status <span class="text-danger">*</span></label>
                                                                 <div class="form-pm-group">
                                                                     <ul class="buysell-pm-list">
                                                                         <li class="buysell-pm-item">
@@ -237,7 +238,24 @@
                                                         </div>
 
                                                     </div><!-- .col -->
-                                                    
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Proof of Change of institution/course <span class="text-danger">*</span></label>
+                                                            <div class="nk-kycfm-upload-box">
+                                                                <div class="upload-zone">
+                                                                     <div class="custom-file">
+                                                                        <input type="file" class="custom-file-input" name="proof"  >
+                                                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 d-none d-sm-block">
+                                                            @if($jamb->proof)
+                                                            <div class="mx-md-4">
+                                                                <a  href="{{$jamb->proof?asset('kyc').'/'.$jamb->proof:asset('dash-assets/images/icon-national-id.png')}}" >Download</a>
+                                                            </div>
+                                                            @endif
+                                                        </div>
                                                 </div><!-- .row -->
                                             </div><!-- nk-kycfm-content -->
                                             <div class="nk-kycfm-footer">

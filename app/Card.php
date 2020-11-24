@@ -13,5 +13,9 @@ class Card extends Model
         return $this->belongsTo(User::class, 'user_id')->withDefault();
     }
 
+    public function service(){
+        return $this->belongsTo(Service::class, 'type')->withDefault();
+    }
+
 
 }

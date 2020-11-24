@@ -7,7 +7,7 @@
 
 
  @foreach($currency as $k=>$data)
-<tr class="data-item"><td class="data-col dt-user"><span class="lead user-name">{{$data->type ==3?'WAEC':($data->type == 4?'NECO':'NABTEB') }}</span><span class="sub user-id"></span></td> 
+<tr class="data-item"><td class="data-col dt-user"><span class="lead user-name">{{$data->service->name }}</span><span class="sub user-id"></span></td> 
 <td class="data-col dt-token"><span class="lead lead-btoken">{{$data->serial_no}}</span></td>
 <td class="data-col dt-token"><span class="lead lead-btoken">{{$data->pin}}</span></td>
 <td class="data-col dt-status">
@@ -100,9 +100,11 @@
                                             <select type="text" class="input-bordered" placeholder="Pin" value="{{old('pin')}}"
                                                    name="type">
                                                    <option value="">Select Scratch Card Type</option>
-                                                   <option value="3">WEAC</option>
-                                                   <option value="4">NECO</option>
-                                                   <option value="5">NABTEB</option>
+                                                   @if($cards)
+                                                    @foreach($cards as $card)
+                                                        <option value="{{$card->id}}">{{$card->name}}</option>
+                                                    @endforeach
+                                                   @endif
                                             </select>
 
                                         </div>

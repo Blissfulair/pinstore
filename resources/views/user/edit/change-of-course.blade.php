@@ -160,11 +160,17 @@
                                                 </div>
                                             </div><!-- nk-kycfm-head -->
                                             <div class="nk-kycfm-footer">
-                                                @if($service->cbt_id != 0)
+                                                @if($service->cbt_id != 0 && $service->status != 1)
                                                 <p class="form-label"><span class="text-success">{{$service->cbt->fname}} {{ $service->cbt->lname }}</span> is currently working on it. Please be patient...</p>
                                                 @endif
                                                 @if($service->comment)
                                                 <p class="form-label text-warning">{{$service->comment}}</p>
+                                                @endif
+                                                @if($service->proof)
+                                                    <label class="form-label">Proof of Change of Institution/Course</label>
+                                                    <div class="mx-md-4">
+                                                        <a download="{{$service->fname.'_'.$service->lname.'_change_of_institution_or_course.pdf'}}" href="{{$service->proof?asset('kyc').'/'.$service->proof:asset('dash-assets/images/icon-national-id.png')}}" >Download and Print</a>
+                                                    </div>
                                                 @endif
                                             </div><!-- nk-kycfm-footer -->
                                             @endif

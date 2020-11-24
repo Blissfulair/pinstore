@@ -140,6 +140,7 @@
                 @endif
                 @if($user->createuser == 1)
                 <li class=" "><a class=" " href="{{route('createadmin')}}">Create Admin</a></li>
+                <li class=" "><a class=" " href="{{route('createCbt')}}">Create CBT User</a></li>
                 @endif
               </ul>
             </li>

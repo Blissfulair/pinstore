@@ -909,9 +909,9 @@ public function editUploadResult($id){
             'password' => 'required|min:5|confirmed'
         ]);
         try {
-            $c_password = Auth::user()->password;
-            $c_id = Auth::user()->id;
-            $user = User::findOrFail($c_id);
+            $c_password = Auth::guard('cbt')->user()->password;
+            $c_id = Auth::guard('cbt')->user()->id;
+            $user = Cbt::findOrFail($c_id);
             if (Hash::check($request->current_password, $c_password)) {
 
                 $password = Hash::make($request->password);
@@ -1143,10 +1143,10 @@ public function editUploadResult($id){
     public function changeOfInstitution()
     {
         $jamb = Jamb::where(function($query){
-            $query->whereCbt_id(0)->whereType(1)->whereStatus(0);
+            $query->whereType(1)->whereStatus(0);
         })
         ->orWhere(function($query){
-            $query->whereCbt_id(0)->whereType(1)->whereStatus(-1);
+            $query->whereType(1)->whereStatus(-1);
         })->paginate(5);
         $data['page_title'] = "Change of course/Institution";
         $data['jamb'] = $jamb;
@@ -1155,10 +1155,10 @@ public function editUploadResult($id){
     public function cbtUploads()
     {
         $jamb = Jamb::where(function($query){
-            $query->whereCbt_id(0)->whereType(2)->whereStatus(0);
+            $query->whereType(2)->whereStatus(0);
         })
         ->orWhere(function($query){
-            $query->whereCbt_id(0)->whereType(2)->whereStatus(-1);
+            $query->whereType(2)->whereStatus(-1);
         })->paginate(5);
         $data['page_title'] = "Upload of O-Level/A-Level Results";
         $data['jamb'] = $jamb;
@@ -2088,6 +2088,10 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         $jamb = Jamb::find($request->id);
         $user = Auth::guard('cbt')->user();
         if($request->status == 1){
+            if(!$request->hasFile('proof'))
+                return back()->withAlert('Proof of change is required');
+            $data['proof'] = uniqid().'.pdf';
+            $request->proof->move('kyc',$data['proof']);
             $user->balance = $user->balance+($jamb->bill->amount * ($basic->ref/100));
             $user->save();
         }
@@ -2152,6 +2156,10 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         $docm['comment']=$request->comment;
         $user = Auth::guard('cbt')->user();
         if($request->status == 1){
+            if(!$request->hasFile('proof'))
+                return back()->withAlert('Proof of upload is required');
+            $docm['proof'] = uniqid().'.jpg';
+            $request->proof->move('kyc',$docm['proof']);
             $user->balance = $user->balance+($jamb->bill->amount * ($basic->ref/100));;
             $user->save();
         }
@@ -2196,6 +2204,13 @@ $charge = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100)
         $data['page_title'] = "Security";
         $data['user'] = Cbt::findOrFail($auth->id);
         return view('cbt.security', $data);
+    }
+    public function ChangePassword()
+    {
+        $auth = Auth::guard('cbt')->user();
+        $data['page_title'] = "Change Password";
+        $data['user'] = Cbt::findOrFail($auth->id);
+        return view('cbt.change-password', $data);
     }
       public function buycoin()
     {    $auth = Auth::user();

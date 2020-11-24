@@ -7,14 +7,18 @@
 
 
  @foreach($currency as $k=>$data)
-<tr class="data-item"><td class="data-col dt-user"><span class="lead user-name">{{$data->type == 1?'Change Of Institution/Course':($data->type == 2?'Upload of O-Level/A-Level':($data->type ==3?'WAEC':($data->type == 4?'NECO':'NABTEB'))) }}</span><span class="sub user-id"></span></td> 
+<tr class="data-item"><td class="data-col dt-user"><span class="lead user-name">{{$data->name}}</span><span class="sub user-id"></span></td> 
 <td class="data-col dt-token"><span class="lead lead-btoken">{{$data->amount}}</span></td>
 <td class="data-col dt-status">
 
 
 </td><td class="data-col text-right"><div class="relative d-inline-block"><a href="#" class="btn btn-light-alt btn-xs btn-icon toggle-tigger"><em class="ti ti-more-alt"></em></a><div class="toggle-class dropdown-content dropdown-content-top-left"><ul class="dropdown-list"><li><a href="{{route('admin.edit-service',$data->id)}}"><em class="ti ti-eye"></em> View Details</a></li>
-
-<li><a href="{{route('deletecard',$data->id)}}"><em class="ti ti-trash"></em> Delete</a></li></ul></div></div></td></tr>
+@if($data->status == 0)
+<li><a href="{{route('deactivateService',$data->id)}}"><em class="ti ti-na"></em> Deactivate</a></li>
+@elseif($data->status == -1)
+<li><a href="{{route('activateService',$data->id)}}"><em class="ti ti-check"></em> Activate</a></li>
+@endif
+<li><a href="{{route('deleteService',$data->id)}}"><em class="ti ti-trash"></em> Delete</a></li></ul></div></div></td></tr>
 @endforeach
 
 <!-- .data-item --></tbody></table></div><!-- .card-innr --></div><!-- .card --></div><!-- .container --></div><!-- .page-content -->
@@ -80,21 +84,40 @@
 
 <div class="input-item input-with-label">
 
-<form role="form" method="POST" action="{{route('saveService')}}" name="editForm" >
+<form role="form" method="POST" action="{{route('saveService')}}" name="editForm"   enctype="multipart/form-data">
                                 {{ csrf_field() }}
 
                                 <div class="row">
                                     <div class="form-group col-md-12">
-                                        <label class="input-item-label text-exlight">Service:</label>
+                                        <label class="input-item-label text-exlight">Service Name:</label>
                                         <div class="input-group">
-                                            <select type="text" class="input-bordered" value="{{old('pin')}}"
+                                            <input type="text" class="input-bordered" placeholder="Name" value="{{old('name')}}"
+                                                   name="name">
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="input-item-label text-exlight">Service Type:</label>
+                                        <div class="input-group">
+                                            <select type="text" class="input-bordered"
+                                                   name="service_type">
+                                                   <option value="1">Others</option>
+                                                   <option value="2">JAMB</option>
+                                            </select>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="input-item-label text-exlight">Service Category:</label>
+                                        <div class="input-group">
+                                            <select type="text" class="input-bordered"
                                                    name="type">
                                                    <option value="">Select Service</option>
                                                    <option value="1">Change of Institution/Course</option>
                                                    <option value="2">Upload of O-Level/A-Level Result</option>
-                                                   <option value="3">WAEC Scratch Card</option>
-                                                   <option value="4">NEC0 Scratch Card</option>
-                                                   <option value="5">NABTEB Scratch Card</option>
+                                                   <option value="3">Scratch Cards</option>
+                                                   <option value="4">Others</option>
                                             </select>
 
                                         </div>
@@ -109,11 +132,30 @@
                                         </div>
 
                                     </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="input-item-label text-exlight">Description:</label>
+                                        <div class="input-group">
+                                            <textarea  class="input-bordered" placeholder="Description" value="{{old('description')}}"
+                                                   name="description">
+                                                   </textarea>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label class="input-item-label text-exlight">Image:</label>
+                                        <div class="input-group">
+                                            <input type="file" class="input-bordered"  value="{{old('image')}}"
+                                                   name="image">
+
+                                        </div>
+
+                                    </div>
 
                                 </div> 
 
 
 
 
-                            </div><!-- .input-item --><ul class="d-flex flex-wrap align-items-center guttar-30px"><li><button type="submit" class="btn btn-primary">Add Scratch Card</button></form></li><li class="pdt-1x pdb-1x"><a href="#" data-dismiss="modal" data-toggle="modal" data-target="#pay-online" class="link link-primary">Cancel</a></li></ul><div class="gaps-2x"></div><div class="gaps-1x d-none d-sm-block"></div></div></div><!-- .modal-content --></div><!-- .modal-dialog --></div><!-- Modal End -->
+                            </div><!-- .input-item --><ul class="d-flex flex-wrap align-items-center guttar-30px"><li><button type="submit" class="btn btn-primary">Add Service</button></form></li><li class="pdt-1x pdb-1x"><a href="#" data-dismiss="modal" data-toggle="modal" data-target="#pay-online" class="link link-primary">Cancel</a></li></ul><div class="gaps-2x"></div><div class="gaps-1x d-none d-sm-block"></div></div></div><!-- .modal-content --></div><!-- .modal-dialog --></div><!-- Modal End -->
 @endsection

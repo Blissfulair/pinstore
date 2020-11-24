@@ -13,256 +13,55 @@
     <!-- CSS
         ============================================ -->
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{asset('front-assets/css/vendor/bootstrap.min.css')}}">
 
-    <!-- FontAwesome CSS -->
-    <link rel="stylesheet" href="{{asset('front-assets/css/vendor/fontawesome-all.min.css')}}">
-
-    <!-- Slick slider CSS -->
-    <link rel="stylesheet" href="{{asset('front-assets/css/plugins/slick.min.css')}}">
-
-    <!-- justify CSS -->
-    <link rel="stylesheet" href="{{asset('front-assets/css/plugins/justify.css')}}">
-
-    <!-- Swiper slider CSS -->
-    <link rel="stylesheet" href="{{asset('front-assets/css/plugins/swiper.min.css')}}">
-
-    <!-- Odomete CSS -->
-    <link rel="stylesheet" href="{{asset('front-assets/css/plugins/odometer.min.css')}}">
-
-    <!-- animate-text CSS -->
-    <link rel="stylesheet" href="{{asset('front-assets/css/plugins/animate-text.css')}}">
-
-    <!-- Animate CSS -->
-    <link rel="stylesheet" href="{{asset('front-assets/css/plugins/animate.min.css')}}">
-
-    <!-- Light gallery CSS -->
-    <link rel="stylesheet" href="{{asset('front-assets/css/plugins/lightgallery.min.css')}}">
-
-
-
-    <link rel="stylesheet" href="{{asset('front-assets/css/revolution/rs6.css')}}">
-
-
-
-        <link rel="stylesheet" href="{{asset('front-assets/css/vendor/vendor.min.css')}}">
-        <link rel="stylesheet" href="{{asset('front-assets/css/plugins/plugins.min.css')}}">
-
-
-    <!-- Main Style CSS -->
-    <link rel="stylesheet" href="{{asset('front-assets/css/style.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('pinstore/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('pinstore/css/fontawesome-all.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('pinstore/css/slick.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('pinstore/css/style.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('pinstore/css/custom.css')}}">
 
 </head>
 
 <body>
-
-
-    <div class="preloader-activate preloader-active open_tm_preloader">
-        <div class="preloader-area-wrap">
-            <div class="spinner d-flex justify-content-center align-items-center h-100">
-                <div class="bounce1"></div>
-                <div class="bounce2"></div>
-                <div class="bounce3"></div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-
-
-    <!--====================  header area ====================-->
-    <div class="header-area header-sticky header-area--absolute">
-        <div class="container-fluid container-fluid--cp-150">
+<div id="header-holder">
+<nav id="nav" class="navbar navbar-full">
+    <div class="container-fluid">
+        <div class="container container-nav">
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="header position-relative">
-                        <!-- brand logo -->
-                        <div class="header__logo">
-                            <a href="{{url('/')}}">
-                                <img src="{{asset('assets/images/favicon.png')}}" style="width:50px;height:50px;" class="img-fluid light-logo" alt="Saas">
-                                <img src="{{asset('assets/images/favicon.png')}}"  style="width:50px;height:50px;"  class="img-fluid dark-logo" alt="Saas">
-                            </a>
-                        </div>
-                        <!-- navigation menu -->
-                        <div class="header__navigation d-none d-xl-block">
-                            <nav class="navigation-menu navigation-menu--onepage navigation-menu--text_white">
-                                <ul>
-                                    <li><a href="{{url('/')}}"><span>HOME</span></a></li>
-                                    <li><a href="{{url('/about')}}"><span>ABOUT</span></a></li>
-                                    <li><a href="{{url('/jobs')}}"><span>JOBS</span></a></li>
-                                    <li><a href="{{url('/register')}}"><span>REGISTER</span></a></li>
+                <div class="col-md-12">
+                    <div class="navbar-header">
+                        <button aria-expanded="false" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/"><img src="{{asset('pinstore/images/logo-1-dark.png')}}" alt="PinStore"></a>
+                    </div>
+                    <div style="height: 1px;" role="main" aria-expanded="false" class="navbar-collapse collapse navbar-collapse-centered" id="bs">
+                        <ul class="nav navbar-nav navbar-nav-centered">
+                            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Contact Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/cbt">CBT Portal</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/login">Login</a></li>
+                                    <li><a class="dropdown-item" href="/register">Sign Up</a></li><br>
+                                    <li><a class="dropdown-item" href="#">Forgot Password</a></li>
                                 </ul>
-                            </nav>
-                        </div>
-                        <!-- header actions -->
-                        <div class="header__actions">
-                            <div class="header__icons-wrapper" id="hidden-icon-wrapper">
-                                  @if(Auth::user())
-                             <div class="header-button button--white">
-                                    <a href="{{route('home')}}" class="btn btn--white">Dashboard</a>
-                                </div>
-                            @else
-
-                                <div class="header-button button--white">
-                                    <a href="{{route('login')}}" class="btn btn--white">Login</a>
-                                </div>
-                            @endif
-                            </div>
-                            <!-- mobile menu -->
-
-                            <!-- hidden icons menu -->
-                            <div class="hidden-icons-menu d-block d-md-none">
-                            @if(Auth::user())
-                             <div class="header-button button--white">
-                                    <a href="{{route('home')}}" class="btn btn--white">Dashboard</a>
-                                </div>
-                            @else
-
-                                <div class="header-button button--white">
-                                    <a href="{{route('login')}}" class="btn btn--white">Login</a>
-                                </div>
-                            @endif
-                            </div>
-                            <div class="mobile-navigation-icon d-block d-xl-none" id="mobile-menu-trigger">
-                                <i></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--====================  End of header area  ====================-->
-
-
-
-@yield('content')
-
-
-
-
-
-    <!--====================  scroll top ====================-->
-    <a href="#" class="scroll-top" id="scroll-top">
-        <i class="arrow-top fal fa-long-arrow-up"></i>
-        <i class="arrow-bottom fal fa-long-arrow-up"></i>
-    </a>
-    <!--====================  End of scroll top  ====================-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!--====================  search overlay ====================-->
-    <div class="search-overlay" id="search-overlay">
-        <div class="search-overlay__inner">
-            <div class="search-overlay__header">
-                <div class="container-fluid">
-                    <div class="row align-items-center">
-                        <div class="col-md-6 col-8">
-                            <!-- logo -->
-                            <div class="logo">
-                                <a href="/">
-                                    <img src="assets/images/favion.png" class="img-fluid" alt="">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-4">
-                            <!-- search content -->
-                            <div class="search-content text-right">
-                                <span class="mobile-navigation-close-icon" id="search-close-trigger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="search-overlay__body">
-                <div class="search-overlay__form">
-                    <form action="#">
-                        <input type="text" placeholder="Enter search keyword...">
-                        <button type="submit"><i class="far fa-search"></i></button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--====================  End of search overlay  ====================-->
-
-<!--====================  mobile menu overlay ====================-->
-    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
-        <div class="mobile-menu-overlay__inner">
-            <div class="mobile-menu-overlay__header">
-                <div class="container-fluid">
-                    <div class="row align-items-center">
-                        <div class="col-md-6 col-8">
-                            <!-- logo -->
-                            <div class="logo">
-                                <a href="index.html">
-                                    <img src="{{asset('assets/images/favicon.png')}}" style="width:50px;height:50px;" class="img-fluid" alt="">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-4">
-                            <!-- mobile menu content -->
-                            <div class="mobile-menu-content text-right">
-                                <span class="mobile-navigation-close-icon" id="mobile-menu-close-trigger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mobile-menu-overlay__body">
-                <nav class="offcanvas-navigation offcanvas-navigation--onepage">
-                    <ul>
-                        <li><a href="{{url('/')}}"><span>HOME</span></a></li>
-                                    <li><a href="{{url('/about')}}"><span>ABOUT</span></a></li>
-                                    <li><a href="{{url('/jobs')}}"><span>JOBS</span></a></li>
-                                    <li><a href="{{url('/register')}}"><span>REGISTER</span></a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
-    <!--====================  End of mobile menu overlay  ====================-->
-
-    <!--====================  footer area ====================-->
-    <div class="footer-area-wrapper reveal-footer">
-
-        <div class="footer-copyright-area border-top section-space--ptb_30">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-md-6 text-center text-md-left">
-                        <span class="copyright-text">© {{Date('Y')}} {{$basic->sitename}} All Rights Reserved. Powered By <a href="https://www.givitec.com">Givitec Ltd</a></span>
-                    </div>
-                    <div class="col-md-6 text-center text-md-right">
-                        <ul class="list ht-social-networks solid-rounded-icon">
-                            <li class="item">
-                                <a href="#" target="_blank" class="social-link"> <i class="fab fa-facebook social-link-icon"></i> </a>
                             </li>
-                            <li class="item">
-                                <a href="#" target="_blank" class="social-link"> <i class="fab fa-twitter social-link-icon"></i> </a>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right other-navbar">
+                            <li class="nav-item">
+                                <a class="nav-link btn-client-area" href="/login"><img src="{{asset('images/lock.svg')}}" alt="">My Account</a>
+                                <div class="chat-info"><i class="hstb hstb-right-arrow"></i>Chat Available</div>
                             </li>
-                            <li class="item">
-                                <a href="#" target="_blank" class="social-link"> <i class="fab fa-instagram social-link-icon"></i> </a>
+                            <li class="nav-item">
+                                <a class="nav-link btn-chat" href="#"><i class="hstb hstb-chat"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -270,7 +69,130 @@
             </div>
         </div>
     </div>
-    <!--====================  End of footer area  ====================-->
+</nav>
+
+@yield('content')
+
+
+
+
+<div class="support-links container-fluid">
+    <div class="row">
+        <div class="col-sm-6 hylink-holder">
+            <div class="hylink-box">
+                <div class="icon"><img src="{{asset('pinstore/images/info.svg')}}" alt=""></div>
+                <a href="#" class="link">Let’s talk</a>
+                <div class="text">Chat with a live agent! Our live chat is always available to guide you.</div>
+            </div>
+        </div>
+        <div class="col-sm-6 hylink-holder">
+            <div class="hylink-box">
+                <div class="icon"><img src="{{asset('pinstore/images/chat.svg')}}" alt=""></div>
+                <a href="#" class="link">Go to support center</a>
+                <div class="text">Do you have complaints or you want to make an inquiry? Reach us.</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer container-fluid">
+    <a class="btn-go-top" href="#"><i class="hstb hstb-down-arrow"></i></a>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
+                <div class="footer-menu">
+                    <h4>Our Company</h4>
+                    <ul>
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">News & Blog</a></li>
+                        <li><a href="contact.php">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
+                <div class="footer-menu">
+                    <h4>Affiliate Links</h4>
+                    <ul>
+                        <li><a href="#">YomSMS</a></li>
+                        <li><a href="#">Yomnet</a></li>
+                        <li><a href="#">YomHost</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
+                <div class="footer-menu">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
+                <div class="footer-menu">
+                    <h4>My Account</h4>
+                    <ul>
+                        <li><a href="/user/login">Account Login</a></li>
+                        <li><a href="/user/register">Account Sign Up</a></li>
+                        <li><a href="#">Forgot Password</a></li>
+                    </ul>  
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                <div class="footer-menu custom-footer-menu">
+                    <h4>Contact us</h4>
+                    <ul class="social">
+                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                    </ul>
+                    <ul>
+                    {{$basic->sitename}}
+                        <?php $phones = explode(',', $basic->phone) ?>
+                        @foreach($phones as $key=>$phone)
+                            @if($key == 0)
+                                <li>Tel: +(234) {{$phone}}</li>
+                            @else
+                                <li>{{$phone}}</li>
+                            @endif
+                                
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="sub-footer">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="sub-footer-menu">
+                        <ul>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>        
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="copyright">© Copyright 2018 Pinstore, All Rights Reserved</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/569167a171782c741ea827bb/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
 
 
 
@@ -283,109 +205,10 @@
 
 
 
-     <!-- JS
-    ============================================ -->
-    <!--
-     Modernizer JS
-    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>-->
-
-    <!-- jQuery JS -->
-    <script src="{{asset('front-assets/js/vendor/jquery-3.3.1.min.js')}}"></script>
-
-    <!-- Bootstrap JS -->
-    <script src="{{asset('front-assets/js/vendor/bootstrap.min.js')}}"></script>
-
-    <!-- Popper JS -->
-    <script src="{{asset('front-assets/js/vendor/popper.min.js')}}"></script>
-
-    <!-- Swiper Slider JS -->
-    <script src="{{asset('front-assets/js/plugins/swiper.min.js')}}"></script>
-
-    <!-- Tippy JS -->
-    <script src="{{asset('front-assets/js/plugins/tippy.min.js')}}"></script>
-
-    <!-- Light gallery JS -->
-    <script src="{{asset('front-assets/js/plugins/lightgallery.min.js')}}"></script>
-
-    <!-- Light gallery video JS -->
-    <script src="{{asset('front-assets/js/plugins/lg-video.min.js')}}"></script>
-
-    <!-- Waypoints JS -->
-    <script src="{{asset('front-assets/js/plugins/waypoints.min.js')}}"></script>
-
-    <!-- Counter down JS -->
-    <script src="{{asset('front-assets/js/plugins/countdown.min.js')}}"></script>
-
-    <!-- Counter down JS -->
-    <script src="{{asset('front-assets/js/plugins/odometer.min.js')}}"></script>
-
-    <!-- Isotope JS -->
-    <script src="{{asset('front-assets/js/plugins/isotope.min.js')}}"></script>
-
-    <!-- Masonry JS -->
-    <script src="{{asset('front-assets/js/plugins/masonry.min.js')}}"></script>
-
-    <!-- ImagesLoaded JS -->
-    <script src="{{asset('front-assets/js/plugins/images-loaded.min.js')}}"></script>
-
-    <!-- Appear JS -->
-    <script src="{{asset('front-assets/js/plugins/appear.min.js')}}"></script>
-
-    <!-- TweenMax JS -->
-    <script src="{{asset('front-assets/js/plugins/TweenMax.min.js')}}"></script>
-
-    <!-- Wavify JS -->
-    <script src="{{asset('front-assets/js/plugins/wavify.js')}}"></script>
-
-    <!-- jQuery Wavify JS -->
-    <script src="{{asset('front-assets/js/plugins/jquery.wavify.js')}}"></script>
-
-    <!-- circle progress JS -->
-    <script src="{{asset('front-assets/js/plugins/circle-progress.min.js')}}"></script>
-
-    <!-- counterup JS -->
-    <script src="{{asset('front-assets/js/plugins/counterup.min.js')}}"></script>
-
-    <!-- instafeed JS -->
-    <script src="{{asset('front-assets/js/plugins/instafeed.min.js')}}"></script>
-
-    <!-- wow JS -->
-    <script src="{{asset('front-assets/js/plugins/wow.min.js')}}"></script>
-
-    <!-- time circles JS -->
-    <script src="{{asset('front-assets/js/plugins/time-circles.js')}}"></script>
-
-    <!-- animation text JS -->
-    <script src="{{asset('front-assets/js/plugins/animation-text.min.js')}}"></script>
-
-    <!-- one page nav JS -->
-    <script src="{{asset('front-assets/js/plugins/one-page-nav.min.js')}}"></script>
-
-    <!-- Mailchimp JS -->
-    <script src="{{asset('front-assets/js/plugins/mailchimp-ajax-submit.min.js')}}"></script>
-
-    <!-- test JS -->
-    <script src="{{asset('front-assets/js/plugins/test.js')}}"></script>
-
-
-
-
-    <!-- Revolution JS -->
-    <script src="{{asset('front-assets/js/revolution/revolution.tools.min.js')}}"></script>
-    <script src="{{asset('front-assets/js/revolution/rs6.min.js')}}"></script>
-    <script src="{{asset('front-assets/js/revolution.js')}}"></script>
-
-    <!-- Plugins JS (Please remove the comment from below plugins.min.js for better website load performance and remove plugin js files from avobe) -->
-
-    <!--
-    <script src="assets/js/plugins/plugins.min.js"></script>
-    -->
-
-    <!-- Main JS -->
-    <script src="{{asset('front-assets/js/main.js')}}"></script>
-          <script src="{{asset('front-assets/js/rainbow.js')}}"></script>
-	<script src="{{asset('front-assets/js/sample.js')}}"></script>
-	<script src="{{asset('front-assets/js/jquery.growl.js')}}"></script>
+    <script src="{{asset('pinstore/js/jquery.min.js')}}"></script>
+    <script src="{{asset('pinstore/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('pinstore/js/slick.min.js')}}"></script>
+    <script src="{{asset('pinstore/js/main.js')}}"></script>
 
 
 
